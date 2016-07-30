@@ -20,15 +20,12 @@ module Itamae
           exit 1
         end
 
-        runner = Runner.new(
-          node_json: @options[:node_json],
-          node_yaml: @options[:node_yaml],
-        )
-
+        runner = Runner.new(@options[:node_json], @options[:node_yaml])
         runner.load_recipes(@recipe_paths)
         runner.run(
-          shell: @options[:shell],
+          dry_run:   @options[:dry_run],
           log_level: @options[:log_level],
+          shell:     @options[:shell],
         )
       end
 

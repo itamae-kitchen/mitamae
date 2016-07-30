@@ -1,7 +1,7 @@
 module Itamae
   class Runner
-    def initialize(options = {})
-      @node = load_node(options[:node_json], options[:node_yaml])
+    def initialize(node_json, node_yaml)
+      @node = load_node(node_json, node_yaml)
       @recipes = []
     end
 
@@ -15,7 +15,17 @@ module Itamae
     end
 
     def run(options = {})
-      p @recipes
+      executor = RecipeExecutor.new(
+        @recipes,
+        shell: options[:shell],
+        log_level: options[:log_level],
+      )
+
+      if options[:dry_run]
+        executor.dry_run
+      else
+        executor.execute
+      end
     end
 
     private
