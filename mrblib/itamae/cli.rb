@@ -20,7 +20,8 @@ module Itamae
       when 'help'
         print_help
       else
-        raise %Q[Could not find command "#{@command}"]
+        puts %Q[Could not find command "#{@command}"]
+        exit 1
       end
     end
 
@@ -72,7 +73,8 @@ Usage:
 Describe available commands or one specific command
         HELP
       else
-        raise %Q[Could not find command "#{@args.first}"]
+        puts %Q[Could not find command "#{@args.first}"]
+        exit 1
       end
     end
   end
