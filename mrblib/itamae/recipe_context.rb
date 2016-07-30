@@ -29,20 +29,22 @@ module Itamae
     end
 
     def include_recipe(target)
-      expanded_path = ::File.expand_path(target, File.dirname(@recipe.path))
-      expanded_path = ::File.join(expanded_path, 'default.rb') if ::Dir.exists?(expanded_path)
-      expanded_path.concat('.rb') unless expanded_path.end_with?('.rb')
+      path = ::File.expand_path(target, File.dirname(@recipe.path))
+      path = ::File.join(path, 'default.rb') if ::Dir.exists?(path)
+      path.concat('.rb') unless path.end_with?('.rb')
 
-      unless File.exist?(expanded_path)
+      unless File.exist?(path)
         raise NotFoundError, "Recipe not found. (#{target})"
       end
 
-      if @recipe.children.find { |r| r.is_a?(Recipe) && r.path == expanded_path }
+      if @recipe.children.find { |r| r.is_a?(Recipe) && r.path == path }
         # Itamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
         return
       end
 
-      @recipe.children << RecipeLoader.new.load(expanded_path)
+      @recipe.children << Recipe.new(path).tap do |recipe|
+        RecipeContext.new(recipe, @variables).instance_eval(File.read(path), path, 1)
+      end
     end
   end
 end

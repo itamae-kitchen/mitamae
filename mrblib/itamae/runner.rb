@@ -6,9 +6,11 @@ module Itamae
     end
 
     def load_recipes(paths)
-      loader = RecipeLoader.new(@node)
       paths.each do |path|
-        @recipes << loader.load(File.expand_path(path))
+        path = File.expand_path(path)
+        @recipes << Recipe.new(path).tap do |recipe|
+          RecipeContext.new(recipe, node: @node).instance_eval(File.read(path), path, 1)
+        end
       end
     end
 
