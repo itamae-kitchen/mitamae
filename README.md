@@ -27,7 +27,7 @@ You can use only the features listed below.
   - [ ] gem\_package resource
   - [ ] http\_request resource
   - [ ] local\_ruby\_block resource
-- [ ] Definitions
+- [x] Definitions
 - [x] Including Recipes
 - [ ] Node Attributes
 - [ ] run\_command

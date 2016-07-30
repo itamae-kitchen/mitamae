@@ -2,8 +2,11 @@ module Itamae
   class RecipeContext
     NotFoundError = Class.new(StandardError)
 
-    def initialize(recipe)
+    def initialize(recipe, variables = {})
       @recipe = recipe
+      variables.each do |key, value|
+        define_singleton_method(key) { value }
+      end
     end
 
     def execute(command, &block)
@@ -12,6 +15,16 @@ module Itamae
 
     def package(name, &block)
       @recipe.children << Resource::Package.new(name, &block)
+    end
+
+    def define(name, params = {}, &block)
+      klass = Resource::Definition.create_class(name, params)
+      RecipeContext.send(:define_method, name) do |n, &b|
+        resource = klass.new(n, &b)
+        @recipe.children << RecipeFromDefinition.new(n).tap do |recipe|
+          RecipeContext.new(recipe, params: resource.attributes).instance_exec(&block)
+        end
+      end
     end
 
     def include_recipe(target)
