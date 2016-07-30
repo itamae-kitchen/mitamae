@@ -6,13 +6,7 @@ module Itamae
 
     def initialize(argv)
       @args    = argv[1..-1]
-      @command = nil
-
-      opt = OptionParser.new
-      opt.on('-h') { @command = 'help' }
-      opt.parse!(@args)
-
-      @command ||= @args.shift
+      @command = @args.shift
     end
 
     def run
@@ -20,7 +14,7 @@ module Itamae
 
       case @command
       when 'local'
-        puts 'local'
+        Local.new(@args).run
       when 'version'
         puts "Itamae v#{Itamae::VERSION}"
       when 'help'
@@ -57,7 +51,7 @@ Usage:
 Options:
   -j, [--node-json=NODE_JSON]
   -y, [--node-yaml=NODE_YAML]
-  -n, [--dry-run], [--no-dry-run]
+  -n, [--dry-run]
       [--shell=SHELL]              # Default: /bin/sh
   -l, [--log-level=LOG_LEVEL]      # Default: info
 
