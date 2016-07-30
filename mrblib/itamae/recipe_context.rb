@@ -4,24 +4,25 @@ module Itamae
 
     def initialize(recipe, variables = {})
       @recipe = recipe
-      variables.each do |key, value|
+      @variables = variables
+      @variables.each do |key, value|
         define_singleton_method(key) { value }
       end
     end
 
     def execute(command, &block)
-      @recipe.children << Resource::Execute.new(command, &block)
+      @recipe.children << Resource::Execute.new(command, @variables, &block)
     end
 
     def package(name, &block)
-      @recipe.children << Resource::Package.new(name, &block)
+      @recipe.children << Resource::Package.new(name, @variables, &block)
     end
 
     def define(name, params = {}, &block)
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
         @recipe.children << RecipeFromDefinition.new(n).tap do |recipe|
-          params = klass.new(n, &b).attributes.merge(name: n)
+          params = klass.new(n, @variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, params: params).instance_exec(&block)
         end
       end

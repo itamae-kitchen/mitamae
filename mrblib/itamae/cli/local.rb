@@ -15,7 +15,10 @@ module Itamae
       end
 
       def run
-        runner = Runner.new
+        runner = Runner.new(
+          node_json: @options[:node_json],
+        )
+
         runner.load_recipes(@recipe_paths)
         runner.run(
           shell: @options[:shell],

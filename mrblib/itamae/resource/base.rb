@@ -16,11 +16,11 @@ module Itamae
       attr_accessor :attributes
       attr_reader :resource_name
 
-      def initialize(resource_name, &block)
+      def initialize(resource_name, variables = {}, &block)
         @attributes = {}
         @resource_name = resource_name
         if block
-          ResourceContext.new(self).instance_exec(&block)
+          ResourceContext.new(self, variables).instance_exec(&block)
         end
         process_attributes
       end

@@ -29,7 +29,7 @@ You can use only the features listed below.
   - [ ] local\_ruby\_block resource
 - [x] Definitions
 - [x] Including Recipes
-- [ ] Node Attributes
+- [x] Node Attributes
 - [ ] run\_command
 - [ ] Host Inventory
 - [ ] Plugins

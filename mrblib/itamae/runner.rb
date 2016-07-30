@@ -1,7 +1,7 @@
 module Itamae
   class Runner
-    def initialize(node = {})
-      @node = node
+    def initialize(options = {})
+      @node = load_node(options[:node_json])
       @recipes = []
     end
 
@@ -14,6 +14,16 @@ module Itamae
 
     def run(options = {})
       p @recipes
+    end
+
+    private
+
+    def load_node(node_json)
+      node = Hashie::Mash.new
+      if node_json
+        json = File.read(node_json)
+        node.merge!(JSON.load(json))
+      end
     end
   end
 end

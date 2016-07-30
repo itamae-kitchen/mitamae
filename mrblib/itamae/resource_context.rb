@@ -1,7 +1,10 @@
 module Itamae
   class ResourceContext
-    def initialize(resource)
+    def initialize(resource, variables = {})
       @resource = resource
+      variables.each do |key, value|
+        define_singleton_method(key) { value }
+      end
     end
 
     private
