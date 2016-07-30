@@ -20,9 +20,9 @@ module Itamae
     def define(name, params = {}, &block)
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
-        resource = klass.new(n, &b)
         @recipe.children << RecipeFromDefinition.new(n).tap do |recipe|
-          RecipeContext.new(recipe, params: resource.attributes).instance_exec(&block)
+          params = klass.new(n, &b).attributes.merge(name: n)
+          RecipeContext.new(recipe, params: params).instance_exec(&block)
         end
       end
     end
