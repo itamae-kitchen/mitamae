@@ -15,6 +15,11 @@ module Itamae
       end
 
       def run
+        if @recipe_paths.empty?
+          puts 'Please specify recipe files.'
+          exit 1
+        end
+
         runner = Runner.new(
           node_json: @options[:node_json],
           node_yaml: @options[:node_yaml],
