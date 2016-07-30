@@ -18,7 +18,6 @@ module Itamae
       executor = RecipeExecutor.new(
         @recipes,
         shell: options[:shell],
-        log_level: options[:log_level],
       )
 
       if options[:dry_run]
