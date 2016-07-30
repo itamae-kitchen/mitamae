@@ -15,4 +15,5 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-optparse',   mgem: 'mruby-optparse'
   spec.add_dependency 'mruby-print',      core: 'mruby-print'
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
+  spec.add_dependency 'mruby-yaml',       mgem: 'mruby-yaml'
 end
