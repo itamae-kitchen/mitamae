@@ -11,12 +11,16 @@ module Itamae
 
       def initialize(args)
         @options = DEFAULT_OPTIONS.dup
-        @recipes = parse_options(args)
+        @recipe_paths = parse_options(args)
       end
 
       def run
-        p @options
-        p @recipes
+        runner = Runner.new
+        runner.load_recipes(@recipe_paths)
+        runner.run(
+          shell: @options[:shell],
+          log_level: @options[:log_level],
+        )
       end
 
       private
