@@ -4,8 +4,10 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.summary = 'itamae'
   spec.bins    = ['itamae']
 
-  spec.add_dependency 'mruby-print', core: 'mruby-print'
+  spec.add_dependency 'mruby-eval', core: 'mruby-eval'
   spec.add_dependency 'mruby-mtest', mgem: 'mruby-mtest'
+  spec.add_dependency 'mruby-object-ext', core: 'mruby-object-ext'
   spec.add_dependency 'mruby-optparse', mgem: 'mruby-optparse'
+  spec.add_dependency 'mruby-print', core: 'mruby-print'
   spec.add_dependency 'mruby-struct', core: 'mruby-struct'
 end
