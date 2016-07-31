@@ -5,7 +5,7 @@ module Itamae
     end
 
     def execute(node)
-      notify(node)
+      log(node)
 
       case node
       when Recipe, RecipeFromDefinition
@@ -13,7 +13,7 @@ module Itamae
           Itamae.logger.with_indent { execute(resource) }
         end
       when Resource::Base
-        Itamae.logger.with_indent do
+        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
           Executor.find(node.class).new(node, @options).execute
         end
       else
@@ -23,7 +23,7 @@ module Itamae
 
     private
 
-    def notify(node)
+    def log(node)
       case node
       when Recipe
         Itamae.logger.info "Recipe: #{node.path}"

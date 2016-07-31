@@ -28,7 +28,7 @@ module Itamae
       def run_action(action)
         Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] action: #{action}"
 
-        Itamae.logger.with_indent do
+        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
           # The (in *) logging is just for backward compatibility with original Itamae.
           Itamae.logger.debug '(in pre_action)'
           next_attributes = desired_attributes(action)

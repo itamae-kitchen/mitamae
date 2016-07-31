@@ -42,20 +42,32 @@ module Itamae
       @color = :clear
     end
 
+    def debug?
+      DEBUG >= @level
+    end
+
+    def error?
+      ERROR >= @level
+    end
+
+    def info?
+      INFO >= @level
+    end
+
     def debug(message)
-      if DEBUG >= @level
+      if debug?
         add('DEBUG', message)
       end
     end
 
     def error(message)
-      if ERROR >= @level
+      if error?
         add('ERROR', message)
       end
     end
 
     def info(message)
-      if INFO >= @level
+      if info?
         add('INFO', message)
       end
     end
@@ -65,6 +77,14 @@ module Itamae
       yield
     ensure
       @indent_level -= 1
+    end
+
+    def with_indent_if(cond)
+      if cond
+        with_indent { yield }
+      else
+        yield
+      end
     end
 
     def color(col)
