@@ -25,6 +25,10 @@ module Itamae
         process_attributes
       end
 
+      def resource_type
+        @resource_type ||= self.class.to_s.split("::").last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase!
+      end
+
       private
 
       def process_attributes

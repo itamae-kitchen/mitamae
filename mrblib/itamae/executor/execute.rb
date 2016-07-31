@@ -1,8 +1,8 @@
 module Itamae
   module Executor
     class Execute < Base
-      def execute
-        Itamae.logger.debug "execute execution (stubbed)"
+      def action_run
+        Itamae.logger.debug('execute run (stubbed)')
       end
     end
   end

@@ -14,7 +14,7 @@ module Itamae
         end
       when Resource::Base
         Itamae.logger.with_indent do
-          Executor.find(node.class).new(@options).execute
+          Executor.find(node.class).new(node, @options).execute
         end
       else
         raise "unexpected execute node: #{node.class}"
@@ -27,11 +27,8 @@ module Itamae
       case node
       when Recipe
         Itamae.logger.info "Recipe: #{node.path}"
-      when RecipeFromDefinition
-        Itamae.logger.info "#{node.definition_name}[#{node.resource_name}]"
-      when Resource::Base
-        underscore = node.class.to_s.split("::").last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
-        Itamae.logger.info "#{underscore}[#{node.resource_name}]"
+      when RecipeFromDefinition, Resource::Base
+        Itamae.logger.info "#{node.resource_type}[#{node.resource_name}]"
       else
         raise "unexpected notify node: #{node.class}"
       end
