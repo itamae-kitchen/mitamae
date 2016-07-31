@@ -1,5 +1,5 @@
 module Itamae
-  module Executor
+  module ResourceExecutor
     class Package < Base
       def action_run
         Itamae.logger.debug('package run (stubbed)')

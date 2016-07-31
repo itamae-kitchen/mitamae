@@ -1,5 +1,5 @@
 module Itamae
-  module Executor
+  module ResourceExecutor
     NotFoundError = Class.new(StandardError)
 
     class << self

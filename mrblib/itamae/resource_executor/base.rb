@@ -1,5 +1,5 @@
 module Itamae
-  module Executor
+  module ResourceExecutor
     class Base
       def initialize(resource, options)
         @resource = resource

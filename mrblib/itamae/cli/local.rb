@@ -23,7 +23,7 @@ module Itamae
         Itamae.logger = Logger.new(@options[:log_level])
         Itamae.logger.info 'Starting Itamae...'
 
-        runner = Runner.new(
+        runner = RecipeRunner.new(
           node_json: @options[:node_json],
           node_yaml: @options[:node_yaml],
           dry_run:   @options[:dry_run],

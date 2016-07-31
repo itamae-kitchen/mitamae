@@ -1,5 +1,5 @@
 module Itamae
-  class Runner
+  class RecipeRunner
     def initialize(options)
       @node = load_node(options[:node_json], options[:node_yaml])
       @backend = Backend.new(shell: options[:shell])

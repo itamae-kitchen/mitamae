@@ -1,5 +1,5 @@
 module Itamae
-  module Executor
+  module ResourceExecutor
     class Execute < Base
       def action_run
         run_command(@resource.attributes.command)

@@ -14,7 +14,7 @@ module Itamae
         end
       when Resource::Base
         Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          Executor.find(node.class).new(node, @options).execute
+          ResourceExecutor.find(node.class).new(node, @options).execute
         end
       else
         raise "unexpected execute node: #{node.class}"
