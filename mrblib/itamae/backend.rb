@@ -1,5 +1,7 @@
 module Itamae
   class Backend
+    CommandExecutionError = Class.new(StandardError)
+
     def initialize(options = {})
       @shell = options.fetch(:shell, '/bin/sh')
     end
@@ -12,6 +14,7 @@ module Itamae
       Itamae.logger.debug "Executing `#{command}`..."
 
       result = spawn_command(command)
+
       Itamae.logger.with_indent do
         flush_buffers(result.stdout, result.stderr)
 
@@ -24,6 +27,11 @@ module Itamae
         end
         Itamae.logger.send(method, message)
       end
+
+      if options[:error] && result.exit_status != 0
+        raise CommandExecutionError
+      end
+
       result
     end
 

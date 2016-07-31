@@ -56,19 +56,19 @@ module Itamae
 
     def debug(message)
       if debug?
-        add('DEBUG', message)
+        add(:debug, message)
       end
     end
 
     def error(message)
       if error?
-        add('ERROR', message)
+        add(:error, message)
       end
     end
 
     def info(message)
       if info?
-        add('INFO', message)
+        add(:info, message)
       end
     end
 
@@ -100,14 +100,21 @@ module Itamae
 
     private
 
-    def add(level, message)
+    def add(severity, message)
       message.split("\n").each do |line|
-        puts colorize("#{"%5s" % level} : #{INDENT * @indent_level}#{line}")
+        puts colorize(severity, "#{"%5s" % severity.to_s.upcase} : #{INDENT * @indent_level}#{line}")
       end
     end
 
-    def colorize(str)
-      code = CODE_BY_COLOR[@color]
+    def colorize(severity, str)
+      color =
+        case severity
+        when :error
+          :red
+        else
+          @color
+        end
+      code = CODE_BY_COLOR[color]
       return str unless code
 
       "\033[%dm%s\033[0m" % [code, str]

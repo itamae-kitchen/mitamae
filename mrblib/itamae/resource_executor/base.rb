@@ -9,16 +9,23 @@ module Itamae
       end
 
       def execute
-        return if skip_condition?
+        Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}]"
 
-        [@resource.attributes[:action]].flatten.each do |action|
-          run_action(action)
+        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
+          return if skip_condition?
+
+          [@resource.attributes[:action]].flatten.each do |action|
+            run_action(action)
+          end
+
+          # XXX: verify (`verify` method in resource)
+          # if updated?
+          #   # XXX: notify (`notifies` and `subscribes` in resource)
+          # end
         end
-
-        # XXX: verify (`verify` method in resource)
-        # if updated?
-        #   # XXX: notify (`notifies` and `subscribes` in resource)
-        # end
+      rescue Backend::CommandExecutionError
+        Itamae.logger.error "#{@resource.resource_type}[#{@resource.resource_name}] Failed."
+        exit 2
       end
 
       def action_nothing

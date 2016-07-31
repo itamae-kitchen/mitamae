@@ -5,17 +5,15 @@ module Itamae
     end
 
     def execute(node)
-      log(node)
-
       case node
-      when Recipe, RecipeFromDefinition
-        node.children.each do |resource|
-          Itamae.logger.with_indent { execute(resource) }
-        end
+      when Recipe
+        Itamae.logger.info "Recipe: #{node.path}"
+        execute_children(node)
+      when RecipeFromDefinition
+        Itamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
+        execute_children(node)
       when Resource::Base
-        Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          ResourceExecutor.find(node.class).new(node, @options).execute
-        end
+        ResourceExecutor.find(node.class).new(node, @options).execute
       else
         raise "unexpected execute node: #{node.class}"
       end
@@ -23,14 +21,9 @@ module Itamae
 
     private
 
-    def log(node)
-      case node
-      when Recipe
-        Itamae.logger.info "Recipe: #{node.path}"
-      when RecipeFromDefinition, Resource::Base
-        Itamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
-      else
-        raise "unexpected notify node: #{node.class}"
+    def execute_children(node)
+      node.children.each do |resource|
+        Itamae.logger.with_indent { execute(resource) }
       end
     end
   end
