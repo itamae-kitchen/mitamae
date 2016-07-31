@@ -28,7 +28,7 @@ module Itamae
       when Recipe
         Itamae.logger.info "Recipe: #{node.path}"
       when RecipeFromDefinition, Resource::Base
-        Itamae.logger.info "#{node.resource_type}[#{node.resource_name}]"
+        Itamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
       else
         raise "unexpected notify node: #{node.class}"
       end
