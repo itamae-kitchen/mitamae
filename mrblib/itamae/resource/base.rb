@@ -17,7 +17,7 @@ module Itamae
       attr_reader :resource_name
 
       def initialize(resource_name, variables = {}, &block)
-        @attributes = {}
+        @attributes = Hashie::Mash.new
         @resource_name = resource_name
         if block
           ResourceContext.new(self, variables).instance_exec(&block)

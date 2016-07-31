@@ -10,6 +10,7 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-hash-ext',   core: 'mruby-hash-ext'
   spec.add_dependency 'mruby-hashie',     mgem: 'mruby-hashie'
   spec.add_dependency 'mruby-iijson',     mgem: 'mruby-iijson'
+  spec.add_dependency 'mruby-io',         mgem: 'mruby-io'
   spec.add_dependency 'mruby-mtest',      mgem: 'mruby-mtest'
   spec.add_dependency 'mruby-object-ext', core: 'mruby-object-ext'
   spec.add_dependency 'mruby-optparse',   mgem: 'mruby-optparse'

@@ -3,7 +3,7 @@ module Itamae
     class Base
       def initialize(resource, options)
         @resource = resource
-        @shell    = options[:shell]
+        @backend  = Backend.new(shell: options[:shell])
         @dry_run  = options[:dry_run]
       end
 
@@ -95,6 +95,11 @@ module Itamae
 
       def set_desired_attributes(attributes, action)
         raise NotImplementedError
+      end
+
+      # Shorthand to be used in subclass
+      def run_command(*args)
+        @backend.run_command(*args)
       end
     end
   end
