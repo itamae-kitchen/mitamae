@@ -42,7 +42,7 @@ module Itamae
       end
 
       if @recipe.children.find { |r| r.is_a?(Recipe) && r.path == path }
-        # Itamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
+        Itamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
         return
       end
 
