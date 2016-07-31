@@ -23,12 +23,14 @@ module Itamae
         Itamae.logger = Logger.new(@options[:log_level])
         Itamae.logger.info 'Starting Itamae...'
 
-        runner = Runner.new(@options[:node_json], @options[:node_yaml])
-        runner.load_recipes(@recipe_paths)
-        runner.run(
-          dry_run: @options[:dry_run],
-          shell:   @options[:shell],
+        runner = Runner.new(
+          node_json: @options[:node_json],
+          node_yaml: @options[:node_yaml],
+          dry_run:   @options[:dry_run],
+          shell:     @options[:shell],
         )
+        runner.load_recipes(@recipe_paths)
+        runner.run
       end
 
       private

@@ -1,23 +1,30 @@
 module Itamae
   class Runner
-    def initialize(node_json, node_yaml)
-      @node = load_node(node_json, node_yaml)
+    def initialize(options)
+      @node = load_node(options[:node_json], options[:node_yaml])
+      @backend = Backend.new(shell: options[:shell])
+      @dry_run = options[:dry_run]
       @recipes = []
     end
 
     def load_recipes(paths)
+      backend = @backend
       paths.each do |path|
         path = File.expand_path(path)
         @recipes << Recipe.new(path).tap do |recipe|
-          RecipeContext.new(recipe, node: @node).instance_eval(File.read(path), path, 1)
+          RecipeContext.new(
+            recipe,
+            node: @node,
+            run_command: -> (*args) { backend.run_command(*args) },
+          ).instance_eval(File.read(path), path, 1)
         end
       end
     end
 
-    def run(options = {})
+    def run
       executor = RecipeExecutor.new(
-        dry_run: options[:dry_run],
-        shell:   options[:shell],
+        dry_run: @dry_run,
+        backend: @backend,
       )
 
       @recipes.each do |recipe|

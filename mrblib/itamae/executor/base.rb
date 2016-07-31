@@ -3,7 +3,7 @@ module Itamae
     class Base
       def initialize(resource, options)
         @resource = resource
-        @backend  = Backend.new(shell: options[:shell])
+        @backend  = options[:backend]
         @dry_run  = options[:dry_run]
       end
 

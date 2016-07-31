@@ -30,7 +30,7 @@ You can use only the features listed below.
 - [x] Definitions
 - [x] Including Recipes
 - [x] Node Attributes
-- [ ] run\_command
+- [x] run\_command
 - [ ] Host Inventory
 - [ ] Plugins
 

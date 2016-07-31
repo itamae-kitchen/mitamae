@@ -3,7 +3,11 @@ module Itamae
     def initialize(resource, variables = {})
       @resource = resource
       variables.each do |key, value|
-        define_singleton_method(key) { value }
+        if value.is_a?(Proc)
+          define_singleton_method(key, &value)
+        else
+          define_singleton_method(key) { value }
+        end
       end
     end
 
