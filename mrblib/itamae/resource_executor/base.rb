@@ -132,6 +132,23 @@ module Itamae
         @backend.run_command(*args)
       end
 
+      def check_command(*args)
+        args << {} unless args.last.is_a?(Hash)
+
+        args.last[:error] = false
+        run_command(*args).exit_status == 0
+      end
+
+      def run_specinfra(type, *args)
+        command = @backend.get_command(type, *args)
+
+        if type.to_s.start_with?('check_')
+          check_command(command)
+        else
+          run_command(command)
+        end
+      end
+
       def updated?
         @updated
       end

@@ -1,6 +1,10 @@
 MRuby::Gem::Specification.new('itamae') do |spec|
   spec.license = 'MIT'
-  spec.author  = 'Takashi Kokubun'
+  spec.author  = [
+    'Takashi Kokubun',
+    'Ryota Arai',
+    'Gosuke Miyashita',
+  ]
   spec.summary = 'itamae'
   spec.bins    = ['itamae']
 

@@ -35,6 +35,14 @@ module Itamae
       result
     end
 
+    # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L88-L90
+    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/base.rb#L38-L40
+    def get_command(*args)
+      # XXX: detect OS properly
+      os_info = { family: 'arch', release: nil, arch: 'x86_64' }
+      Specinfra::CommandFactory.new(os_info).get(*args)
+    end
+
     private
 
     def flush_buffers(stdout, stderr)
@@ -49,7 +57,7 @@ module Itamae
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
     def build_command(commands, options)
       if commands.is_a?(Array)
-        # XXX: shell escape and join
+        command = Shellwords.shelljoin(commands)
       else
         command = commands
       end
