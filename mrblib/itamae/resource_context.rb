@@ -11,6 +11,14 @@ module Itamae
       end
     end
 
+    def not_if(command)
+      @resource.not_if_command = command
+    end
+
+    def only_if(command)
+      @resource.only_if_command = command
+    end
+
     private
 
     def respond_to_missing?(method, include_private = false)

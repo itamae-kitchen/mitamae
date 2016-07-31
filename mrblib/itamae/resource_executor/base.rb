@@ -9,10 +9,12 @@ module Itamae
       end
 
       def execute
-        # check if
+        return if skip_condition?
+
         [@resource.attributes[:action]].flatten.each do |action|
           run_action(action)
         end
+
         # XXX: verify (`verify` method in resource)
         # if updated?
         #   # XXX: notify (`notifies` and `subscribes` in resource)
@@ -24,6 +26,18 @@ module Itamae
       end
 
       private
+
+      def skip_condition?
+        if @resource.only_if_command && run_command(@resource.only_if_command, error: false).exit_status != 0
+          Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] Execution skipped because of only_if attribute"
+          true
+        elsif @resource.not_if_command && run_command(@resource.not_if_command, error: false).exit_status == 0
+          Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] Execution skipped because of not_if attribute"
+          true
+        else
+          false
+        end
+      end
 
       def run_action(action)
         Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] action: #{action}"

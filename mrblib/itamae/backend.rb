@@ -5,7 +5,9 @@ module Itamae
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L46-L86
-    def run_command(commands)
+    def run_command(commands, options = {})
+      options = { error: true }.merge(options)
+
       command = build_command(commands)
       Itamae.logger.debug "Executing `#{command}`..."
 
@@ -13,7 +15,7 @@ module Itamae
       Itamae.logger.with_indent do
         flush_buffers(result.stdout, result.stderr)
 
-        if result.exit_status == 0
+        if result.exit_status == 0 || !options[:error]
           method = :debug
           message = "exited with #{result.exit_status}"
         else

@@ -14,6 +14,8 @@ module Itamae
       end
 
       attr_accessor :attributes
+      attr_accessor :only_if_command
+      attr_accessor :not_if_command
       attr_reader :resource_name
 
       def initialize(resource_name, variables = {}, &block)
