@@ -16,14 +16,12 @@ module Itamae
 
     def run(options = {})
       executor = RecipeExecutor.new(
-        @recipes,
-        shell: options[:shell],
+        dry_run: options[:dry_run],
+        shell:   options[:shell],
       )
 
-      if options[:dry_run]
-        executor.dry_run
-      else
-        executor.execute
+      @recipes.each do |recipe|
+        executor.execute(recipe)
       end
     end
 
