@@ -5,6 +5,7 @@ module Itamae
         @resource = resource
         @backend  = options[:backend]
         @dry_run  = options[:dry_run]
+        @updated  = false
       end
 
       def execute
@@ -14,7 +15,6 @@ module Itamae
         end
         # XXX: verify (`verify` method in resource)
         # if updated?
-        #   runner.diff_found!
         #   # XXX: notify (`notifies` and `subscribes` in resource)
         # end
       end
@@ -48,9 +48,15 @@ module Itamae
             send(method_name)
           end
 
-          # if different?
-          #   updated!
-          # end
+          if different?(action, prev_attributes)
+            updated!
+          end
+        end
+      end
+
+      def different?(action, prev_attributes)
+        current_attributes(action).any? do |key, current_value|
+          !current_value.nil? && !prev_attributes[key].nil? && current_value != prev_attributes[key]
         end
       end
 
@@ -100,6 +106,15 @@ module Itamae
       # Shorthand to be used in subclass
       def run_command(*args)
         @backend.run_command(*args)
+      end
+
+      def updated?
+        @updated
+      end
+
+      def updated!
+        Itamae.logger.debug "This resource is updated."
+        @updated = true
       end
     end
   end
