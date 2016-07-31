@@ -5,13 +5,21 @@ module Itamae
 
     class Base
       class << self
-        attr_reader :defined_attributes
+        attr_accessor :defined_attributes
+
+        def inherited(subclass)
+          subclass.defined_attributes = self.defined_attributes.dup
+        end
 
         def define_attribute(name, options = {})
           @defined_attributes ||= {}
           @defined_attributes[name.to_sym] = options.dup
         end
       end
+
+      define_attribute :action, type: [Symbol, Array], required: true
+      define_attribute :user, type: String
+      define_attribute :cwd, type: String
 
       attr_accessor :attributes
       attr_accessor :only_if_command

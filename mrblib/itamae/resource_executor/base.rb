@@ -117,8 +117,11 @@ module Itamae
         raise NotImplementedError
       end
 
-      # Shorthand to be used in subclass
       def run_command(*args)
+        args << {} unless args.last.is_a?(Hash)
+
+        args.last[:user] ||= @resource.attributes.user
+        args.last[:cwd]  ||= @resource.attributes.cwd
         @backend.run_command(*args)
       end
 

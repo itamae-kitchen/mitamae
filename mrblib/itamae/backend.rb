@@ -8,7 +8,7 @@ module Itamae
     def run_command(commands, options = {})
       options = { error: true }.merge(options)
 
-      command = build_command(commands)
+      command = build_command(commands, options)
       Itamae.logger.debug "Executing `#{command}`..."
 
       result = spawn_command(command)
@@ -38,14 +38,25 @@ module Itamae
       end
     end
 
-    def build_command(commands)
+    # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
+    def build_command(commands, options)
       if commands.is_a?(Array)
         # XXX: shell escape and join
       else
         command = commands
       end
-      # XXX: cwd
-      # XXX: user
+
+      cwd = options[:cwd]
+      if cwd
+        command = "cd #{cwd.shellescape} && #{command}"
+      end
+
+      user = options[:user]
+      if user
+        command = "cd ~#{user.shellescape} ; #{command}"
+        command = "sudo -H -u #{user.shellescape} -- #{@shell.shellescape} -c #{command.shellescape}"
+      end
+
       command
     end
 
