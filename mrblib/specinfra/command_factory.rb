@@ -26,7 +26,7 @@ module Specinfra
     def get(command, *args)
       action, resource_type, subaction = breakdown(command)
       command_class = create_command_class(resource_type)
-      method = [action, subaction].join('_')
+      method = [action, subaction].compact.join('_')
 
       if command_class.respond_to?(method)
         command_class.send(method, *args)
