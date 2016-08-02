@@ -76,13 +76,10 @@ module Itamae
       command
     end
 
-    # XXX: https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/exec.rb#L56-L141
-    # We have `pipe` in mruby-io, `fork` and `waitpid` in mruby-process, but no `exec` or `spawn`...
-    # And mruby's `IO.popen` can't have options. So stderr is just printed.
+    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/exec.rb#L56-L141
     def spawn_command(cmd)
-      stderr = '' # XXX: Fake stdout.
-      stdout = IO.popen(cmd) { |pipe| pipe.read }
-      CommandResult.new(stdout: stdout, stderr: stderr, exit_status: $?)
+      stdout, stderr, status = Open3.capture3(@shell, '-c', cmd)
+      CommandResult.new(stdout: stdout, stderr: stderr, exit_status: status.exitstatus)
     end
   end
 end
