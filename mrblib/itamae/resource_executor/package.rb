@@ -2,7 +2,6 @@ module Itamae
   module ResourceExecutor
     class Package < Base
       def action_install
-        attributes = @resource.attributes
         unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
           run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
           updated!
@@ -10,7 +9,6 @@ module Itamae
       end
 
       def action_remove
-        attributes = @resource.attributes
         if run_specinfra(:check_package_is_installed, attributes.name, nil)
           run_specinfra(:remove_package, attributes.name, attributes.options)
           updated!
@@ -22,19 +20,19 @@ module Itamae
       def set_current_attributes(current, action)
         case action
         when :install, :remove
-          current.installed = run_specinfra(:check_package_is_installed, @resource.attributes.name)
+          current.installed = run_specinfra(:check_package_is_installed, attributes.name)
           if current.installed
-            current.version = run_specinfra(:get_package_version, @resource.attributes.name).stdout.strip
+            current.version = run_specinfra(:get_package_version, attributes.name).stdout.strip
           end
         end
       end
 
-      def set_desired_attributes(attributes, action)
+      def set_desired_attributes(desired, action)
         case action
         when :install
-          attributes.installed = true
+          desired.installed = true
         when :remove
-          attributes.installed = false
+          desired.installed = false
         end
       end
     end

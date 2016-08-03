@@ -52,13 +52,13 @@ module Itamae
         Itamae.logger.with_indent_if(Itamae.logger.debug?) do
           # The (in *) logging is just for backward compatibility with original Itamae.
           Itamae.logger.debug '(in pre_action)'
-          next_attributes = desired_attributes(action)
+          desired = desired_attributes(action)
 
           Itamae.logger.debug '(in set_current_attributes)'
-          prev_attributes = current_attributes(action)
+          current = current_attributes(action)
 
           Itamae.logger.debug '(in show_differences)'
-          show_differences(prev_attributes, next_attributes)
+          show_differences(current, desired)
 
           method_name = "action_#{action}"
           if @dry_run
@@ -69,66 +69,70 @@ module Itamae
             send(method_name)
           end
 
-          if different?(action, prev_attributes)
+          if different?(action, current)
             updated!
           end
         end
       end
 
-      def different?(action, prev_attributes)
+      def different?(action, initial)
         current_attributes(action).any? do |key, current_value|
-          !current_value.nil? && !prev_attributes[key].nil? && current_value != prev_attributes[key]
+          !current_value.nil? && initial[key].nil? && current_value != initial[key]
         end
       end
 
-      def show_differences(prev_attributes, next_attributes)
-        prev_attributes.each_pair do |key, prev_value|
-          next_value = next_attributes[key]
-          if prev_value.nil? && next_value.nil?
+      def show_differences(current, desired)
+        current.each_pair do |key, current_value|
+          desired_value = desired[key]
+          if current_value.nil? && desired_value.nil?
             # ignore
-          elsif prev_value.nil? && !next_value.nil?
+          elsif current_value.nil? && !next_value.nil?
             Itamae.logger.color :green do
-              Itamae.logger.info "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will be '#{next_value}'"
+              Itamae.logger.info "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will be '#{desired_value}'"
             end
-          elsif prev_value == next_value || next_value.nil?
-            Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will not change (current value is '#{prev_value}')"
+          elsif current_value == desired_value || desired_value.nil?
+            Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will not change (current value is '#{current_value}')"
           else
             Itamae.logger.color :green do
-              Itamae.logger.info "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will change from '#{prev_value}' to '#{next_value}'"
+              Itamae.logger.info "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will change from '#{current_value}' to '#{desired_value}'"
             end
           end
         end
       end
 
+      def attributes
+        @resource.attributes
+      end
+
       # The real status of attributes described in resource and ones which can't be checked
       # (i.e. executed = false of execute resource), whose keys should be based on action.
       def current_attributes(action)
-        Hashie::Mash.new.tap do |attributes|
-          set_current_attributes(attributes, action)
+        Hashie::Mash.new.tap do |current|
+          set_current_attributes(current, action)
         end
       end
 
-      def set_current_attributes(attributes, action)
+      def set_current_attributes(current, action)
         raise NotImplementedError
       end
 
       # Attributes described in resource and ones which is desired and can't be checked
       # (i.e. executed = true of execute resource), whose keys should be based on action.
       def desired_attributes(action)
-        Hashie::Mash.new(@resource.attributes).tap do |attributes|
-          set_desired_attributes(attributes, action)
+        Hashie::Mash.new(attributes).tap do |desired|
+          set_desired_attributes(desired, action)
         end
       end
 
-      def set_desired_attributes(attributes, action)
+      def set_desired_attributes(desired, action)
         raise NotImplementedError
       end
 
       def run_command(*args)
         args << {} unless args.last.is_a?(Hash)
 
-        args.last[:user] ||= @resource.attributes.user
-        args.last[:cwd]  ||= @resource.attributes.cwd
+        args.last[:user] ||= attributes.user
+        args.last[:cwd]  ||= attributes.cwd
         @backend.run_command(*args)
       end
 

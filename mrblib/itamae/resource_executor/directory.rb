@@ -2,7 +2,6 @@ module Itamae
   module ResourceExecutor
     class Directory < Base
       def action_create
-        attributes = @resource.attributes
         if !run_specinfra(:check_file_is_directory, attributes.path)
           run_specinfra(:create_file_as_directory, attributes.path)
         end
@@ -15,7 +14,6 @@ module Itamae
       end
 
       def action_delete
-        attributes = @resource.attributes
         if run_specinfra(:check_file_is_directory, attributes.path)
           run_specinfra(:remove_file, attributes.path)
         end
@@ -24,7 +22,6 @@ module Itamae
       private
 
       def set_current_attributes(current, action)
-        attributes = @resource.attributes
         case action
         when :create, :delete
           current.exist = run_specinfra(:check_file_is_directory, attributes.path)
