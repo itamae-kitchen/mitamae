@@ -19,10 +19,13 @@ module Itamae
 
       private
 
-      def set_current_attributes(attributes, action)
+      def set_current_attributes(current, action)
         case action
         when :install, :remove
-          attributes.installed = run_specinfra(:check_package_is_installed, @resource.attributes.name)
+          current.installed = run_specinfra(:check_package_is_installed, @resource.attributes.name)
+          if current.installed
+            current.version = run_specinfra(:get_package_version, @resource.attributes.name).stdout.strip
+          end
         end
       end
 
