@@ -22,6 +22,10 @@ module Itamae
       @recipe.children << Resource::Execute.new(command, @variables, &block)
     end
 
+    def git(destination, &block)
+      @recipe.children << Resource::Git.new(destination, @variables, &block)
+    end
+
     def package(name, &block)
       @recipe.children << Resource::Package.new(name, @variables, &block)
     end
