@@ -35,11 +35,21 @@ module Itamae
       result
     end
 
+    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/base.rb#L27-L36
+    def os_info
+      return @os_info if @os_info
+      Specinfra::Helper::DetectOs.all.each do |klass|
+        if @os_info = klass.new(self).detect
+          @os_info[:arch] ||= run_command('uname -m').stdout.strip
+          return @os_info
+        end
+      end
+      raise 'Failed to detect OS!'
+    end
+
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L88-L90
     # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/base.rb#L38-L40
     def get_command(*args)
-      # XXX: detect OS properly
-      os_info = { family: 'arch', release: nil, arch: 'x86_64' }
       Specinfra::CommandFactory.new(os_info).get(*args)
     end
 

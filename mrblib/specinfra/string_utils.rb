@@ -1,7 +1,5 @@
 # Original:
 #   https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/ext/string.rb
-#
-# This avoids extending String directly.
 module Specinfra
   module StringUtils
     class << self
