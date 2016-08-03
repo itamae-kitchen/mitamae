@@ -8,17 +8,17 @@ module Itamae
 
       private
 
-      def set_current_attributes(attributes, action)
+      def set_current_attributes(current, action)
         case action
         when :run
-          attributes.executed = false
+          current.executed = false
         end
       end
 
-      def set_desired_attributes(attributes, action)
+      def set_desired_attributes(desired, action)
         case action
         when :run
-          attributes.executed = true
+          desired.executed = true
         end
       end
     end

@@ -14,6 +14,10 @@ module Itamae
       end
     end
 
+    def directory(path, &block)
+      @recipe.children << Resource::Directory.new(path, @variables, &block)
+    end
+
     def execute(command, &block)
       @recipe.children << Resource::Execute.new(command, @variables, &block)
     end

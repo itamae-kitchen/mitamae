@@ -115,7 +115,7 @@ module Itamae
       # Attributes described in resource and ones which is desired and can't be checked
       # (i.e. executed = true of execute resource), whose keys should be based on action.
       def desired_attributes(action)
-        Hashie::Mash.new.tap do |attributes|
+        Hashie::Mash.new(@resource.attributes).tap do |attributes|
           set_desired_attributes(attributes, action)
         end
       end
