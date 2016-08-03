@@ -5,6 +5,7 @@ module Itamae
 
     class Base
       class << self
+        attr_accessor :available_actions
         attr_accessor :defined_attributes
 
         def inherited(subclass)

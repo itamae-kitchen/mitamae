@@ -1,9 +1,9 @@
 module Itamae
   module ResourceExecutor
     class Link < Base
-      def action_create
-        unless run_specinfra(:check_file_is_linked_to, attributes.link, attributes.to)
-          run_specinfra(:link_file_to, attributes.link, attributes.to, force: attributes.force)
+      def apply(_, desired)
+        unless run_specinfra(:check_file_is_linked_to, desired.link, desired.to)
+          run_specinfra(:link_file_to, desired.link, desired.to, force: desired.force)
         end
       end
 

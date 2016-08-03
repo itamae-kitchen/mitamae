@@ -1,21 +1,21 @@
 module Itamae
   module ResourceExecutor
     class Directory < Base
-      def action_create
-        if !run_specinfra(:check_file_is_directory, attributes.path)
-          run_specinfra(:create_file_as_directory, attributes.path)
-        end
-        if attributes.mode
-          run_specinfra(:change_file_mode, attributes.path, attributes.mode)
-        end
-        if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, attributes.path, attributes.owner, attributes.group)
-        end
-      end
-
-      def action_delete
-        if run_specinfra(:check_file_is_directory, attributes.path)
-          run_specinfra(:remove_file, attributes.path)
+      def apply(_, desired)
+        if desired.exist
+          if !run_specinfra(:check_file_is_directory, desired.path)
+            run_specinfra(:create_file_as_directory, desired.path)
+          end
+          if desired.mode
+            run_specinfra(:change_file_mode, desired.path, desired.mode)
+          end
+          if desired.owner || desired.group
+            run_specinfra(:change_file_owner, desired.path, desired.owner, desired.group)
+          end
+        else
+          if run_specinfra(:check_file_is_directory, desired.path)
+            run_specinfra(:remove_file, desired.path)
+          end
         end
       end
 

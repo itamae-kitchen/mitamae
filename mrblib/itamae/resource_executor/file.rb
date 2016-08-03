@@ -1,48 +1,29 @@
 module Itamae
   module ResourceExecutor
     class File < Base
-      def action_create
-        if @existed && !@temppath
-          run_command(["touch", attributes.path])
-        end
+      def apply(current, desired)
+        if desired.exist
+          if current.exist && !@temppath
+            run_command(["touch", attributes.path])
+          end
 
-        change_target = attributes.modified ? @temppath : attributes.path
+          change_target = attributes.modified ? @temppath : attributes.path
 
-        if attributes.mode
-          run_specinfra(:change_file_mode, change_target, attributes.mode)
-        end
+          if attributes.mode
+            run_specinfra(:change_file_mode, change_target, desired.mode || current.mode)
+          end
 
-        if attributes.owner || attributes.group
-          run_specinfra(:change_file_owner, change_target, attributes.owner, attributes.group)
-        end
+          if attributes.owner || attributes.group
+            run_specinfra(:change_file_owner, change_target, desired.owner || current.owner, desired.group || current.group)
+          end
 
-        if attributes.modified
-          run_specinfra(:copy_file, @temppath, attributes.path) # XXX: use move_file
-        end
-      end
-
-      def action_delete
-        if run_specinfra(:check_file_is_file, attributes.path)
-          run_specinfra(:remove_file, attributes.path)
-        end
-      end
-
-      def action_edit
-        change_target = attributes.modified ? @temppath : attributes.path
-
-        if attributes.mode || attributes.modified
-          mode = attributes.mode || run_specinfra(:get_file_mode, attributes.path).stdout.chomp
-          run_specinfra(:change_file_mode, change_target, mode)
-        end
-
-        if attributes.owner || attributes.group || attributes.modified
-          owner = attributes.owner || run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
-          group = attributes.group || run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
-          run_specinfra(:change_file_owner, change_target, owner, group)
-        end
-
-        if attributes.modified
-          run_specinfra(:copy_file, @temppath, attributes.path) # XXX: use move_file
+          if attributes.modified
+            run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
+          end
+        else
+          if run_specinfra(:check_file_is_file, attributes.path)
+            run_specinfra(:remove_file, attributes.path)
+          end
         end
       end
 

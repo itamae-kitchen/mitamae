@@ -3,21 +3,21 @@ module Itamae
     class Git < Base
       DEPLOY_BRANCH = "deploy"
 
-      def action_sync
+      def apply(_, desired)
         ensure_git_available
 
         new_repository = false
 
         if check_empty_dir
           cmd = ['git', 'clone']
-          cmd << '--recursive' if attributes.recursive
-          cmd << attributes.repository << attributes.destination
+          cmd << '--recursive' if desired.recursive
+          cmd << desired.repository << desired.destination
           run_command(cmd)
           new_repository = true
         end
 
-        target = if attributes.revision
-                   get_revision(attributes.revision)
+        target = if desired.revision
+                   get_revision(desired.revision)
                  else
                    fetch_origin!
                    run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip

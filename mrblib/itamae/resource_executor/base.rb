@@ -28,8 +28,9 @@ module Itamae
         exit 2
       end
 
-      def action_nothing
-        # noop
+      # Given current and desired attributes, apply it to the real state.
+      def apply(current, desired)
+        raise NotImplementedError
       end
 
       private
@@ -60,19 +61,22 @@ module Itamae
           Itamae.logger.debug '(in show_differences)'
           show_differences(current, desired)
 
-          method_name = "action_#{action}"
-          if @dry_run
-            unless respond_to?(method_name)
-              Itamae.logger.error "action #{action.inspect} is unavailable"
-            end
-          else
-            send(method_name)
+          return if action == :nothing
+          unless available_action?(action)
+            Itamae.logger.error "action #{action.inspect} is unavailable"
+            exit 1
           end
+          return if @dry_run
 
+          apply(current, desired)
           if different?(action, current)
             updated!
           end
         end
+      end
+
+      def available_action?(action)
+        @resource.class.available_actions.include?(action)
       end
 
       def different?(action, initial)

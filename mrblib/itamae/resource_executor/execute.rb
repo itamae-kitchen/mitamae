@@ -1,9 +1,11 @@
 module Itamae
   module ResourceExecutor
     class Execute < Base
-      def action_run
-        run_command(attributes.command)
-        updated!
+      def apply(_, desired)
+        if desired.exected
+          run_command(desired.command)
+          updated!
+        end
       end
 
       private

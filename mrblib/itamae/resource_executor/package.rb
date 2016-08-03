@@ -1,17 +1,17 @@
 module Itamae
   module ResourceExecutor
     class Package < Base
-      def action_install
-        unless run_specinfra(:check_package_is_installed, attributes.name, attributes.version)
-          run_specinfra(:install_package, attributes.name, attributes.version, attributes.options)
-          updated!
-        end
-      end
-
-      def action_remove
-        if run_specinfra(:check_package_is_installed, attributes.name, nil)
-          run_specinfra(:remove_package, attributes.name, attributes.options)
-          updated!
+      def apply(current, desired)
+        if desired.installed
+          unless run_specinfra(:check_package_is_installed, desired.name, desired.version)
+            run_specinfra(:install_package, desired.name, desired.version, desired.options)
+            updated!
+          end
+        else
+          if current.installed
+            run_specinfra(:remove_package, desired.name, desired.options)
+            updated!
+          end
         end
       end
 

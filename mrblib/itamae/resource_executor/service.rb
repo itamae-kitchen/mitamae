@@ -6,37 +6,29 @@ module Itamae
         @under = attributes.provider ? "_under_#{attributes.provider}" : ""
       end
 
-      def action_start
-        unless @running
-          run_specinfra(:"start_service#{@under}", attributes.name)
+      def apply(current, desired)
+        if desired.has_key?(:running)
+          if desired.running && !current.running
+            run_specinfra(:"start_service#{@under}", attributes.name)
+          elsif !desired.running && current.running
+            run_specinfra(:"stop_service#{@under}", attributes.name)
+          end
         end
-      end
 
-      def action_stop
-        if @running
-          run_specinfra(:"stop_service#{@under}", attributes.name)
+        if desired.restarted
+          run_specinfra(:"restart_service#{@under}", attributes.name)
         end
-      end
 
-      def action_restart
-        run_specinfra(:"restart_service#{@under}", attributes.name)
-      end
-
-      def action_reload
-        if @runinng
+        if desired.reloaded && current.running
           run_specinfra(:"reload_service#{@under}", attributes.name)
         end
-      end
 
-      def action_enable
-        unless @enabled
-          run_specinfra(:"enable_service#{@under}", attributes.name)
-        end
-      end
-
-      def action_disable
-        if @enabled
-          run_specinfra(:"disable_service#{@under}", attributes.name)
+        if desired.has_key?(:enabled)
+          if desired.enabled && !current.enabled
+            run_specinfra(:"enable_service#{@under}", attributes.name)
+          elsif !desired.enabled && current.enabled
+            run_specinfra(:"disable_service#{@under}", attributes.name)
+          end
         end
       end
 
@@ -44,21 +36,27 @@ module Itamae
 
       def set_current_attributes(current, action)
         case action
-        when :start, :restart, :stop, :reload
+        when :start, :stop
           current.running = run_specinfra(:"check_service_is_running#{@under}", attributes.name)
-          @running = current.running
+        when :restart
+          current.restarted = false
+        when :reload
+          current.reloaded = false
         when :enable, :disable
           current.enabled = run_specinfra(:"check_service_is_enabled#{@under}", attributes.name)
-          @enabled = current.enabled
         end
       end
 
       def set_desired_attributes(desired, action)
         case action
-        when :start, :restart
+        when :start
           desired.running = true
         when :stop
           desired.running = false
+        when :restart
+          desired.restarted = true
+        when :reload
+          desired.reloaded = true
         when :enable
           desired.enabled = true
         when :disable

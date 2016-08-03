@@ -6,6 +6,8 @@ module Itamae
       define_attribute :mode, type: String
       define_attribute :owner, type: String
       define_attribute :group, type: String
+
+      self.available_actions = [:create, :delete]
     end
   end
 end
