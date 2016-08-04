@@ -38,6 +38,12 @@ module Itamae
       @recipe.children << Resource::Package.new(name, @variables, &block)
     end
 
+    def remote_file(path, &block)
+      @recipe.children << Resource::RemoteFile.new(path, @variables, &block).tap do |resource|
+        resource.recipe_dir = File.dirname(@recipe.path)
+      end
+    end
+
     def service(name, &block)
       @recipe.children << Resource::Service.new(name, @variables, &block)
     end

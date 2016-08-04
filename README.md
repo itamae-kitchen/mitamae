@@ -17,7 +17,7 @@ You can use only the features listed below.
   - [x] directory resource
   - [x] git resource
   - [x] file resource
-  - [ ] remote\_file resource
+  - [x] remote\_file resource
   - [ ] template resource
   - [x] link resource
   - [x] service resource
