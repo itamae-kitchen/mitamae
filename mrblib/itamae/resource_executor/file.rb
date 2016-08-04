@@ -1,12 +1,10 @@
 module Itamae
   module ResourceExecutor
-    # XXX: It's just copied and changed without deep consideration.
-    # We must care about temporary file more carefully.
     class File < Base
       def action_create
-        # if !current.exist && !@temppath
-        #   run_command(["touch", attributes.path])
-        # end
+        if @existed && !@temppath
+          run_command(["touch", attributes.path])
+        end
 
         change_target = attributes.modified ? @temppath : attributes.path
 
@@ -50,6 +48,13 @@ module Itamae
 
       private
 
+      def run_action(action)
+        super
+        if @temppath
+          run_specinfra(:remove_file, @temppath)
+        end
+      end
+
       def set_current_attributes(current, action)
         current.modified = false
         current.exist = @existed
@@ -84,7 +89,7 @@ module Itamae
           # end
         end
 
-        send_tempfile
+        send_tempfile(desired)
         compare_file
       end
 
@@ -154,8 +159,8 @@ module Itamae
         nil
       end
 
-      def send_tempfile
-        if !attributes.content && !content_file
+      def send_tempfile(desired)
+        if !desired.content && !content_file
           @temppath = nil
           return
         end
@@ -164,7 +169,7 @@ module Itamae
                 content_file
               else
                 f = Tempfile.open('itamae')
-                f.write(attributes.content)
+                f.write(desired.content)
                 f.close
                 f.path
               end

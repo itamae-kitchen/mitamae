@@ -39,13 +39,19 @@ module Itamae
     end
 
     def remote_file(path, &block)
-      @recipe.children << Resource::RemoteFile.new(path, @variables, &block).tap do |resource|
-        resource.recipe_dir = File.dirname(@recipe.path)
+      @recipe.children << Resource::RemoteFile.new(path, @variables, &block).tap do |r|
+        r.recipe_dir = File.dirname(@recipe.path)
       end
     end
 
     def service(name, &block)
       @recipe.children << Resource::Service.new(name, @variables, &block)
+    end
+
+    def template(path, &block)
+      @recipe.children << Resource::Template.new(path, @variables, &block).tap do |r|
+        r.recipe_dir = File.dirname(@recipe.path)
+      end
     end
 
     def define(name, params = {}, &block)
