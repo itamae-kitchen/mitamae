@@ -17,10 +17,11 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-io',         mgem: 'mruby-io'
   spec.add_dependency 'mruby-mtest',      mgem: 'mruby-mtest'
   spec.add_dependency 'mruby-object-ext', core: 'mruby-object-ext'
-  spec.add_dependency 'mruby-open3',      github: 'k0kubun/mruby-open3'
+  spec.add_dependency 'mruby-open3',      mgem: 'mruby-open3'
   spec.add_dependency 'mruby-optparse',   mgem: 'mruby-optparse'
   spec.add_dependency 'mruby-print',      core: 'mruby-print'
   spec.add_dependency 'mruby-shellwords', mgem: 'mruby-shellwords'
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
+  spec.add_dependency 'mruby-tempfile', github: 'k0kubun/mruby-tempfile'
   spec.add_dependency 'mruby-yaml',       mgem: 'mruby-yaml'
 end

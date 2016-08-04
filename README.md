@@ -16,13 +16,13 @@ You can use only the features listed below.
   - [x] package resource
   - [x] directory resource
   - [x] git resource
-  - [ ] file resource
+  - [x] file resource
+  - [ ] remote\_file resource
   - [ ] template resource
   - [ ] link resource
   - [ ] service resource
   - [ ] user resource
   - [ ] group resource
-  - [ ] remote\_file resource
   - [ ] remote\_directory resource
   - [ ] gem\_package resource
   - [ ] http\_request resource
