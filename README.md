@@ -19,7 +19,7 @@ You can use only the features listed below.
   - [x] file resource
   - [ ] remote\_file resource
   - [ ] template resource
-  - [ ] link resource
+  - [x] link resource
   - [ ] service resource
   - [ ] user resource
   - [ ] group resource

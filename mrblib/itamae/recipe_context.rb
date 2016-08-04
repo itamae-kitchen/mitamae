@@ -30,6 +30,10 @@ module Itamae
       @recipe.children << Resource::Git.new(destination, @variables, &block)
     end
 
+    def link(link_path, &block)
+      @recipe.children << Resource::Link.new(link_path, @variables, &block)
+    end
+
     def package(name, &block)
       @recipe.children << Resource::Package.new(name, @variables, &block)
     end
