@@ -20,7 +20,7 @@ You can use only the features listed below.
   - [ ] remote\_file resource
   - [ ] template resource
   - [x] link resource
-  - [ ] service resource
+  - [x] service resource
   - [ ] user resource
   - [ ] group resource
   - [ ] remote\_directory resource

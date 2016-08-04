@@ -38,6 +38,10 @@ module Itamae
       @recipe.children << Resource::Package.new(name, @variables, &block)
     end
 
+    def service(name, &block)
+      @recipe.children << Resource::Service.new(name, @variables, &block)
+    end
+
     def define(name, params = {}, &block)
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|

@@ -50,7 +50,7 @@ module Itamae
             raise AttributeMissingError, "'#{key}' attribute is required but it is not set."
           end
 
-          if @attributes.has_key?(key) && details[:type]
+          if @attributes[key] && details[:type]
             valid_type = [details[:type]].flatten.any? do |type|
               @attributes[key].is_a?(type)
             end
