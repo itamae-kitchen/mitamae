@@ -51,6 +51,7 @@ module Itamae
     def template(path, &block)
       @recipe.children << Resource::Template.new(path, @variables, &block).tap do |r|
         r.recipe_dir = File.dirname(@recipe.path)
+        r.node = @variables[:node]
       end
     end
 

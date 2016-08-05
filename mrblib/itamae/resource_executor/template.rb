@@ -6,7 +6,7 @@ module Itamae
       def set_desired_attributes(desired, action)
         case action
         when :create, :edit
-          desired.content = RenderContext.new(self).render_file(source_file)
+          desired.content = RenderContext.new(@resource).render_file(source_file)
         end
 
         super
@@ -42,7 +42,7 @@ module Itamae
         end
 
         def node
-          @resource.recipe.runner.node
+          @resource.node
         end
       end
     end
