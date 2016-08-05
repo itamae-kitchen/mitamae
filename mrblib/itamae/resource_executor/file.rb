@@ -59,15 +59,6 @@ module Itamae
           desired.exist = true
         when :delete
           desired.exist = false
-        when :edit
-          desired.exist = true
-
-          # FIXME: not supported now
-          # if !runner.dry_run? || @existed
-          #   content = backend.receive_file(attributes.path)
-          #   attributes.block.call(content)
-          #   attributes.content = content
-          # end
         end
 
         send_tempfile(desired)

@@ -5,7 +5,7 @@ module Itamae
 
       def set_desired_attributes(desired, action)
         case action
-        when :create, :edit
+        when :create
           desired.content = RenderContext.new(@resource).render_file(source_file)
         end
 
