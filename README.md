@@ -3,6 +3,60 @@
 [Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.  
 With itamae-mruby's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
 
+## Status
+
+Experimental. Some features are omitted or not tested.
+
+## Synopsis
+
+Like original [itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But itamae-go does not require Ruby to run.
+
+```rb
+# cat recipe.rb
+include_recipe 'included'
+
+directory '/tmp/etc'
+
+file '/tmp/etc/hello' do
+  content 'This is itamae'
+end
+
+template '/tmp/etc/config.yml' do
+  source 'config.yml.erb'
+end
+```
+
+```rb
+# cat included.rb
+define :vim, options: '--with-lua --with-luajit' do
+  package 'vim' do
+    version params[:name]
+    options params[:options]
+  end
+end
+
+vim '7.4.1910-1'
+
+service 'mysqld' do
+  action [:start, :enable]
+end
+```
+
+```bash
+# ./itamae local -j node.json recipe.rb
+ INFO : Starting Itamae...
+ INFO : Recipe: /home/k0kubun/itamae/recipe.rb
+ INFO :   Recipe: /home/k0kubun/itamae/included.rb
+ INFO :     service[mysqld] running will change from 'false' to 'true'
+ INFO :     service[mysqld] enabled will change from 'false' to 'true'
+ INFO :   file[/tmp/etc/hello] exist will change from 'false' to 'true'
+ INFO :   diff:
+ INFO :   --- /dev/null 2016-07-23 16:06:36.583327464 +0900
+ INFO :   +++ /tmp/1470446745.956       2016-08-06 10:25:45.967255508 +0900
+ INFO :   @@ -0,0 +1 @@
+ INFO :   +This is itamae
+```
+
 ## How to write recipes
 
 See [itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
@@ -33,6 +87,15 @@ You can use only the features listed below.
 - [x] run\_command
 - [ ] Host Inventory
 - [ ] Plugins
+
+### Supported platforms
+
+Currently following platforms are supported but others can be easily supported by porting specinfra modules.
+
+- Arch Linux
+- Debian
+- OSX
+- Ubuntu
 
 ## Notes
 
