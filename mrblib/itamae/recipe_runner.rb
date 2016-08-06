@@ -1,8 +1,8 @@
 module Itamae
   class RecipeRunner
     def initialize(options)
-      @node = load_node(options[:node_json])
       @backend = Backend.new(shell: options[:shell])
+      @node    = build_node(options[:node_json])
       @dry_run = options[:dry_run]
       @recipes = []
     end
@@ -34,8 +34,8 @@ module Itamae
 
     private
 
-    def load_node(node_json)
-      Hashie::Mash.new.tap do |node|
+    def build_node(node_json)
+      Node.new({}, @backend).tap do |node|
         if node_json
           json = File.read(node_json)
           node.merge!(JSON.load(json))
