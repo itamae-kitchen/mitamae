@@ -24,7 +24,4 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-shellwords', mgem: 'mruby-shellwords'
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
   spec.add_dependency 'mruby-tempfile', github: 'k0kubun/mruby-tempfile'
-
-  # mruby-require must be the last mrbgem
-  spec.add_dependency 'mruby-require',    mgem: 'mruby-require'
 end
