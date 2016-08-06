@@ -9,3 +9,4 @@ module Specinfra
     end
   end
 end
+
