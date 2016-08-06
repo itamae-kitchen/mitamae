@@ -60,7 +60,7 @@ module Itamae
       RecipeContext.send(:define_method, name) do |n, &b|
         @recipe.children << RecipeFromDefinition.new(name, n).tap do |recipe|
           params = klass.new(n, @variables, &b).attributes.merge(name: n)
-          RecipeContext.new(recipe, params: params).instance_exec(&block)
+          RecipeContext.new(recipe, @variables.merge(params: params)).instance_exec(&block)
         end
       end
     end
