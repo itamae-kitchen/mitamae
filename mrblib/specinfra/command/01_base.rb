@@ -1,24 +1,20 @@
-module Specinfra
-  module Command
-    class Base
-      class NotImplementedError < Exception; end
+class Specinfra::Command::Base
+  class << self
+    class NotImplementedError < Exception; end
 
-      class << self
-        def create
-          self
-        end
+    def create
+      self
+    end
 
-        def escape(target)
-          str = case target
-                when Regexp
-                  target.source
-                else
-                  target.to_s
-                end
+    def escape(target)
+      str = case target
+            when Regexp
+              target.source
+            else
+              target.to_s
+            end
 
-          Shellwords.shellescape(str)
-        end
-      end
+      Shellwords.shellescape(str)
     end
   end
 end
