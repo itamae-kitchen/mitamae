@@ -93,7 +93,9 @@ You can use only the features listed below.
 Currently following platforms are supported but others can be easily supported by porting specinfra modules.
 
 - Arch Linux
+- CentOS
 - Debian
+- Gentoo
 - OSX
 - Ubuntu
 
