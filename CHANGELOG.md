@@ -1,3 +1,7 @@
+## v0.0.3
+
+- Fix `node` to be available in define block
+
 ## v0.0.2
 
 - Support `node[:platform]` and `node[:platform_version]`
