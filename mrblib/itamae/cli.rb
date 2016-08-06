@@ -51,7 +51,6 @@ Usage:
 
 Options:
   -j, [--node-json=NODE_JSON]
-  -y, [--node-yaml=NODE_YAML]
   -n, [--dry-run]
       [--shell=SHELL]              # Default: /bin/sh
   -l, [--log-level=LOG_LEVEL]      # Default: info
