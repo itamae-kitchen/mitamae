@@ -6,4 +6,4 @@ branches:
   only:
     - master
 script:
-  - gem install rake
+  - docker-compose run compile
