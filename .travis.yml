@@ -1,4 +1,7 @@
 sudo: required
 language: ruby
+branches:
+  only:
+    - master
 script:
   - gem install rake
