@@ -1,0 +1,4 @@
+sudo: required
+language: ruby
+script:
+  - gem install rake
