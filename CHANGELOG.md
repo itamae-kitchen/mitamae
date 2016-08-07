@@ -1,3 +1,7 @@
+## v0.0.4
+
+- Fix command failure (exit status = 141) on link or git resource
+
 ## v0.0.3
 
 - Fix `node` to be available in define block
