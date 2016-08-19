@@ -1,3 +1,7 @@
+## v0.0.5
+
+- Use fork of mruby to use resource inside `each`
+
 ## v0.0.4
 
 - Fix command failure (exit status = 141) on link or git resource
