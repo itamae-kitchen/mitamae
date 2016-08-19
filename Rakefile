@@ -3,9 +3,11 @@ require 'fileutils'
 MRUBY_VERSION="1.2.0"
 
 file :mruby do
-  #sh "git clone --depth=1 https://github.com/mruby/mruby"
-  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
-  FileUtils.mv("mruby-1.2.0", "mruby")
+  # Using fork to apply https://github.com/mruby/mruby/pull/3192
+  sh "git clone --depth=1 https://github.com/k0kubun/mruby"
+
+  #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
+  #FileUtils.mv("mruby-1.2.0", "mruby")
 end
 
 APP_NAME=ENV["APP_NAME"] || "itamae"
