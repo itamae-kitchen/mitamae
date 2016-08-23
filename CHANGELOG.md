@@ -1,3 +1,7 @@
+## v0.0.6
+
+- Fix namespace resolution bug in `Specinfra::Command::Darwin::Base::Package`
+
 ## v0.0.5
 
 - Use fork of mruby to use resource inside `each`
