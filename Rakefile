@@ -71,3 +71,36 @@ desc "cleanup"
 task :clean do
   sh "rake deep_clean"
 end
+
+namespace :release do
+  desc "cross compile for release"
+  task :build do
+    sh "docker-compose run compile"
+
+    Dir.chdir(__dir__) do
+      require 'fileutils'
+      FileUtils.mkdir_p('itamae-build')
+
+      {
+        'i386-apple-darwin14'   => 'itamae-i386-darwin',
+        'i686-pc-linux-gnu'     => 'itamae-i686-linux',
+        'x86_64-apple-darwin14' => 'itamae-x86_64-darwin',
+        'x86_64-pc-linux-gnu'   => 'itamae-x86_64-linux',
+      }.each do |build, bin|
+        system('pwd')
+        FileUtils.cp(
+          "mruby/build/#{build}/bin/itamae",
+          "itamae-build/#{bin}",
+        )
+      end
+    end
+  end
+
+  desc "upload compiled binary to GitHub"
+  task :upload do
+    puts 'TBD'
+  end
+end
+
+desc "release itamae-mruby with current revision"
+task release: ['release:build', 'release:upload']
