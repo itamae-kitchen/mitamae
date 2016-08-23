@@ -101,8 +101,8 @@ Currently following platforms are supported but others can be easily supported b
 - OSX
 - Ubuntu
 
-## Development
-### Build and run
+## Contributing
+### Development
 
 ```bash
 $ ITAMAE_DEBUG=1 rake compile && ./mruby/bin/itamae local recipe.rb
