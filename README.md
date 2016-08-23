@@ -108,6 +108,19 @@ Currently following platforms are supported but others can be easily supported b
 $ ITAMAE_DEBUG=1 rake compile && ./mruby/bin/itamae local recipe.rb
 ```
 
+### Cross compile
+
+```bash
+# Compile and copy binaries to ./itamae-build
+$ rake release:build
+```
+
+### Release
+
+```bash
+$ rake release
+```
+
 ## Notes
 
 Thanks to the original implementation https://github.com/itamae-kitchen/itamae.  
