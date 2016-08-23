@@ -15,48 +15,50 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
-  toolchain :gcc
+if ENV['ITAMAE_DEBUG'] != '1'
+  MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
+    toolchain :gcc
 
-  gem_config(conf)
-end
-
-MRuby::CrossBuild.new('i686-pc-linux-gnu') do |conf|
-  toolchain :gcc
-
-  [conf.cc, conf.cxx, conf.linker].each do |cc|
-    cc.flags << "-m32"
+    gem_config(conf)
   end
 
-  gem_config(conf)
-end
+  MRuby::CrossBuild.new('i686-pc-linux-gnu') do |conf|
+    toolchain :gcc
 
-MRuby::CrossBuild.new('x86_64-apple-darwin14') do |conf|
-  toolchain :clang
+    [conf.cc, conf.cxx, conf.linker].each do |cc|
+      cc.flags << "-m32"
+    end
 
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'x86_64-apple-darwin14-clang'
+    gem_config(conf)
   end
-  conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
-  conf.archiver.command = 'x86_64-apple-darwin14-ar'
 
-  conf.build_target     = 'x86_64-pc-linux-gnu'
-  conf.host_target      = 'x86_64-apple-darwin14'
+  MRuby::CrossBuild.new('x86_64-apple-darwin14') do |conf|
+    toolchain :clang
 
-  gem_config(conf)
-end
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'x86_64-apple-darwin14-clang'
+    end
+    conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
+    conf.archiver.command = 'x86_64-apple-darwin14-ar'
 
-MRuby::CrossBuild.new('i386-apple-darwin14') do |conf|
-  toolchain :clang
+    conf.build_target     = 'x86_64-pc-linux-gnu'
+    conf.host_target      = 'x86_64-apple-darwin14'
 
-  [conf.cc, conf.linker].each do |cc|
-    cc.command = 'i386-apple-darwin14-clang'
+    gem_config(conf)
   end
-  conf.cxx.command      = 'i386-apple-darwin14-clang++'
-  conf.archiver.command = 'i386-apple-darwin14-ar'
 
-  conf.build_target     = 'i386-pc-linux-gnu'
-  conf.host_target      = 'i386-apple-darwin14'
+  MRuby::CrossBuild.new('i386-apple-darwin14') do |conf|
+    toolchain :clang
 
-  gem_config(conf)
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'i386-apple-darwin14-clang'
+    end
+    conf.cxx.command      = 'i386-apple-darwin14-clang++'
+    conf.archiver.command = 'i386-apple-darwin14-ar'
+
+    conf.build_target     = 'i386-pc-linux-gnu'
+    conf.host_target      = 'i386-apple-darwin14'
+
+    gem_config(conf)
+  end
 end
