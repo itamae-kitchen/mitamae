@@ -96,9 +96,34 @@ namespace :release do
     end
   end
 
+  desc "fetch ghr binary"
+  task :ghr do
+    Dir.chdir(__dir__) do
+      next if File.exist?('ghr')
+
+      zip_url =
+        if `uname` =~ /\ADarwin/
+          'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_darwin_386.zip'
+        else
+          'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_linux_386.zip'
+        end
+      sh "curl -L #{zip_url} > ghr.zip"
+      sh "unzip ghr.zip"
+    end
+  end
+
   desc "upload compiled binary to GitHub"
-  task :upload do
-    puts 'TBD'
+  task upload: :ghr do
+    unless ENV.has_key?('GITHUB_TOKEN')
+      puts 'Usage: rake release GITHUB_TOKEN="..."'
+      puts
+      abort 'Specify GITHUB_TOKEN generated from https://github.com/settings/tokens.'
+    end
+
+    Dir.chdir(__dir__) do
+      require_relative './mrblib/itamae/version'
+      sh "./ghr -u k0kubun v#{Itamae::VERSION} itamae-build"
+    end
   end
 end
 
