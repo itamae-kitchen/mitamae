@@ -1,7 +1,5 @@
 require 'fileutils'
 
-MRUBY_VERSION="1.2.0"
-
 file :mruby do
   # Using fork to apply https://github.com/mruby/mruby/pull/3192
   sh "git clone --depth=1 https://github.com/k0kubun/mruby"
@@ -78,7 +76,6 @@ namespace :release do
     sh "docker-compose run compile"
 
     Dir.chdir(__dir__) do
-      require 'fileutils'
       FileUtils.mkdir_p('itamae-build')
 
       {
