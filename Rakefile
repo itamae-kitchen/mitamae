@@ -96,6 +96,15 @@ namespace :release do
     end
   end
 
+  desc "compress binaries in itamae-build"
+  task :compress do
+    Dir.chdir(__dir__) do
+      Dir.glob('itamae-build/itamae-*-{darwin,linux}').each do |path|
+        sh "zip #{path}.zip #{path}"
+      end
+    end
+  end
+
   desc "fetch ghr binary"
   task :ghr do
     Dir.chdir(__dir__) do
@@ -128,4 +137,4 @@ namespace :release do
 end
 
 desc "release itamae-mruby with current revision"
-task release: ['release:build', 'release:upload']
+task release: ['release:build', 'release:compress', 'release:upload']
