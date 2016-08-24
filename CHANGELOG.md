@@ -1,3 +1,7 @@
+## v0.0.7
+
+- Show backtrace on recipe error
+
 ## v0.0.6
 
 - Fix namespace resolution bug in `Specinfra::Command::Darwin::Base::Package`
