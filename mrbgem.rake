@@ -16,6 +16,7 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-hashie',     mgem: 'mruby-hashie'
   spec.add_dependency 'mruby-iijson',     mgem: 'mruby-iijson'
   spec.add_dependency 'mruby-io',         mgem: 'mruby-io'
+  spec.add_dependency 'mruby-kernel-ext', core: 'mruby-kernel-ext'
   spec.add_dependency 'mruby-mtest',      mgem: 'mruby-mtest'
   spec.add_dependency 'mruby-object-ext', core: 'mruby-object-ext'
   spec.add_dependency 'mruby-open3',      mgem: 'mruby-open3'

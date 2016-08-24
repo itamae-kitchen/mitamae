@@ -77,10 +77,10 @@ You can use only the features listed below.
   - [x] template resource
   - [x] link resource
   - [x] service resource
+  - [x] gem\_package resource
   - [ ] user resource
   - [ ] group resource
   - [ ] remote\_directory resource
-  - [ ] gem\_package resource
   - [ ] http\_request resource
   - [ ] local\_ruby\_block resource
 - [x] Definitions
@@ -106,6 +106,9 @@ Currently following platforms are supported but others can be easily supported b
 
 ```bash
 $ ITAMAE_DEBUG=1 rake compile && ./mruby/bin/itamae local recipe.rb
+
+# If you add mrbgem to mrbgem.rake, execute:
+$ rake clean
 ```
 
 ### Cross compile

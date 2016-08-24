@@ -26,6 +26,10 @@ module Itamae
       @recipe.children << Resource::File.new(path, @variables, &block)
     end
 
+    def gem_package(package_name, &block)
+      @recipe.children << Resource::GemPackage.new(package_name, @variables, &block)
+    end
+
     def git(destination, &block)
       @recipe.children << Resource::Git.new(destination, @variables, &block)
     end
