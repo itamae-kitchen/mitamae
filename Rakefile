@@ -97,7 +97,10 @@ namespace :release do
   task :compress do
     Dir.chdir(__dir__) do
       Dir.glob('itamae-build/itamae-*-{darwin,linux}').each do |path|
-        sh "zip #{path}.zip #{path}"
+        Dir.chdir('itamae-build') do
+          file = File.basename(path)
+          sh "zip #{file}.zip #{file}"
+        end
       end
     end
   end
