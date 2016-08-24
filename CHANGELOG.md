@@ -1,3 +1,7 @@
+## v0.0.8
+
+- Support gem\_package resource
+
 ## v0.0.7
 
 - Show backtrace on recipe error
