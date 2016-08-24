@@ -5,13 +5,22 @@ def gem_config(conf)
   conf.gem File.expand_path(File.dirname(__FILE__))
 end
 
+def debug_config(conf)
+  conf.instance_eval do
+    # In `enable_debug`, use this for release build too.
+    # Allow showing backtrace and prevent "fptr_finalize failed" error in mruby-io.
+    @mrbc.compile_options += ' -g'
+  end
+end
+
 MRuby::Build.new do |conf|
   toolchain :clang
 
   conf.enable_bintest
-  conf.enable_debug
+  #conf.enable_debug
   conf.enable_test
 
+  debug_config(conf)
   gem_config(conf)
 end
 
@@ -19,6 +28,7 @@ if ENV['ITAMAE_DEBUG'] != '1'
   MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
     toolchain :gcc
 
+    debug_config(conf)
     gem_config(conf)
   end
 
@@ -29,6 +39,7 @@ if ENV['ITAMAE_DEBUG'] != '1'
       cc.flags << "-m32"
     end
 
+    debug_config(conf)
     gem_config(conf)
   end
 
@@ -44,6 +55,7 @@ if ENV['ITAMAE_DEBUG'] != '1'
     conf.build_target     = 'x86_64-pc-linux-gnu'
     conf.host_target      = 'x86_64-apple-darwin14'
 
+    debug_config(conf)
     gem_config(conf)
   end
 
@@ -59,6 +71,7 @@ if ENV['ITAMAE_DEBUG'] != '1'
     conf.build_target     = 'i386-pc-linux-gnu'
     conf.host_target      = 'i386-apple-darwin14'
 
+    debug_config(conf)
     gem_config(conf)
   end
 end
