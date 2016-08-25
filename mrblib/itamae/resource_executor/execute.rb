@@ -2,7 +2,7 @@ module Itamae
   module ResourceExecutor
     class Execute < Base
       def apply(_, desired)
-        if desired.exected
+        if desired.executed
           run_command(desired.command)
           updated!
         end

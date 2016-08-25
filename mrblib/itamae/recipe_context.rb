@@ -15,45 +15,45 @@ module Itamae
     end
 
     def directory(path, &block)
-      @recipe.children << Resource::Directory.new(path, @variables, &block)
+      @recipe.children << Resource::Directory.new(path, @recipe, @variables, &block)
     end
 
     def execute(command, &block)
-      @recipe.children << Resource::Execute.new(command, @variables, &block)
+      @recipe.children << Resource::Execute.new(command, @recipe, @variables, &block)
     end
 
     def file(path, &block)
-      @recipe.children << Resource::File.new(path, @variables, &block)
+      @recipe.children << Resource::File.new(path, @recipe, @variables, &block)
     end
 
     def gem_package(package_name, &block)
-      @recipe.children << Resource::GemPackage.new(package_name, @variables, &block)
+      @recipe.children << Resource::GemPackage.new(package_name, @recipe, @variables, &block)
     end
 
     def git(destination, &block)
-      @recipe.children << Resource::Git.new(destination, @variables, &block)
+      @recipe.children << Resource::Git.new(destination, @recipe, @variables, &block)
     end
 
     def link(link_path, &block)
-      @recipe.children << Resource::Link.new(link_path, @variables, &block)
+      @recipe.children << Resource::Link.new(link_path, @recipe, @variables, &block)
     end
 
     def package(name, &block)
-      @recipe.children << Resource::Package.new(name, @variables, &block)
+      @recipe.children << Resource::Package.new(name, @recipe, @variables, &block)
     end
 
     def remote_file(path, &block)
-      @recipe.children << Resource::RemoteFile.new(path, @variables, &block).tap do |r|
+      @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block).tap do |r|
         r.recipe_dir = File.dirname(@recipe.path)
       end
     end
 
     def service(name, &block)
-      @recipe.children << Resource::Service.new(name, @variables, &block)
+      @recipe.children << Resource::Service.new(name, @recipe, @variables, &block)
     end
 
     def template(path, &block)
-      @recipe.children << Resource::Template.new(path, @variables, &block).tap do |r|
+      @recipe.children << Resource::Template.new(path, @recipe, @variables, &block).tap do |r|
         r.recipe_dir = File.dirname(@recipe.path)
         r.node = @variables[:node]
       end
@@ -63,7 +63,7 @@ module Itamae
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
         @recipe.children << RecipeFromDefinition.new(name, n).tap do |recipe|
-          params = klass.new(n, @variables, &b).attributes.merge(name: n)
+          params = klass.new(n, @recipe, @variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, @variables.merge(params: params)).instance_exec(&block)
         end
       end

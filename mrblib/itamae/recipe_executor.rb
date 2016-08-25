@@ -13,7 +13,7 @@ module Itamae
         Itamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
         execute_children(node)
       when Resource::Base
-        ResourceExecutor.find(node.class).new(node, @options).execute
+        ResourceExecutor.create(node, @options).execute
       else
         raise "unexpected execute node: #{node.class}"
       end
@@ -22,8 +22,13 @@ module Itamae
     private
 
     def execute_children(node)
-      node.children.each do |resource|
-        Itamae.logger.with_indent { execute(resource) }
+      Itamae.logger.with_indent do
+        node.children.each do |resource|
+          execute(resource)
+        end
+        node.delayed_notifications.each do |notification|
+          ResourceExecutor.create(notification.resource, @options).execute(notification.action)
+        end
       end
     end
   end

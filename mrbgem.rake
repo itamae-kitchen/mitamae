@@ -24,5 +24,6 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-print',      core: 'mruby-print'
   spec.add_dependency 'mruby-shellwords', mgem: 'mruby-shellwords'
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
+  spec.add_dependency 'mruby-symbol-ext', core: 'mruby-symbol-ext'
   spec.add_dependency 'mruby-tempfile',   mgem: 'mruby-tempfile'
 end

@@ -25,11 +25,15 @@ module Itamae
       attr_accessor :attributes
       attr_accessor :only_if_command
       attr_accessor :not_if_command
+      attr_reader :notifications
       attr_reader :resource_name
+      attr_reader :recipe
 
-      def initialize(resource_name, variables = {}, &block)
+      def initialize(resource_name, recipe, variables = {}, &block)
+        @recipe = recipe
         @attributes = Hashie::Mash.new
         @resource_name = resource_name
+        @notifications = []
         if block
           ResourceContext.new(self, variables).instance_exec(&block)
         end

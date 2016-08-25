@@ -11,6 +11,10 @@ module Itamae
       end
     end
 
+    def notifies(action, resource_desc, timing = :delay)
+      @resource.notifications << Notification.create(@resource.recipe, action, resource_desc, timing)
+    end
+
     def not_if(command)
       @resource.not_if_command = command
     end

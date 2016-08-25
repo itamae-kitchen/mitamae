@@ -8,20 +8,20 @@ module Itamae
         @updated  = false
       end
 
-      def execute
+      def execute(specific_action = nil)
         Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}]"
 
         Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          return if skip_condition?
+          return @delayed_notifications if skip_condition?
 
-          [@resource.attributes[:action]].flatten.each do |action|
+          [specific_action || @resource.attributes[:action]].flatten.each do |action|
             run_action(action)
           end
 
           # XXX: verify (`verify` method in resource)
-          # if updated?
-          #   # XXX: notify (`notifies` and `subscribes` in resource)
-          # end
+          if updated?
+            notify
+          end
         end
       rescue Backend::CommandExecutionError
         Itamae.logger.error "#{@resource.resource_type}[#{@resource.resource_name}] Failed."
@@ -157,13 +157,38 @@ module Itamae
         end
       end
 
+      def updated!
+        Itamae.logger.debug "This resource is updated."
+        @updated = true
+      end
+
       def updated?
         @updated
       end
 
-      def updated!
-        Itamae.logger.debug "This resource is updated."
-        @updated = true
+      def notify
+        @resource.notifications.each do |notification|
+          message = "Notifying #{notification.action} to #{notification.resource.resource_type} resource '#{notification.resource.resource_name}'"
+
+          if notification.delayed?
+            message << " (delayed)"
+          elsif notification.immediately?
+            message << " (immediately)"
+          end
+
+          Itamae.logger.info message
+
+          # if notification.instance_of?(Subscription)
+          #   Itamae.logger.info "(because it subscribes this resource)"
+          # end
+
+          if notification.delayed?
+            @resource.recipe.delayed_notifications << notification
+          elsif notification.immediately?
+            options = { backend: @backend, dry_run: @dry_run }
+            ResourceExecutor.create(notification.resource, options).execute(notification.action)
+          end
+        end
       end
     end
   end

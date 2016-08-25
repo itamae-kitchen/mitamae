@@ -3,6 +3,12 @@ module Itamae
     NotFoundError = Class.new(StandardError)
 
     class << self
+      def create(resource, options)
+        find(resource.class).new(resource, options)
+      end
+
+      private
+
       def find(resource_class)
         class_name = resource_class.to_s
         if class_name.start_with?('Itamae::Resource::')
