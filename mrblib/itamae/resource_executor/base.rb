@@ -12,7 +12,7 @@ module Itamae
         Itamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}]"
 
         Itamae.logger.with_indent_if(Itamae.logger.debug?) do
-          return @delayed_notifications if skip_condition?
+          return if skip_condition?
 
           [specific_action || @resource.attributes[:action]].flatten.each do |action|
             run_action(action)
