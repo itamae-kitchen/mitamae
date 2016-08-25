@@ -1,3 +1,8 @@
+## v0.0.9
+
+- Fix non-executed bug in execute resource
+- Support notifies attribute
+
 ## v0.0.8
 
 - Support gem\_package resource
