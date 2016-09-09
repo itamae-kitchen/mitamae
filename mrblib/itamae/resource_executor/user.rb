@@ -3,7 +3,7 @@ module Itamae
     class User < Base
       def apply(current, desired)
         if desired.exist
-          if exist?(desired.username)
+          if current.exist
             if desired.uid && desired.uid != current.uid
               run_specinfra(:update_user_uid, desired.username, desired.uid)
             end
