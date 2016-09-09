@@ -3,16 +3,16 @@ module Itamae
     class Group < Base
       def apply(current, desired)
         if desired.exist
-          if exist?
-            if attributes.gid && attributes.gid != current.gid
-              run_specinfra(:update_group_gid, attributes.groupname, attributes.gid)
+          if exist?(desired.groupname)
+            if desired.gid && desired.gid != current.gid
+              run_specinfra(:update_group_gid, desired.groupname, desired.gid)
             end
           else
             options = {
-              gid: attributes.gid
+              gid: desired.gid
             }
 
-            run_specinfra(:add_group, attributes.groupname, options)
+            run_specinfra(:add_group, desired.groupname, options)
           end
         end
       end
@@ -20,7 +20,7 @@ module Itamae
       private
 
       def set_current_attributes(current, action)
-        current.exist = exist?
+        current.exist = exist?(attributes.groupname)
 
         if current.exist
           current.gid = run_specinfra(:get_group_gid, attributes.groupname).stdout.strip.to_i
@@ -34,8 +34,8 @@ module Itamae
         end
       end
 
-      def exist?
-        run_specinfra(:check_group_exists, attributes.groupname)
+      def exist?(groupname)
+        run_specinfra(:check_group_exists, groupname)
       end
     end
   end
