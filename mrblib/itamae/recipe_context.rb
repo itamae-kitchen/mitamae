@@ -42,6 +42,10 @@ module Itamae
       @recipe.children << Resource::Package.new(name, @recipe, @variables, &block)
     end
 
+    def group(group_name, &block)
+      @recipe.children << Resource::Group.new(group_name, @recipe, @variables, &block)
+    end
+
     def remote_file(path, &block)
       @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block).tap do |r|
         r.recipe_dir = File.dirname(@recipe.path)
