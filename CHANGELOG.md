@@ -1,7 +1,7 @@
 ## v0.0.10
 
-- Add group resource [#2](https://github.com/k0kubun/itamae-mruby/pull/2) *Thanks to @nonylene*
-- Add user resource [#3](https://github.com/k0kubun/itamae-mruby/pull/3) *Thanks to @nonylene*
+- Add group resource [#2](https://github.com/k0kubun/itamae-mruby/pull/2). *Thanks to @nonylene*
+- Add user resource [#3](https://github.com/k0kubun/itamae-mruby/pull/3). *Thanks to @nonylene*
 
 ## v0.0.9
 
