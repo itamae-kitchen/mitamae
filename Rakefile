@@ -1,9 +1,8 @@
 require 'fileutils'
 
 file :mruby do
-  # Using master to apply https://github.com/mruby/mruby/pull/3192
-  revision = '2d335daeeb1d50402041041c7a3531674a2e735a'
-  sh "git clone https://github.com/mruby/mruby && git -C mruby checkout #{revision}"
+  # Using fork to apply https://github.com/mruby/mruby/pull/3192
+  sh "git clone --depth=1 https://github.com/k0kubun/mruby"
 
   #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
   #FileUtils.mv("mruby-1.2.0", "mruby")
