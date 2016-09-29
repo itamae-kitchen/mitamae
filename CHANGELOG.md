@@ -1,3 +1,7 @@
+## v0.0.13
+
+- Add mruby-enumerator
+
 ## v0.0.12
 
 - Rollback mruby to fork
