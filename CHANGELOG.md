@@ -1,3 +1,7 @@
+## v0.0.12
+
+- Rollback mruby to fork
+
 ## v0.0.11
 
 - Use mruby [master](https://github.com/mruby/mruby/commit/2d335daeeb1d50402041041c7a3531674a2e735a)
