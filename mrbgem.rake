@@ -9,10 +9,10 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.bins    = ['itamae']
 
   spec.add_dependency 'mruby-dir',        mgem: 'mruby-dir'
+  spec.add_dependency 'mruby-enumerator', core: 'mruby-enumerator'
   spec.add_dependency 'mruby-erb',      github: 'k0kubun/mruby-erb'
   spec.add_dependency 'mruby-eval',       core: 'mruby-eval'
   spec.add_dependency 'mruby-exit',       core: 'mruby-exit'
-  spec.add_dependency 'mruby-fiber',      core: 'mruby-fiber'
   spec.add_dependency 'mruby-hash-ext',   core: 'mruby-hash-ext'
   spec.add_dependency 'mruby-hashie',     mgem: 'mruby-hashie'
   spec.add_dependency 'mruby-iijson',     mgem: 'mruby-iijson'
