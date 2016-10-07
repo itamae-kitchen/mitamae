@@ -14,13 +14,12 @@ def debug_config(conf)
 end
 
 MRuby::Build.new do |conf|
-  toolchain :clang
+  toolchain :gcc
 
   conf.enable_bintest
-  #conf.enable_debug
+  conf.enable_debug
   conf.enable_test
 
-  debug_config(conf)
   gem_config(conf)
 end
 
