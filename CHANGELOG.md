@@ -1,3 +1,8 @@
+## v0.0.14
+
+- Decrease memory allocation
+- Fix SEGV by defined resource
+
 ## v0.0.13
 
 - Add mruby-enumerator
