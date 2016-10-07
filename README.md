@@ -78,8 +78,8 @@ You can use only the features listed below.
   - [x] link resource
   - [x] service resource
   - [x] gem\_package resource
-  - [ ] user resource
-  - [ ] group resource
+  - [x] user resource
+  - [x] group resource
   - [ ] remote\_directory resource
   - [ ] http\_request resource
   - [ ] local\_ruby\_block resource
