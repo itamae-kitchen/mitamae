@@ -17,6 +17,7 @@ module Itamae
           @defined_attributes[name.to_sym] = options.dup
         end
       end
+      self.defined_attributes = {}
 
       define_attribute :action, type: [Symbol, Array], required: true
       define_attribute :user, type: String
