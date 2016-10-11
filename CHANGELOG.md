@@ -1,3 +1,7 @@
+## v0.0.16
+
+- Avoid SEGV in GC
+
 ## v0.0.15
 
 - Normalize file mode properly
