@@ -46,6 +46,17 @@ module Itamae
           desired.exist = false
         end
       end
+
+      def normalize_mode(mode)
+        sprintf("%4s", mode).gsub(/ /, '0')
+      end
+
+      def show_differences(current, desired)
+        current.mode = normalize_mode(current.mode) if current.mode
+        desired.mode = normalize_mode(desired.mode) if desired.mode
+
+        super
+      end
     end
   end
 end

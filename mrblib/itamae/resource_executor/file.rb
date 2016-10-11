@@ -9,11 +9,11 @@ module Itamae
 
           change_target = attributes.modified ? @temppath : attributes.path
 
-          if attributes.mode
+          if desired.mode
             run_specinfra(:change_file_mode, change_target, desired.mode || current.mode)
           end
 
-          if attributes.owner || attributes.group
+          if desired.owner || desired.group
             run_specinfra(:change_file_owner, change_target, desired.owner || current.owner, desired.group || current.group)
           end
 
@@ -65,13 +65,13 @@ module Itamae
         compare_file
       end
 
-      def justify_mode(mode)
+      def normalize_mode(mode)
         sprintf("%4s", mode).gsub(/ /, '0')
       end
 
       def show_differences(current, desired)
-        current.mode    = justify_mode(current.mode) if current.mode
-        attributes.mode = justify_mode(attributes.mode) if attributes.mode
+        current.mode = normalize_mode(current.mode) if current.mode
+        desired.mode = normalize_mode(desired.mode) if desired.mode
 
         super
 
