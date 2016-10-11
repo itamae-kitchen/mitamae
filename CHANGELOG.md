@@ -1,3 +1,7 @@
+## v0.0.15
+
+- Normalize file mode properly
+
 ## v0.0.14
 
 - Decrease memory allocation
