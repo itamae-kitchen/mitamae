@@ -91,8 +91,9 @@ module Itamae
         return
       end
 
+      src = File.read(path)
       @recipe.children << Recipe.new(path).tap do |recipe|
-        RecipeContext.new(recipe, @variables).instance_eval(File.read(path), path, 1)
+        RecipeContext.new(recipe, @variables).instance_eval(src, path, 1)
       end
     end
   end
