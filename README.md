@@ -43,7 +43,7 @@ end
 ```
 
 ```bash
-# wget https://github.com/k0kubun/itamae-mruby/releases/download/v0.0.1/itamae-x86_64-linux
+# wget https://github.com/k0kubun/itamae-mruby/releases/download/v0.1.0/itamae-x86_64-linux
 # chmod +x ./itamae-x86_64-linux
 # ./itamae-x86_64-linux local -j node.json recipe.rb
  INFO : Starting Itamae...

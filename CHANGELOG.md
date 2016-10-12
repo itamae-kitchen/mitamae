@@ -1,3 +1,7 @@
+## v0.1.0
+
+- Release Linux binaries in .tar.gz
+
 ## v0.0.16
 
 - Avoid SEGV in GC
