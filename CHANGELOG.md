@@ -1,3 +1,7 @@
+## v0.1.1
+
+- Add `ENV.fetch` by https://github.com/iij/mruby-env/pull/12
+
 ## v0.1.0
 
 - Release Linux binaries in .tar.gz
