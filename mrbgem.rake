@@ -10,6 +10,7 @@ MRuby::Gem::Specification.new('itamae') do |spec|
 
   spec.add_dependency 'mruby-dir',        mgem: 'mruby-dir'
   spec.add_dependency 'mruby-enumerator', core: 'mruby-enumerator'
+  spec.add_dependency 'mruby-env',        mgem: 'mruby-env'
   spec.add_dependency 'mruby-erb',      github: 'k0kubun/mruby-erb'
   spec.add_dependency 'mruby-eval',       core: 'mruby-eval'
   spec.add_dependency 'mruby-exit',       core: 'mruby-exit'
