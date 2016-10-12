@@ -95,12 +95,13 @@ namespace :release do
 
   desc "compress binaries in itamae-build"
   task :compress do
-    Dir.chdir(__dir__) do
-      Dir.glob('itamae-build/itamae-*-{darwin,linux}').each do |path|
-        Dir.chdir('itamae-build') do
-          file = File.basename(path)
-          sh "zip #{file}.zip #{file}"
-        end
+    Dir.chdir(File.expand_path('./itamae-build', __dir__)) do
+      Dir.glob('itamae-*-darwin').each do |path|
+        sh "zip #{path}.zip #{path}"
+      end
+
+      Dir.glob('itamae-*-linux').each do |path|
+        sh "tar zcvf #{path}.tar.gz #{path}"
       end
     end
   end
