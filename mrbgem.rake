@@ -17,7 +17,6 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-hash-ext',   core: 'mruby-hash-ext'
   spec.add_dependency 'mruby-hashie',     mgem: 'mruby-hashie'
   spec.add_dependency 'mruby-iijson',     mgem: 'mruby-iijson'
-  spec.add_dependency 'mruby-io',         mgem: 'mruby-io'
   spec.add_dependency 'mruby-kernel-ext', core: 'mruby-kernel-ext'
   spec.add_dependency 'mruby-mtest',      mgem: 'mruby-mtest'
   spec.add_dependency 'mruby-object-ext', core: 'mruby-object-ext'
@@ -28,4 +27,5 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
   spec.add_dependency 'mruby-symbol-ext', core: 'mruby-symbol-ext'
   spec.add_dependency 'mruby-tempfile',   mgem: 'mruby-tempfile'
+  spec.add_dependency 'mruby-io',       github: 'k0kubun/mruby-io'
 end
