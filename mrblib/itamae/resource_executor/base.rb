@@ -69,7 +69,7 @@ module Itamae
           return if @dry_run
 
           apply(current, desired)
-          if different?(action, current)
+          if different?(current, desired)
             updated!
           end
         end
@@ -79,9 +79,11 @@ module Itamae
         @resource.class.available_actions.include?(action)
       end
 
-      def different?(action, initial)
-        current_attributes(action).any? do |key, current_value|
-          !current_value.nil? && initial[key].nil? && current_value != initial[key]
+      def different?(current, desired)
+        current.any? do |key, current_value|
+          !current_value.nil? &&
+            !desired[key].nil? &&
+            current_value != desired[key]
         end
       end
 
