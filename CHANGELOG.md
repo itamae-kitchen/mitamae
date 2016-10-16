@@ -1,3 +1,8 @@
+## v0.2.0
+
+- Improve stability
+- Don't use thread to execute commands
+
 ## v0.1.1
 
 - Add `ENV.fetch` by https://github.com/iij/mruby-env/pull/12
