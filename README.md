@@ -5,7 +5,7 @@ With itamae-mruby's standalone binary, you can write a configuration recipe in R
 
 ## Status
 
-Experimental. Some features are omitted or not tested.
+Alpha. Most of the features work fine but have no unit tests yet.
 
 ## Synopsis
 
