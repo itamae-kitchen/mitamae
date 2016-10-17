@@ -9,6 +9,7 @@ MRuby::Gem::Specification.new('itamae') do |spec|
   spec.bins    = ['itamae']
 
   spec.add_dependency 'mruby-dir',        mgem: 'mruby-dir'
+  spec.add_dependency 'mruby-dir-glob',   mgem: 'mruby-dir-glob'
   spec.add_dependency 'mruby-enumerator', core: 'mruby-enumerator'
   spec.add_dependency 'mruby-env',        mgem: 'mruby-env'
   spec.add_dependency 'mruby-erb',      github: 'k0kubun/mruby-erb'
