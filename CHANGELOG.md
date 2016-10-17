@@ -1,3 +1,7 @@
+## v0.2.2
+
+- Close pipe after command execution on mruby-open3
+
 ## v0.2.1
 
 - Fix bug in showing difference
