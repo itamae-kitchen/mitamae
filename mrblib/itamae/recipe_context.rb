@@ -2,6 +2,13 @@ module Itamae
   class RecipeContext
     NotFoundError = Class.new(StandardError)
 
+    def self.register_resource(klass)
+      method_name = klass.to_s.split('::').last.gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
+      define_method(method_name) do |name, &block|
+        @recipe.children << klass.new(name, @recipe, @variables, &block)
+      end
+    end
+
     def initialize(recipe, variables = {})
       @recipe = recipe
       @variables = variables
