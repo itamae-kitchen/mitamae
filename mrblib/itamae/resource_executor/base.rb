@@ -92,7 +92,7 @@ module Itamae
           desired_value = desired[key]
           if current_value.nil? && desired_value.nil?
             # ignore
-          elsif current_value.nil? && !next_value.nil?
+          elsif current_value.nil? && !desired_value.nil?
             Itamae.logger.color :green do
               Itamae.logger.info "#{@resource.resource_type}[#{@resource.resource_name}] #{key} will be '#{desired_value}'"
             end
