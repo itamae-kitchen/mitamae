@@ -1,3 +1,7 @@
+## v0.2.1
+
+- Fix bug in showing difference
+
 ## v0.2.0
 
 - Improve stability
