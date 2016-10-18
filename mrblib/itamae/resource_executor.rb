@@ -13,6 +13,8 @@ module Itamae
         class_name = resource_class.to_s
         if class_name.start_with?('Itamae::Resource::')
           const_get(class_name.sub(/\AItamae::Resource::/, ''))
+        elsif Plugin::Resource.resource_plugin?(class_name)
+          Plugin::ResourceExecutor.find(resource_class)
         else
           raise NotFoundError, "executor not found for '#{class_name}'"
         end

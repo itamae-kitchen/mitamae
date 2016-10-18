@@ -10,6 +10,10 @@ module Itamae
 
         def inherited(subclass)
           subclass.defined_attributes = self.defined_attributes.dup
+
+          if Plugin::Resource.resource_plugin?(subclass)
+            RecipeContext.register_resource(subclass)
+          end
         end
 
         def define_attribute(name, options = {})

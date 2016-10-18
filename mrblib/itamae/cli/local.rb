@@ -22,6 +22,8 @@ module Itamae
         Itamae.logger = Logger.new(@options[:log_level])
         Itamae.logger.info 'Starting Itamae...'
 
+        Plugin.load_plugins
+
         runner = RecipeRunner.new(
           node_json: @options[:node_json],
           dry_run:   @options[:dry_run],
