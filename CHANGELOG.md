@@ -1,3 +1,6 @@
+## v0.3.0
+- Support resource plugin [#4](https://github.com/k0kubun/itamae-mruby/pull/4)
+
 ## v0.2.2
 
 - Close pipe after command execution on mruby-open3

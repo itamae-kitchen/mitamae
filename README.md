@@ -87,8 +87,8 @@ You can use only the features listed below.
 - [x] Including Recipes
 - [x] Node Attributes
 - [x] run\_command
+- [x] Plugins
 - [ ] Host Inventory
-- [ ] Plugins
 
 ### Supported platforms
 
