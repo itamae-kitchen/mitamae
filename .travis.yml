@@ -3,16 +3,14 @@ language: ruby
 branches:
   only:
     - master
+services:
+  - docker
 script:
   - "rake $TASK"
-matrix:
-  include:
-    - env: TASK=test:mtest
-      services: docker
-    - env: TASK=test:integration
-      services: docker
-    - env: TASK=release:build
-      services: docker
-  allow_failures:
-    - env: TASK=release:build
-      services: docker
+env:
+  - TASK=test:mtest
+  - TASK=test:integration
+  - TASK=release:build:darwin-i386
+  - TASK=release:build:darwin-x86_64
+  - TASK=release:build:linux-i686
+  - TASK=release:build:linux-x86_64

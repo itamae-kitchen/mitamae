@@ -92,7 +92,7 @@ end
 namespace :release do
   desc "cross compile for release"
   task :build do
-    sh "docker-compose run compile"
+    sh 'docker-compose run -e BUILD_TARGET=all compile'
 
     Dir.chdir(__dir__) do
       FileUtils.mkdir_p('mitamae-build')
@@ -107,6 +107,20 @@ namespace :release do
           "mruby/build/#{build}/bin/mitamae",
           "mitamae-build/#{bin}",
         )
+      end
+    end
+  end
+
+  namespace :build do
+    %w[
+      linux-x86_64
+      linux-i686
+      darwin-x86_64
+      darwin-i386
+    ].each do |target|
+      desc "Build for #{target}"
+      task target do
+        sh "docker-compose run -e BUILD_TARGET=#{target} compile"
       end
     end
   end
