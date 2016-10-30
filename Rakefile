@@ -55,7 +55,8 @@ namespace :test do
   desc 'run spec container'
   task :docker_run do
     Dir.chdir(__dir__) do
-      sh 'docker build -t mitamae spec'
+      sh 'rake compile BUILD_TARGET=linux-x86_64'
+      sh 'docker build -f Dockerfile.spec -t mitamae .'
       sh 'docker rm -f $DOCKER_CONTAINER || true'
       sh 'docker run -d --name $DOCKER_CONTAINER mitamae'
     end
@@ -69,14 +70,14 @@ namespace :test do
   end
 
   desc 'run serverspec'
-  task :serverspec do
+  task :serverspec => :bundle_install do
     Dir.chdir(__dir__) do
       sh 'bundle exec rspec'
     end
   end
 
   desc 'run integration tests'
-  task :integration => [:docker_run, :bundle_install, :serverspec]
+  task :integration => [:docker_run, :serverspec]
 end
 
 desc "run all tests"

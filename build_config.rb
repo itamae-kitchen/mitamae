@@ -13,6 +13,16 @@ def debug_config(conf)
   end
 end
 
+build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
+if build_targets == ['all']
+  build_targets = %w[
+    linux-x86_64
+    linux-i686
+    darwin-x86_64
+    darwin-i386
+  ]
+end
+
 MRuby::Build.new do |conf|
   toolchain :gcc
 
@@ -22,16 +32,6 @@ MRuby::Build.new do |conf|
 
   debug_config(conf)
   gem_config(conf)
-end
-
-build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
-if build_targets == ['all']
-  build_targets = %w[
-    linux-x86_64
-    linux-i686
-    darwin-x86_64
-    darwin-i386
-  ]
 end
 
 if build_targets.include?('linux-x86_64')
