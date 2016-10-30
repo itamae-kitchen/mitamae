@@ -8,5 +8,6 @@ branches:
 script:
   - "rake $TASK"
 env:
+  - TASK=test:mtest
   - TASK=test:bintest
   - TASK=release:build
