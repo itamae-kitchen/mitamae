@@ -1,3 +1,7 @@
+## v0.4.1
+- Support Ubuntu
+- Support :uninstall of gem\_package resource
+
 ## v0.4.0
 - Rename from itamae-mruby to mitamae
 

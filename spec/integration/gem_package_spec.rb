@@ -5,11 +5,11 @@ describe command('gem list') do
 end
 
 describe command('gem list') do
-  its(:stdout) { should include('rake (11.1.0)') }
+  its(:stdout) { should include('karabiner (0.3.1)') }
 end
 
 describe command('gem list') do
-  its(:stdout) { should_not include('test-unit') }
+  its(:stdout) { should_not include('rack-user_agent') }
 end
 
 describe command('ri Bundler') do

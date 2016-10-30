@@ -12,23 +12,23 @@ gem_package 'bundler' do
   options ['--no-ri', '--no-rdoc']
 end
 
-gem_package 'rake' do
-  version '11.1.0'
+gem_package 'karabiner' do
+  version '0.3.1'
 end
 
-gem_package 'rake' do
-  version '11.2.2'
+gem_package 'karabiner' do
+  version '0.4.0'
 end
 
-gem_package 'rake' do
+gem_package 'karabiner' do
   action :uninstall
-  version '11.2.2'
+  version '0.4.0'
 end
 
-gem_package 'test-unit' do
-  version '3.1.9'
+gem_package 'rack-user_agent' do
+  version '0.5.2'
 end
 
-gem_package 'test-unit' do
+gem_package 'rack-user_agent' do
   action :uninstall
 end
