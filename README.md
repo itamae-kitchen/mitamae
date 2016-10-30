@@ -67,6 +67,14 @@ See [Itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
 
 You can use only the features listed below.
 
+- Common Attributes
+  - [x] user
+  - [x] cwd
+  - [x] only\_if
+  - [x] not\_if
+  - [x] notifies
+  - [ ] subscribes
+  - [ ] verify
 - Resources
   - [x] execute resource
   - [x] package resource

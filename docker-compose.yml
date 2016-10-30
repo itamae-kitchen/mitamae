@@ -2,13 +2,10 @@ compile: &defaults
   build: .
   volumes:
     - .:/home/mruby/code:rw
-  command: rake compile CROSS_COMPILE=1
+  command: rake compile
 test:
   <<: *defaults
   command: rake test
-bintest:
-  <<: *defaults
-  command: rake test:bintest
 mtest:
   <<: *defaults
   command: rake test:mtest

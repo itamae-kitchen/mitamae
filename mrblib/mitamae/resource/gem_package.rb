@@ -8,7 +8,7 @@ module MItamae
       define_attribute :version, type: String
       define_attribute :source, type: String
 
-      self.available_actions = [:install, :upgrade]
+      self.available_actions = [:install, :uninstall, :upgrade]
     end
   end
 end

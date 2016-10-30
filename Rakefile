@@ -51,14 +51,33 @@ namespace :test do
     end
   end
 
-  desc "run integration tests"
-  task :bintest => :compile do
-    MRuby.each_target do |target|
-      clean_env(%w(MRUBY_ROOT MRUBY_CONFIG)) do
-        run_bintest if target.bintest_enabled?
-      end
+  ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
+  desc 'run spec container'
+  task :docker_run do
+    Dir.chdir(__dir__) do
+      sh 'rake compile BUILD_TARGET=linux-x86_64'
+      sh 'docker build -f Dockerfile.spec -t mitamae .'
+      sh 'docker rm -f $DOCKER_CONTAINER || true'
+      sh 'docker run -d --name $DOCKER_CONTAINER mitamae'
     end
   end
+
+  desc 'run bundle install'
+  task :bundle_install do
+    Dir.chdir(__dir__) do
+      sh 'bundle check || bundle install -j4'
+    end
+  end
+
+  desc 'run serverspec'
+  task :serverspec => :bundle_install do
+    Dir.chdir(__dir__) do
+      sh 'bundle exec rspec'
+    end
+  end
+
+  desc 'run integration tests'
+  task :integration => [:docker_run, :serverspec]
 end
 
 desc "run all tests"
@@ -73,7 +92,7 @@ end
 namespace :release do
   desc "cross compile for release"
   task :build do
-    sh "docker-compose run compile"
+    sh 'docker-compose run -e BUILD_TARGET=all compile'
 
     Dir.chdir(__dir__) do
       FileUtils.mkdir_p('mitamae-build')
@@ -88,6 +107,20 @@ namespace :release do
           "mruby/build/#{build}/bin/mitamae",
           "mitamae-build/#{bin}",
         )
+      end
+    end
+  end
+
+  namespace :build do
+    %w[
+      linux-x86_64
+      linux-i686
+      darwin-x86_64
+      darwin-i386
+    ].each do |target|
+      desc "Build for #{target}"
+      task target do
+        sh "docker-compose run -e BUILD_TARGET=#{target} compile"
       end
     end
   end
