@@ -1,12 +1,12 @@
-MRuby::Gem::Specification.new('itamae') do |spec|
+MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.license = 'MIT'
   spec.author  = [
     'Takashi Kokubun',
     'Ryota Arai',
     'Gosuke Miyashita',
   ]
-  spec.summary = 'itamae'
-  spec.bins    = ['itamae']
+  spec.summary = 'mitamae'
+  spec.bins    = ['mitamae']
 
   spec.add_dependency 'mruby-dir',        mgem: 'mruby-dir'
   spec.add_dependency 'mruby-dir-glob',   mgem: 'mruby-dir-glob'
