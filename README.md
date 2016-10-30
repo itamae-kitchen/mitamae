@@ -5,11 +5,11 @@ With mitamae's standalone binary, you can write a configuration recipe in Ruby a
 
 ## Status
 
-Alpha. Most of the features work fine but have no unit tests yet.
+Beta. Most of the features are implemented and tested.
 
 ## Synopsis
 
-Like original [itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require Ruby to run.
+Like original [Itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require Ruby to run.
 
 ```rb
 # cat recipe.rb
