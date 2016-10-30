@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe package('bash') do
-  it { should be_installed }
+describe file('/tmp/hello') do
+  it { should exist }
 end
