@@ -11,3 +11,5 @@ env:
   - TASK=test:mtest
   - TASK=test:bintest
   - TASK=release:build
+allow_failures:
+  - env: TASK=release:build
