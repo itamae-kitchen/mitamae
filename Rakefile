@@ -51,14 +51,32 @@ namespace :test do
     end
   end
 
-  desc "run integration tests"
-  task :bintest => :compile do
-    MRuby.each_target do |target|
-      clean_env(%w(MRUBY_ROOT MRUBY_CONFIG)) do
-        run_bintest if target.bintest_enabled?
-      end
+  ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
+  desc 'run spec container'
+  task :docker_run do
+    Dir.chdir(__dir__) do
+      sh 'docker build -t mitamae spec'
+      sh 'docker rm -f $DOCKER_CONTAINER || true'
+      sh 'docker run -d --name $DOCKER_CONTAINER mitamae'
     end
   end
+
+  desc 'run bundle install'
+  task :bundle_install do
+    Dir.chdir(__dir__) do
+      sh 'bundle check || bundle install -j4'
+    end
+  end
+
+  desc 'run serverspec'
+  task :serverspec do
+    Dir.chdir(__dir__) do
+      sh 'bundle exec rspec'
+    end
+  end
+
+  desc 'run integration tests'
+  task :integration => [:docker_run, :bundle_install, :serverspec]
 end
 
 desc "run all tests"

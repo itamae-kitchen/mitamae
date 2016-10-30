@@ -1,15 +1,18 @@
 sudo: required
-services:
-  - docker
 language: ruby
 branches:
   only:
     - master
 script:
   - "rake $TASK"
-env:
-  - TASK=test:mtest
-  - TASK=test:bintest
-  - TASK=release:build
-allow_failures:
-  - env: TASK=release:build
+matrix:
+  include:
+    - env: TASK=test:mtest
+      services: docker
+    - env: TASK=test:integration
+      services: docker
+    - env: TASK=release:build
+      services: docker
+  allow_failures:
+    - env: TASK=release:build
+      services: docker

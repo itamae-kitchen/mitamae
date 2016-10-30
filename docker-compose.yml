@@ -6,9 +6,6 @@ compile: &defaults
 test:
   <<: *defaults
   command: rake test
-bintest:
-  <<: *defaults
-  command: rake test:bintest
 mtest:
   <<: *defaults
   command: rake test:mtest
