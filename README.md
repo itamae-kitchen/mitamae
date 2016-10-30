@@ -1,7 +1,7 @@
-# itamae-mruby [![Build Status](https://travis-ci.org/k0kubun/itamae-mruby.svg?branch=master)](https://travis-ci.org/k0kubun/itamae-mruby)
+# MItamae [![Build Status](https://travis-ci.org/k0kubun/mitamae.svg?branch=master)](https://travis-ci.org/k0kubun/mitamae)
 
 [Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.  
-With itamae-mruby's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
+With mitamae's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
 
 ## Status
 
@@ -9,7 +9,7 @@ Alpha. Most of the features work fine but have no unit tests yet.
 
 ## Synopsis
 
-Like original [itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But itamae-go does not require Ruby to run.
+Like original [itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require Ruby to run.
 
 ```rb
 # cat recipe.rb
@@ -43,10 +43,10 @@ end
 ```
 
 ```bash
-# wget https://github.com/k0kubun/itamae-mruby/releases/download/v0.1.0/itamae-x86_64-linux
+# wget https://github.com/k0kubun/mitamae/releases/download/v0.3.0/itamae-x86_64-linux
 # chmod +x ./itamae-x86_64-linux
 # ./itamae-x86_64-linux local -j node.json recipe.rb
- INFO : Starting Itamae...
+ INFO : Starting MItamae...
  INFO : Recipe: /home/k0kubun/itamae/recipe.rb
  INFO :   Recipe: /home/k0kubun/itamae/included.rb
  INFO :     service[mysqld] running will change from 'false' to 'true'
@@ -105,7 +105,7 @@ Currently following platforms are supported but others can be easily supported b
 ### Development
 
 ```bash
-$ rake compile && ./mruby/bin/itamae local recipe.rb
+$ rake compile && ./mruby/bin/mitamae local recipe.rb
 
 # If you add mrbgem to mrbgem.rake, execute:
 $ rake clean
@@ -114,7 +114,7 @@ $ rake clean
 ### Cross compile
 
 ```bash
-# Compile and copy binaries to ./itamae-build
+# Compile and copy binaries to ./mitamae-build
 $ rake release:build
 ```
 

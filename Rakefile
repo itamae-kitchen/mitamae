@@ -8,7 +8,7 @@ file :mruby do
   #FileUtils.mv("mruby-1.2.0", "mruby")
 end
 
-APP_NAME=ENV["APP_NAME"] || "itamae"
+APP_NAME=ENV["APP_NAME"] || "mitamae"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
 mruby_root=File.expand_path(ENV["MRUBY_ROOT"] || "#{APP_ROOT}/mruby")
@@ -76,31 +76,31 @@ namespace :release do
     sh "docker-compose run compile"
 
     Dir.chdir(__dir__) do
-      FileUtils.mkdir_p('itamae-build')
+      FileUtils.mkdir_p('mitamae-build')
 
       {
-        'i386-apple-darwin14'   => 'itamae-i386-darwin',
-        'i686-pc-linux-gnu'     => 'itamae-i686-linux',
-        'x86_64-apple-darwin14' => 'itamae-x86_64-darwin',
-        'x86_64-pc-linux-gnu'   => 'itamae-x86_64-linux',
+        'i386-apple-darwin14'   => 'mitamae-i386-darwin',
+        'i686-pc-linux-gnu'     => 'mitamae-i686-linux',
+        'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
+        'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
       }.each do |build, bin|
         system('pwd')
         FileUtils.cp(
-          "mruby/build/#{build}/bin/itamae",
-          "itamae-build/#{bin}",
+          "mruby/build/#{build}/bin/mitamae",
+          "mitamae-build/#{bin}",
         )
       end
     end
   end
 
-  desc "compress binaries in itamae-build"
+  desc "compress binaries in mitamae-build"
   task :compress do
-    Dir.chdir(File.expand_path('./itamae-build', __dir__)) do
-      Dir.glob('itamae-*-darwin').each do |path|
+    Dir.chdir(File.expand_path('./mitamae-build', __dir__)) do
+      Dir.glob('mitamae-*-darwin').each do |path|
         sh "zip #{path}.zip #{path}"
       end
 
-      Dir.glob('itamae-*-linux').each do |path|
+      Dir.glob('mitamae-*-linux').each do |path|
         sh "tar zcvf #{path}.tar.gz #{path}"
       end
     end
@@ -131,11 +131,11 @@ namespace :release do
     end
 
     Dir.chdir(__dir__) do
-      require_relative './mrblib/itamae/version'
-      sh "./ghr -u k0kubun v#{Itamae::VERSION} itamae-build"
+      require_relative './mrblib/mitamae/version'
+      sh "./ghr -u k0kubun v#{MItamae::VERSION} mitamae-build"
     end
   end
 end
 
-desc "release itamae-mruby with current revision"
+desc "release mitamae with current revision"
 task release: ['release:build', 'release:compress', 'release:upload']
