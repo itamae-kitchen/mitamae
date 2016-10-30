@@ -24,14 +24,26 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-if ENV['CROSS_COMPILE'] == '1'
+build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
+if build_targets == ['all']
+  build_targets = %w[
+    linux-x86_64
+    linux-i686
+    darwin-x86_64
+    darwin-i386
+  ]
+end
+
+if build_targets.include?('linux-x86_64')
   MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
     toolchain :gcc
 
     debug_config(conf)
     gem_config(conf)
   end
+end
 
+if build_targets.include?('linux-i686')
   MRuby::CrossBuild.new('i686-pc-linux-gnu') do |conf|
     toolchain :gcc
 
@@ -42,7 +54,9 @@ if ENV['CROSS_COMPILE'] == '1'
     debug_config(conf)
     gem_config(conf)
   end
+end
 
+if build_targets.include?('darwin-x86_64')
   MRuby::CrossBuild.new('x86_64-apple-darwin14') do |conf|
     toolchain :clang
 
@@ -58,7 +72,9 @@ if ENV['CROSS_COMPILE'] == '1'
     debug_config(conf)
     gem_config(conf)
   end
+end
 
+if build_targets.include?('darwin-i386')
   MRuby::CrossBuild.new('i386-apple-darwin14') do |conf|
     toolchain :clang
 

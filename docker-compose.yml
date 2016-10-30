@@ -2,7 +2,7 @@ compile: &defaults
   build: .
   volumes:
     - .:/home/mruby/code:rw
-  command: rake compile CROSS_COMPILE=1
+  command: rake compile BUILD_TARGET=all
 test:
   <<: *defaults
   command: rake test
