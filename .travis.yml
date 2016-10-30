@@ -6,4 +6,8 @@ branches:
   only:
     - master
 script:
-  - docker-compose run compile
+  - "rake $TASK"
+env:
+  - TASK=test:mtest
+  - TASK=test:bintest
+  - TASK=release:build

@@ -105,7 +105,7 @@ Currently following platforms are supported but others can be easily supported b
 ### Development
 
 ```bash
-$ ITAMAE_DEBUG=1 rake compile && ./mruby/bin/itamae local recipe.rb
+$ rake compile && ./mruby/bin/itamae local recipe.rb
 
 # If you add mrbgem to mrbgem.rake, execute:
 $ rake clean
