@@ -24,7 +24,7 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-if ENV['ITAMAE_DEBUG'] != '1'
+if ENV['CROSS_COMPILE'] == '1'
   MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
     toolchain :gcc
 
