@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:trusty
 
 RUN apt-get update
 COPY mruby/build/x86_64-pc-linux-gnu/bin/mitamae /bin/mitamae

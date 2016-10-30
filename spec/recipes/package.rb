@@ -3,7 +3,7 @@ package 'dstat' do
 end
 
 package 'sl' do
-  version '3.03-17build1'
+  version '3.03-17'
 end
 
 package 'resolvconf' do
