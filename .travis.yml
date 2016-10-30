@@ -10,7 +10,4 @@ script:
 env:
   - TASK=test:mtest
   - TASK=test:integration
-  - TASK=release:build:darwin-i386
-  - TASK=release:build:darwin-x86_64
-  - TASK=release:build:linux-i686
-  - TASK=release:build:linux-x86_64
+  - TASK=release:build
