@@ -84,7 +84,6 @@ namespace :release do
         'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
         'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
       }.each do |build, bin|
-        system('pwd')
         FileUtils.cp(
           "mruby/build/#{build}/bin/mitamae",
           "mitamae-build/#{bin}",

@@ -1,3 +1,6 @@
+## v0.4.0
+- Rename from itamae-mruby to mitamae
+
 ## v0.3.0
 - Support resource plugin [#4](https://github.com/k0kubun/mitamae/pull/4)
 

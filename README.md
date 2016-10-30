@@ -18,7 +18,7 @@ include_recipe 'included'
 directory '/tmp/etc'
 
 file '/tmp/etc/hello' do
-  content 'This is itamae'
+  content 'This is mitamae'
 end
 
 template '/tmp/etc/config.yml' do
@@ -43,12 +43,12 @@ end
 ```
 
 ```bash
-# wget https://github.com/k0kubun/mitamae/releases/download/v0.3.0/itamae-x86_64-linux
-# chmod +x ./itamae-x86_64-linux
-# ./itamae-x86_64-linux local -j node.json recipe.rb
+# wget https://github.com/k0kubun/mitamae/releases/download/v0.4.0/mitamae-x86_64-linux
+# chmod +x ./mitamae-x86_64-linux
+# ./mitamae-x86_64-linux local -j node.json recipe.rb
  INFO : Starting MItamae...
- INFO : Recipe: /home/k0kubun/itamae/recipe.rb
- INFO :   Recipe: /home/k0kubun/itamae/included.rb
+ INFO : Recipe: /home/k0kubun/mitamae/recipe.rb
+ INFO :   Recipe: /home/k0kubun/mitamae/included.rb
  INFO :     service[mysqld] running will change from 'false' to 'true'
  INFO :     service[mysqld] enabled will change from 'false' to 'true'
  INFO :   file[/tmp/etc/hello] exist will change from 'false' to 'true'
@@ -56,12 +56,12 @@ end
  INFO :   --- /dev/null 2016-07-23 16:06:36.583327464 +0900
  INFO :   +++ /tmp/1470446745.956       2016-08-06 10:25:45.967255508 +0900
  INFO :   @@ -0,0 +1 @@
- INFO :   +This is itamae
+ INFO :   +This is mitamae
 ```
 
 ## How to write recipes
 
-See [itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
+See [Itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
 
 ### Supported features
 
