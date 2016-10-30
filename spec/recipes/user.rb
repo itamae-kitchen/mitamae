@@ -13,3 +13,14 @@ user 'create itamae user' do
   home '/home/itamae'
   shell '/bin/dash'
 end
+
+execute 'deluser --remove-home itamae2' do
+  only_if 'id itamae2'
+end
+
+user 'create itamae2 user with create home directory' do
+  username 'itamae2'
+  create_home true
+  home '/home/itamae2'
+  shell '/bin/sh'
+end
