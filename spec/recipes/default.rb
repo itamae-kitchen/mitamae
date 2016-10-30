@@ -1,1 +1,2 @@
-execute 'echo hello > /tmp/hello'
+include_recipe 'included.rb'
+include_recipe 'included.rb' # should be skipped
