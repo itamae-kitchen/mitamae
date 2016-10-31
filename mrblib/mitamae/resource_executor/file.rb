@@ -21,8 +21,8 @@ module MItamae
             run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
           end
         else
-          if run_specinfra(:check_file_is_file, attributes.path)
-            run_specinfra(:remove_file, attributes.path)
+          if FileTest.file?(desired.path)
+            run_specinfra(:remove_file, desired.path)
           end
         end
       end
@@ -52,7 +52,7 @@ module MItamae
 
       def set_desired_attributes(desired, action)
         # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/resource/file.rb#L15
-        @existed = run_specinfra(:check_file_is_file, attributes.path)
+        @existed = FileTest.exist?(desired.path)
 
         case action
         when :create
