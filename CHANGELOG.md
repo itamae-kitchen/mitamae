@@ -1,3 +1,6 @@
+## v0.5.0
+- Release darwin binary with tarball
+
 ## v0.4.2
 - Optimize file operations by mruby-file-stat
 
