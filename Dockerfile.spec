@@ -12,6 +12,9 @@ RUN mitamae local /recipes/service.rb
 COPY spec/recipes/gem_package.rb /recipes/
 RUN mitamae local /recipes/gem_package.rb
 
+COPY spec/recipes/git.rb /recipes/
+RUN mitamae local /recipes/git.rb
+
 COPY spec/recipes /recipes
 RUN mitamae local /recipes/default.rb
 
