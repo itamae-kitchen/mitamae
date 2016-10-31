@@ -148,7 +148,7 @@ namespace :release do
   task :compress do
     Dir.chdir(File.expand_path('./mitamae-build', __dir__)) do
       Dir.glob('mitamae-*-darwin').each do |path|
-        sh "zip #{path}.zip #{path}"
+        sh "tar zcvf #{path}.tar.gz #{path}"
       end
 
       Dir.glob('mitamae-*-linux').each do |path|
