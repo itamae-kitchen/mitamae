@@ -82,7 +82,7 @@ namespace :test do
   desc 'Benchmark recipe execution'
   task benchmark: :compile do
     Dir.chdir(__dir__) do
-      ENV['MITAMAE_BENCH_ITERATIONS'] ||= '1000'
+      ENV['MITAMAE_BENCH_ITERATIONS'] ||= '100'
 
       puts 'Preparing...'
       sh 'mruby/build/host/bin/mitamae local benchmark/delete.rb'
