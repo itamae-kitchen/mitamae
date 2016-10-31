@@ -10,4 +10,5 @@ script:
 env:
   - TASK=test:mtest
   - TASK=test:integration
+  - TASK=test:benchmark
   - TASK=release:build
