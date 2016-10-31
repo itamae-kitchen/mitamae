@@ -9,6 +9,7 @@ include_recipe 'link'
 include_recipe 'notifies'
 include_recipe 'remote_file'
 include_recipe 'run_command'
+include_recipe 'template'
 
 # FIXME: Somehow failing...
 # include_recipe 'define'

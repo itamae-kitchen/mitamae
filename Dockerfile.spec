@@ -16,6 +16,6 @@ COPY spec/recipes/git.rb /recipes/
 RUN mitamae local /recipes/git.rb
 
 COPY spec/recipes /recipes
-RUN mitamae local /recipes/default.rb
+RUN mitamae local -j /recipes/node.json /recipes/default.rb
 
 CMD while true; do sleep 3600; done
