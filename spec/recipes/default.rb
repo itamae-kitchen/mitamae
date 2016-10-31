@@ -5,6 +5,7 @@ include_recipe 'user'
 include_recipe 'directory'
 include_recipe 'execute'
 include_recipe 'file'
+include_recipe 'link'
 include_recipe 'notifies'
 include_recipe 'remote_file'
 
