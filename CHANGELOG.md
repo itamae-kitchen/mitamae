@@ -1,3 +1,6 @@
+## v0.4.2
+- Optimize file operations by mruby-file-stat
+
 ## v0.4.1
 - Fix service resource for Ubuntu
 - Support :uninstall of gem\_package resource
