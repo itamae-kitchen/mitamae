@@ -1,0 +1,11 @@
+require 'spec_helper'
+
+# describe file('/tmp/created_by_definition') do
+#   it { should be_file }
+#   its(:content) { should eq("name:name,key:value,message:Hello, Itamae\n") }
+# end
+#
+# describe file('/tmp/remote_file_in_definition') do
+#   it { should be_file }
+#   its(:content) { should eq("definition_example\n") }
+# end
