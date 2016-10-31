@@ -119,6 +119,16 @@ $ rake compile && ./mruby/bin/mitamae local recipe.rb
 $ rake clean
 ```
 
+### Testing
+
+```
+# Run unit tests
+$ rake test:mtest
+
+# Run integration tests on Docker
+$ rake test:integration
+```
+
 ### Cross compile
 
 ```bash

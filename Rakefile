@@ -55,7 +55,7 @@ namespace :test do
   desc 'run spec container'
   task :docker_run do
     Dir.chdir(__dir__) do
-      sh 'rake compile BUILD_TARGET=linux-x86_64'
+      sh 'docker-compose run -e BUILD_TARGET=linux-x86_64 compile'
       sh 'docker build -f Dockerfile.spec -t mitamae .'
       sh 'docker rm -f $DOCKER_CONTAINER || true'
       sh 'docker run -d --name $DOCKER_CONTAINER mitamae'
