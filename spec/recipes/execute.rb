@@ -1,1 +1,1 @@
-execute 'echo hello > /tmp/execute_resource'
+execute "echo 'Hello Execute' > /tmp/execute"
