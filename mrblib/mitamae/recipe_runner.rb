@@ -7,6 +7,7 @@ module MItamae
       @recipes = []
     end
 
+    # NOTE: This method or #run can be removed from this class
     def load_recipes(paths)
       backend = @backend
       paths.each do |path|
