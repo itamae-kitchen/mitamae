@@ -2,15 +2,23 @@ module MItamae
   class RecipeContext
     NotFoundError = Class.new(StandardError)
 
-    def self.register_resource(klass)
-      method_name = klass.to_s.split('::').last.gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
-      define_method(method_name) do |name, &block|
-        @recipe.children << klass.new(name, @recipe, @variables, &block)
+    class << self
+      def register_resource(klass)
+        method_name = klass.to_s.split('::').last.gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
+        define_method(method_name) do |name, &block|
+          @recipe.children << klass.new(name, @recipe, @variables, &block)
+        end
+      end
+
+      def included_paths
+        @included_paths ||= []
       end
     end
 
     def initialize(recipe, variables = {})
       @recipe = recipe
+      RecipeContext.included_paths << recipe.path
+
       @variables = variables
       @variables.each do |key, value|
         if value.is_a?(Proc)
@@ -93,7 +101,7 @@ module MItamae
         raise NotFoundError, "Recipe not found. (#{target})"
       end
 
-      if @recipe.children.find { |r| r.is_a?(Recipe) && r.path == path }
+      if RecipeContext.included_paths.include?(path)
         MItamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
         return
       end
