@@ -1,3 +1,6 @@
+## v0.5.1
+- Avoid including the same recipes even if they are nested
+
 ## v0.5.0
 - Release darwin binary with tarball
 
