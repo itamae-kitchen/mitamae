@@ -8,15 +8,13 @@ module MItamae
 
     def load(paths)
       backend = @backend
+      variables = {
+        node: @node,
+        run_command: -> (*args) { backend.run_command(*args) },
+      }
+
       paths.map do |path|
-        path = File.expand_path(path)
-        Recipe.new(path).tap do |recipe|
-          RecipeContext.new(
-            recipe,
-            node: @node,
-            run_command: -> (*args) { backend.run_command(*args) },
-          ).instance_eval(File.read(path), path, 1)
-        end
+        Recipe.load(path, variables)
       end
     end
 
