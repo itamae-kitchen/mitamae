@@ -7,12 +7,10 @@ module MItamae
     end
 
     def load(paths)
-      recipes = []
       backend = @backend
-
-      paths.each do |path|
+      paths.map do |path|
         path = File.expand_path(path)
-        recipes << Recipe.new(path).tap do |recipe|
+        Recipe.new(path).tap do |recipe|
           RecipeContext.new(
             recipe,
             node: @node,
@@ -20,7 +18,6 @@ module MItamae
           ).instance_eval(File.read(path), path, 1)
         end
       end
-      recipes
     end
 
     private
