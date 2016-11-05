@@ -14,7 +14,6 @@ module MItamae
 
       case @command
       when 'local'
-        GC.disable # to avoid SEGV on GC
         Local.new(@args).run
       when 'version'
         puts "MItamae v#{MItamae::VERSION}"

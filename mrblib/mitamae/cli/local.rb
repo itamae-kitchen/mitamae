@@ -22,6 +22,7 @@ module MItamae
         MItamae.logger = Logger.new(@options[:log_level])
         MItamae.logger.info 'Starting MItamae...'
 
+        GC.disable # to avoid SEGV on GC
         Plugin.load_plugins
 
         runner = RecipeRunner.new(
