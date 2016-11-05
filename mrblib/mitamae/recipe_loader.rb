@@ -3,7 +3,6 @@ module MItamae
     def initialize(options)
       @backend = options[:backend]
       @node    = build_node(options[:node_json], @backend)
-      @dry_run = options[:dry_run]
     end
 
     def load(paths)
