@@ -1,9 +1,9 @@
 module MItamae
   class RecipeLoader
     def initialize(options)
-      @node    = build_node(options[:node_json])
-      @dry_run = options[:dry_run]
       @backend = options[:backend]
+      @node    = build_node(options[:node_json], @backend)
+      @dry_run = options[:dry_run]
     end
 
     def load(paths)
@@ -25,8 +25,8 @@ module MItamae
 
     private
 
-    def build_node(node_json)
-      Node.new({}, @backend).tap do |node|
+    def build_node(node_json, backend)
+      Node.new({}, backend).tap do |node|
         if node_json
           json = File.read(node_json)
           node.merge!(JSON.load(json))
