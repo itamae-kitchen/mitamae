@@ -4,7 +4,15 @@ module MItamae
       @options = options
     end
 
-    def execute(node)
+    def execute(recipes)
+      recipes.each do |recipe|
+        execute_node(recipe)
+      end
+    end
+
+    private
+
+    def execute_node(node)
       case node
       when Recipe
         MItamae.logger.info "Recipe: #{node.path}"
@@ -19,12 +27,10 @@ module MItamae
       end
     end
 
-    private
-
     def execute_children(node)
       MItamae.logger.with_indent do
         node.children.each do |resource|
-          execute(resource)
+          execute_node(resource)
         end
         node.delayed_notifications.each do |notification|
           ResourceExecutor.create(notification.resource, @options).execute(notification.action)

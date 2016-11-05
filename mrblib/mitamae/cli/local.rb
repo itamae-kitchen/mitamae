@@ -32,11 +32,10 @@ module MItamae
           backend:   backend,
         ).load(@recipe_paths)
 
-        executor = RecipeExecutor.new(
+        RecipeExecutor.new(
           dry_run: @options[:dry_run],
           backend: backend,
-        )
-        recipes.each { |r| executor.execute(r) }
+        ).execute(recipes)
       end
 
       private
