@@ -25,13 +25,18 @@ module MItamae
         GC.disable # to avoid SEGV on GC
         Plugin.load_plugins
 
-        runner = RecipeRunner.new(
+        backend = Backend.new(shell: @options[:shell])
+        recipes = RecipeLoader.new(
           node_json: @options[:node_json],
           dry_run:   @options[:dry_run],
-          shell:     @options[:shell],
+          backend:   backend,
+        ).load(@recipe_paths)
+
+        executor = RecipeExecutor.new(
+          dry_run: @options[:dry_run],
+          backend: backend,
         )
-        runner.load_recipes(@recipe_paths)
-        runner.run
+        recipes.each { |r| executor.execute(r) }
       end
 
       private

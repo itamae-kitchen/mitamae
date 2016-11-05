@@ -1,18 +1,18 @@
 module MItamae
-  class RecipeRunner
+  class RecipeLoader
     def initialize(options)
-      @backend = Backend.new(shell: options[:shell])
       @node    = build_node(options[:node_json])
       @dry_run = options[:dry_run]
-      @recipes = []
+      @backend = options[:backend]
     end
 
-    # NOTE: This method or #run can be removed from this class
-    def load_recipes(paths)
+    def load(paths)
+      recipes = []
       backend = @backend
+
       paths.each do |path|
         path = File.expand_path(path)
-        @recipes << Recipe.new(path).tap do |recipe|
+        recipes << Recipe.new(path).tap do |recipe|
           RecipeContext.new(
             recipe,
             node: @node,
@@ -20,17 +20,7 @@ module MItamae
           ).instance_eval(File.read(path), path, 1)
         end
       end
-    end
-
-    def run
-      executor = RecipeExecutor.new(
-        dry_run: @dry_run,
-        backend: @backend,
-      )
-
-      @recipes.each do |recipe|
-        executor.execute(recipe)
-      end
+      recipes
     end
 
     private
