@@ -1,4 +1,4 @@
-include_recipe 'define/default'
+include_recipe 'definition/example'
 
 definition_example "name" do
   key 'value'
