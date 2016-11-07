@@ -9,3 +9,8 @@ describe file('/tmp/remote_file_in_definition') do
   it { should be_file }
   its(:content) { should eq("definition_example\n") }
 end
+
+describe file('/tmp/nested_params') do
+  it { should be_file }
+  its(:content) { should eq("true\n") }
+end

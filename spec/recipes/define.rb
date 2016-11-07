@@ -3,7 +3,10 @@ node.reverse_merge!({
 })
 
 include_recipe 'definition/example'
+include_recipe 'definition/nested_params'
 
 definition_example "name" do
   key 'value'
 end
+
+nested_params 'true'
