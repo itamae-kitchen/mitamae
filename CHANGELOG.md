@@ -1,3 +1,6 @@
+## v0.5.3
+- Allow using params in resource inside definition
+
 ## v0.5.2
 - Search files based on defined path in defined resource
 
