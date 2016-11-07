@@ -1,3 +1,6 @@
+## v0.5.2
+- Search files based on defined path in defined resource
+
 ## v0.5.1
 - Avoid including the same recipes even if they are nested
 
