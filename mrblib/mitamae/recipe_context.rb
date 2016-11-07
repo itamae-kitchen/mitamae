@@ -17,8 +17,6 @@ module MItamae
 
     def initialize(recipe, variables = {})
       @recipe = recipe
-      RecipeContext.included_paths << recipe.path
-
       @variables = variables
       @variables.each do |key, value|
         if value.is_a?(Proc)
@@ -105,6 +103,7 @@ module MItamae
         MItamae.logger.debug "Recipe, #{path}, is skipped because it is already included"
         return
       end
+      RecipeContext.included_paths << path
 
       src = File.read(path)
       @recipe.children << Recipe.new(path).tap do |recipe|
