@@ -66,9 +66,7 @@ module MItamae
     end
 
     def remote_file(path, &block)
-      @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block).tap do |r|
-        r.recipe_dir = @recipe.dir
-      end
+      @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block)
     end
 
     def service(name, &block)
@@ -77,16 +75,16 @@ module MItamae
 
     def template(path, &block)
       @recipe.children << Resource::Template.new(path, @recipe, @variables, &block).tap do |r|
-        r.recipe_dir = @recipe.dir
         r.node = @variables[:node]
       end
     end
 
     def define(name, params = {}, &block)
+      defined_path = @recipe.path
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
-        @recipe.children << RecipeFromDefinition.new(@recipe.dir, name, n).tap do |recipe|
-          params = klass.new(n, @recipe, @variables, &b).attributes.merge(name: n)
+        @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), name, n).tap do |recipe|
+          params = klass.new(n, recipe, @variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, @variables.merge(params: params)).instance_exec(&block)
         end
       end

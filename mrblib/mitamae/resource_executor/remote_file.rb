@@ -21,7 +21,7 @@ module MItamae
           searched_paths = []
           dirs.size.times do |i|
             source_file_exts.each do |ext|
-              path = ::File.join(@resource.recipe_dir, source_file_dir, "#{dirs[i..-1].join("/")}#{ext}")
+              path = ::File.join(@resource.recipe.dir, source_file_dir, "#{dirs[i..-1].join("/")}#{ext}")
               if ::File.exist?(path)
                 MItamae.logger.debug "#{path} is used as a source file."
                 return path
@@ -33,7 +33,7 @@ module MItamae
 
           raise SourceNotFoundError, "source file is not found (searched paths: #{searched_paths.join(', ')})"
         else
-          ::File.expand_path(attributes.source, @resource.recipe_dir)
+          ::File.expand_path(attributes.source, @resource.recipe.dir)
         end
       end
 
