@@ -13,5 +13,9 @@ module MItamae
       self.children ||= []
       self.delayed_notifications ||= []
     end
+
+    def dir
+      File.dirname(path)
+    end
   end
 end

@@ -15,6 +15,8 @@ module MItamae
       end
     end
 
+    # @param [MItamae::Recipe,MItamae::RecipeFromDefinition] recipe
+    # @param [Hash] variables
     def initialize(recipe, variables = {})
       @recipe = recipe
       @variables = variables
@@ -65,7 +67,7 @@ module MItamae
 
     def remote_file(path, &block)
       @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block).tap do |r|
-        r.recipe_dir = File.dirname(@recipe.path)
+        r.recipe_dir = @recipe.dir
       end
     end
 
@@ -75,7 +77,7 @@ module MItamae
 
     def template(path, &block)
       @recipe.children << Resource::Template.new(path, @recipe, @variables, &block).tap do |r|
-        r.recipe_dir = File.dirname(@recipe.path)
+        r.recipe_dir = @recipe.dir
         r.node = @variables[:node]
       end
     end
@@ -83,7 +85,7 @@ module MItamae
     def define(name, params = {}, &block)
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
-        @recipe.children << RecipeFromDefinition.new(name, n).tap do |recipe|
+        @recipe.children << RecipeFromDefinition.new(@recipe.dir, name, n).tap do |recipe|
           params = klass.new(n, @recipe, @variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, @variables.merge(params: params)).instance_exec(&block)
         end
@@ -91,7 +93,7 @@ module MItamae
     end
 
     def include_recipe(target)
-      path = ::File.expand_path(target, File.dirname(@recipe.path))
+      path = ::File.expand_path(target, @recipe.dir)
       path = ::File.join(path, 'default.rb') if ::Dir.exists?(path)
       path.concat('.rb') unless path.end_with?('.rb')
 

@@ -1,5 +1,5 @@
 module MItamae
-  class RecipeFromDefinition < Struct.new(:resource_type, :resource_name, :children, :delayed_notifications)
+  class RecipeFromDefinition < Struct.new(:dir, :resource_type, :resource_name, :children, :delayed_notifications)
     def initialize(*)
       super
       self.children ||= []
