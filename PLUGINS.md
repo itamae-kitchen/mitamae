@@ -9,7 +9,7 @@ Note that this feature is experimental for now and load paths may be changed in 
 ### Resource
 
 1. Create a repository named `mitamae-plugin-resource-sample` or `itamae-plugin-resource-sample`.
-2. Implement `MItamae::Plugin::Resource::Sample` and `MItamae::Plugin::ResourceExecutor::Sample` like MItamae's internal classes like MItamae's internal classes.
+2. Implement `MItamae::Plugin::Resource::Sample` and `MItamae::Plugin::ResourceExecutor::Sample` like MItamae's internal classes like MItamae's internal classes. Put sources in `mitamae-plugin-resource-sample/mrblib/**/*.rb`.
 3. Put it as git submodule to `./plugins/mitamae-plugin-resource-sample` or `itamae-plugin-resource-sample`.
 
 See [itamae-plugin-resource-cask](https://github.com/k0kubun/itamae-plugin-resource-cask) for example.
