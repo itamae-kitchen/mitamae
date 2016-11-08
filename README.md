@@ -63,6 +63,8 @@ end
 
 See [Itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
 
+Plugins are implemented differently. See [PLUGINS.md](./PLUGINS.md) for details.
+
 ### Supported features
 
 You can use only the features listed below.
