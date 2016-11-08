@@ -3,7 +3,7 @@
 MItamae supports plugins for resources and recipes.
 Unlike Itamae, it's not achieved by gem or mrbgem.
 It's dynamically loaded from working directory you execute mitamae.
-Note that this feature is experimental for now and load paths can be changed in the future.
+Note that this feature is experimental for now and load paths may be changed in the future.
 
 ## How to create and use plugin
 ### Resource
