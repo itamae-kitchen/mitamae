@@ -1,6 +1,6 @@
 # MItamae [![Build Status](https://travis-ci.org/k0kubun/mitamae.svg?branch=master)](https://travis-ci.org/k0kubun/mitamae)
 
-[Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.  
+[Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.
 With mitamae's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
 
 ## Status
