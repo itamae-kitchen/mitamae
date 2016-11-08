@@ -2,9 +2,9 @@ module MItamae
   module Plugin
     # Load plugins/*/mrblib/**/*.rb before running recipes.
     # Put a plugin repository under plugins as git submodule or just copy it.
-    def self.load_plugins
+    def self.load_resources
       if File.directory?('plugins')
-        Dir.glob('plugins/*/mrblib/**/*.rb').sort.each do |source|
+        Dir.glob('plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb').sort.each do |source|
           eval File.read(source)
         end
       end
