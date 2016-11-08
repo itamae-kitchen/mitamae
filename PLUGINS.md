@@ -20,3 +20,5 @@ See [itamae-plugin-resource-cask](https://github.com/k0kubun/itamae-plugin-resou
   - To `include_recipe 'sample'`, put a recipe to `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample/default.rb` or `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample.rb`.
   - To `include_recipe 'sample::example'`, put a recipe to `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample/example.rb`.
 3. Put it as git submodule to `./plugins/mitamae-plugin-recipe-sample` or `itamae-plugin-recipe-sample`.
+
+See [itamae-plugin-recipe-rbenv](https://github.com/k0kubun/itamae-plugin-recipe-rbenv) for example.
