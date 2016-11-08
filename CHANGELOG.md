@@ -1,3 +1,6 @@
+## v0.6.0
+- Support recipe plugin. See [PLUGINS.md](./PLUGINS.md).
+
 ## v0.5.3
 - Allow using params in resource inside definition
 

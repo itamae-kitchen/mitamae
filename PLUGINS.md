@@ -15,7 +15,7 @@ See [itamae-plugin-resource-cask](https://github.com/k0kubun/itamae-plugin-resou
 
 ### Recipe
 
-1. Create a repository named `mitamae-plugin-recipe-sample`. `itamae-plugin-recipe-sample` is also acceptable.
+1. Create a repository named `mitamae-plugin-recipe-sample` or `itamae-plugin-recipe-sample`.
 2. Write a recipe in `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/`.
   - To `include_recipe 'sample'`, put a recipe to `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample/default.rb` or `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample.rb`.
   - To `include_recipe 'sample::example'`, put a recipe to `mitamae-plugin-recipe-sample/mrblib/mitamae/plugin/recipe/sample/example.rb`.
