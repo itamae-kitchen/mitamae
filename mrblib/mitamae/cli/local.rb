@@ -23,7 +23,7 @@ module MItamae
         MItamae.logger.info 'Starting MItamae...'
 
         GC.disable # to avoid SEGV on GC
-        Plugin.load_plugins
+        Plugin.load_resources
 
         backend = Backend.new(shell: @options[:shell])
         recipes = RecipeLoader.new(

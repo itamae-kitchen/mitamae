@@ -95,8 +95,9 @@ module MItamae
       path = ::File.expand_path(target, @recipe.dir)
       path = ::File.join(path, 'default.rb') if ::Dir.exists?(path)
       path.concat('.rb') unless path.end_with?('.rb')
+      path = Plugin.find_recipe(target) unless File.exist?(path)
 
-      unless File.exist?(path)
+      if path.nil?
         raise NotFoundError, "Recipe not found. (#{target})"
       end
 

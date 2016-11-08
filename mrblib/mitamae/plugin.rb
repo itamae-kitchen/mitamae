@@ -1,11 +1,37 @@
 module MItamae
   module Plugin
-    # Load plugins/*/mrblib/**/*.rb before running recipes.
-    # Put a plugin repository under plugins as git submodule or just copy it.
-    def self.load_plugins
-      if File.directory?('plugins')
-        Dir.glob('plugins/*/mrblib/**/*.rb').sort.each do |source|
-          eval File.read(source)
+    # Put a plugin repository under `plugins/` as git submodule or just copy it.
+    class << self
+      # Load plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb before running recipes.
+      def load_resources
+        if File.directory?('plugins')
+          Dir.glob('plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb').sort.each do |source|
+            eval File.read(source)
+          end
+        end
+      end
+
+      # Find recipe from:
+      # [when target is `name`]       plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}{/default,}.rb
+      # [when target is `name::file`] plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}/#{file}.rb
+      #
+      # See also: https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/recipe.rb#L13-L42
+      def find_recipe(target)
+        recipe_candidates(target).find do |path|
+          File.exist?(path)
+        end
+      end
+
+      private
+
+      def recipe_candidates(target)
+        name, recipe_file = target.split('::', 2)
+        if recipe_file
+          recipe_file = recipe_file.gsub("::", "/")
+          recipe_file << '.rb' unless recipe_file.end_with?('.rb')
+          Dir.glob("plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}/#{recipe_file}")
+        else
+          Dir.glob("plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}{/default,}.rb")
         end
       end
     end
