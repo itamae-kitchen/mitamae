@@ -127,7 +127,7 @@ $ rake clean
 
 ### Testing
 
-```
+```bash
 # Run unit tests
 $ rake test:mtest
 
