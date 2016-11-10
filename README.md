@@ -9,7 +9,7 @@ Beta. Most of the features are implemented and tested.
 
 ## Synopsis
 
-Like original [Itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require Ruby to run.
+Like original [Itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require MRI to run.
 
 ```rb
 # cat recipe.rb
@@ -67,7 +67,11 @@ Plugins are implemented differently. See [PLUGINS.md](./PLUGINS.md) for details.
 
 ### Supported features
 
-You can use only the features listed below.
+`itamae ssh` is omitted by design because it's slow.
+If you want to provision a server, download mitamae binary, transfer recipes and execute it over ssh.
+For that reason, mitamae is more suitable for development environment bootstrap.
+
+In recipes, you can use the features listed below.
 
 - Common Attributes
   - [x] user
