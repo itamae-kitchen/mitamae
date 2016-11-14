@@ -5,12 +5,15 @@ module MItamaeSpec
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-spec'
   end
 
-  def apply_recipe(recipe)
+  def apply_recipe(recipe, options: [])
     recipe << '.rb' unless recipe.end_with?('.rb')
     recipe = "/recipes/#{recipe}"
-    puts "\n=== Apply #{recipe} ==="
-    system('docker', 'exec', '-it', MItamaeSpec.container, '/mitamae/bin/mitamae', 'local', recipe) ||
-      raise("Failed to apply: #{recipe}")
+
+    puts "\n=== Apply #{recipe} #{options.join(' ')} ==="
+    system(
+      'docker', 'exec', '-it', MItamaeSpec.container,
+      '/mitamae/bin/mitamae', 'local', *options, recipe,
+    ) || raise("Failed to apply: #{recipe}")
   end
 end
 

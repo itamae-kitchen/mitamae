@@ -23,7 +23,7 @@ module MItamae
       Node.new({}, backend).tap do |node|
         if node_json
           json = File.read(node_json)
-          node.merge!(JSON.load(json))
+          node.reverse_merge!(JSON.load(json))
         end
       end
     end
