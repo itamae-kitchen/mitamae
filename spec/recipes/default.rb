@@ -1,5 +1,4 @@
 include_recipe 'execute'
-include_recipe 'user'
 include_recipe 'define'
 include_recipe 'directory'
 include_recipe 'include_recipe'
