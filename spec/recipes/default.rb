@@ -1,5 +1,4 @@
 include_recipe 'execute'
-include_recipe 'directory'
 include_recipe 'include_recipe'
 include_recipe 'link'
 include_recipe 'notifies'

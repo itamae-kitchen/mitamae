@@ -1,3 +1,5 @@
+include_recipe 'user'
+
 directory "/tmp/directory" do
   mode "700"
   owner "itamae"
