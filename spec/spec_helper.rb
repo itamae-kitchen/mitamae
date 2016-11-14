@@ -8,7 +8,7 @@ module MItamaeSpec
   def apply_recipe(recipe)
     recipe << '.rb' unless recipe.end_with?('.rb')
     recipe = "/recipes/#{recipe}"
-    puts "\n\n=== Apply #{recipe} ==="
+    puts "\n=== Apply #{recipe} ==="
     system('docker', 'exec', '-it', MItamaeSpec.container, '/mitamae/bin/mitamae', 'local', recipe) ||
       raise("Failed to apply: #{recipe}")
   end
