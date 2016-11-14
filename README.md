@@ -128,11 +128,13 @@ $ rake clean
 ### Testing
 
 ```bash
+# Run integration tests on Docker
+$ docker-compose run -e BUILD_TARGET=linux-x86_64 compile
+$ bundle install
+$ bundle exec rspec
+
 # Run unit tests
 $ rake test:mtest
-
-# Run integration tests on Docker
-$ rake test:integration
 ```
 
 ### Cross compile
