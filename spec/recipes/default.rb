@@ -1,4 +1,3 @@
-include_recipe 'include_recipe'
 include_recipe 'link'
 include_recipe 'notifies'
 include_recipe 'remote_file'
