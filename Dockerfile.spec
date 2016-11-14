@@ -9,9 +9,6 @@ RUN mitamae local /recipes/package.rb
 COPY spec/recipes/service.rb /recipes/
 RUN mitamae local /recipes/service.rb
 
-COPY spec/recipes/git.rb /recipes/
-RUN mitamae local /recipes/git.rb
-
 COPY spec/recipes /recipes
 RUN mitamae local -j /recipes/node.json /recipes/default.rb
 
