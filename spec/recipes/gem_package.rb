@@ -1,3 +1,4 @@
+execute 'apt-get update'
 package 'ruby'
 
 gem_package 'tzinfo' do

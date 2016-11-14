@@ -8,5 +8,4 @@ include_recipe 'template'
 # Slow recipes are executed separately. See Dockerfile.
 # include_recipe 'package'
 # include_recipe 'service'
-# include_recipe 'gem_package'
 # include_recipe 'git'
