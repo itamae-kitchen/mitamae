@@ -1,4 +1,3 @@
-include_recipe 'remote_file'
 include_recipe 'run_command'
 include_recipe 'template'
 
