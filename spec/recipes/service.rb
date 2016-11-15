@@ -1,3 +1,4 @@
+execute 'apt-get update'
 package 'nginx' do
   options '--force-yes'
 end

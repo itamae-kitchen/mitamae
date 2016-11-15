@@ -53,12 +53,9 @@ namespace :test do
 
   ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
   desc 'run spec container'
-  task :docker_run do
+  task :compile do
     Dir.chdir(__dir__) do
       sh 'docker-compose run -e BUILD_TARGET=linux-x86_64 compile'
-      sh 'docker build -f Dockerfile.spec -t mitamae .'
-      sh 'docker rm -f $DOCKER_CONTAINER || true'
-      sh 'docker run -d --name $DOCKER_CONTAINER mitamae'
     end
   end
 
@@ -77,7 +74,7 @@ namespace :test do
   end
 
   desc 'run integration tests'
-  task :integration => [:docker_run, :serverspec]
+  task :integration => [:compile, :serverspec]
 
   desc 'Benchmark recipe execution'
   task benchmark: :compile do

@@ -1,3 +1,4 @@
+execute "apt-get update"
 package "git"
 
 git "/tmp/git_repo" do
