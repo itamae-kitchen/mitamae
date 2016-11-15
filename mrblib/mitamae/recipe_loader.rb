@@ -27,7 +27,7 @@ module MItamae
         end
         if node_yaml
           yaml = File.read(node_yaml)
-          node.merge!(YAML.load(yaml))
+          node.reverse_merge!(YAML.load(yaml))
         end
       end
     end
