@@ -66,15 +66,8 @@ namespace :test do
     end
   end
 
-  desc 'build spec image'
-  task :mitamae_spec do
-    Dir.chdir(__dir__) do
-      sh 'docker build -t mitamae-spec spec'
-    end
-  end
-
   desc 'run serverspec'
-  task :serverspec => [:mitamae_spec, :bundle_install] do
+  task :serverspec => :bundle_install do
     Dir.chdir(__dir__) do
       sh 'bundle exec rspec'
     end
