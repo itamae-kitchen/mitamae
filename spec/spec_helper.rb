@@ -33,7 +33,7 @@ RSpec.configure do |config|
     system('docker', 'rm', '-f', MItamaeSpec.container)
     system(
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
-      '-v', "#{File.expand_path('mruby/build/x86_64-pc-linux-gnu')}:/mitamae",
+      '-v', "#{File.expand_path('mruby/build/host')}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
       'ubuntu:trusty', 'bash', '-c', 'while true; do sleep 3600; done',
     ) || raise
