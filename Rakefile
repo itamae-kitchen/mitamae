@@ -74,7 +74,7 @@ namespace :test do
   end
 
   desc 'run integration tests'
-  task :integration => [:compile, :serverspec]
+  task integration: :serverspec
 
   desc 'Benchmark recipe execution'
   task benchmark: :compile do

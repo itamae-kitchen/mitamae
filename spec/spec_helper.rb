@@ -25,6 +25,11 @@ RSpec.configure do |config|
   config.include MItamaeSpec
 
   config.before(:suite) do
+    if ENV['SKIP_MITAMAE_COMPILE'] != '1'
+      system('time', 'docker-compose', 'run', '-e', 'BUILD_TARGET=linux-x86_64', 'compile') || raise
+      puts
+    end
+
     system('docker', 'rm', '-f', MItamaeSpec.container)
     system(
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
