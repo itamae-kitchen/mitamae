@@ -3,7 +3,6 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.author  = [
     'Takashi Kokubun',
     'Ryota Arai',
-    'Gosuke Miyashita',
   ]
   spec.summary = 'mitamae'
   spec.bins    = ['mitamae']
