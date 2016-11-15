@@ -3,12 +3,6 @@ compile: &defaults
   volumes:
     - .:/home/mruby/code:rw
   command: rake compile
-test:
-  <<: *defaults
-  command: rake test
-mtest:
-  <<: *defaults
-  command: rake test:mtest
 clean:
   <<: *defaults
   command: rake clean
