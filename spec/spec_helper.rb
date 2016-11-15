@@ -26,8 +26,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
-      system('time', 'docker-compose', 'run', 'compile') || raise
-      puts
+      system('docker-compose', 'run', 'compile') || raise
     end
 
     system('docker', 'rm', '-f', MItamaeSpec.container)
