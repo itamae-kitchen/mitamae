@@ -17,6 +17,7 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-print',      core: 'mruby-print'
   spec.add_dependency 'mruby-struct',     core: 'mruby-struct'
   spec.add_dependency 'mruby-symbol-ext', core: 'mruby-symbol-ext'
+
   spec.add_dependency 'mruby-dir',        mgem: 'mruby-dir'
   spec.add_dependency 'mruby-dir-glob',   mgem: 'mruby-dir-glob'
   spec.add_dependency 'mruby-env',        mgem: 'mruby-env'
@@ -29,6 +30,8 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-shellwords', mgem: 'mruby-shellwords'
   spec.add_dependency 'mruby-tempfile',   mgem: 'mruby-tempfile'
   spec.add_dependency 'mruby-yaml',       mgem: 'mruby-yaml'
-  spec.add_dependency 'mruby-erb',      github: 'k0kubun/mruby-erb'
-  spec.add_dependency 'mruby-io',       github: 'k0kubun/mruby-io'
+
+  spec.add_dependency 'mruby-erb',       github: 'k0kubun/mruby-erb'
+  spec.add_dependency 'mruby-io',        github: 'k0kubun/mruby-io'
+  spec.add_dependency 'mruby-specinfra', github: 'k0kubun/mruby-specinfra'
 end
