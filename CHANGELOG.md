@@ -1,3 +1,7 @@
+## v0.6.1
+- Support node.yml
+- Fix broken node.json support
+
 ## v0.6.0
 - Support recipe plugin. See [PLUGINS.md](./PLUGINS.md).
 
