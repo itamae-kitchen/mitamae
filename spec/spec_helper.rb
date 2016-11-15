@@ -2,7 +2,7 @@ require 'serverspec'
 
 module MItamaeSpec
   def self.container
-    @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-spec'
+    @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
   end
 
   def apply_recipe(recipe, options: [])
@@ -34,7 +34,7 @@ RSpec.configure do |config|
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
       '-v', "#{File.expand_path('mruby/build/host')}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
-      'ubuntu:trusty', 'bash', '-c', 'while true; do sleep 3600; done',
+      'mitamae-spec', 'bash', '-c', 'while true; do sleep 3600; done',
     ) || raise
   end
 end

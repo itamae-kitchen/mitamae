@@ -1,5 +1,3 @@
-execute 'apt-get update'
-
 package 'dstat' do
   action :install
 end

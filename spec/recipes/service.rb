@@ -1,8 +1,3 @@
-execute 'apt-get update'
-package 'nginx' do
-  options '--force-yes'
-end
-
 service 'nginx' do
   action [:enable, :start]
 end

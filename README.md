@@ -130,7 +130,7 @@ $ rake clean
 ```bash
 # Run integration tests on Docker
 $ docker-compose run -e BUILD_TARGET=linux-x86_64 compile
-$ bundle install
+$ docker build -t mitamae-spec spec
 $ bundle exec rspec
 
 # Run unit tests
