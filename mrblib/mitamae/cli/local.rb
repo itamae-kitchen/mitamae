@@ -29,6 +29,7 @@ module MItamae
         backend = Backend.new(shell: @options[:shell])
         recipes = RecipeLoader.new(
           node_json: @options[:node_json],
+          node_yaml: @options[:node_yaml],
           backend:   backend,
         ).load(@recipe_paths)
 
