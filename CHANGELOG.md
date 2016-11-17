@@ -1,3 +1,6 @@
+## v0.6.2
+- Support edit action for file resource
+
 ## v0.6.1
 - Support node.yml
 - Fix broken node.json support
