@@ -9,7 +9,7 @@ module MItamae
       define_attribute :group, type: String
       define_attribute :block, type: Proc, default: proc {}
 
-      self.available_actions = [:create, :delete]
+      self.available_actions = [:create, :delete, :edit]
     end
   end
 end

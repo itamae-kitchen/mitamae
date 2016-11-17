@@ -40,4 +40,28 @@ describe 'file resource' do
   describe file('/tmp/file_without_content_change_keeping_timestamp') do
     its(:mtime) { should eq(DateTime.iso8601("2016-05-01T12:34:56Z")) }
   end
+
+  describe file('/tmp/file_edit_sample') do
+    it { should be_file }
+    its(:content) { should eq("Hello, Itamae") }
+    it { should be_mode 400 }
+    it { should be_owned_by "itamae2" }
+    it { should be_grouped_into "itamae2" }
+  end
+
+  describe file('/tmp/file_edit_keeping_mode_owner') do
+    it { should be_file }
+    its(:content) { should eq("Hello, Itamae") }
+    it { should be_mode 444 }
+    it { should be_owned_by "itamae" }
+    it { should be_grouped_into "itamae" }
+  end
+
+  describe file('/tmp/file_edit_with_content_change_updates_timestamp') do
+    its(:mtime) { should be > DateTime.iso8601("2016-05-02T01:23:45Z") }
+  end
+
+  describe file('/tmp/file_edit_without_content_change_keeping_timestamp') do
+    its(:mtime) { should eq(DateTime.iso8601("2016-05-02T12:34:56Z")) }
+  end
 end

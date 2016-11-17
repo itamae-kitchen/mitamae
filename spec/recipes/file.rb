@@ -47,60 +47,60 @@ end
 # execute 'echo -n 1 > /tmp/file_edit_notifies' do
 #   action :nothing
 # end
-#
-# file '/tmp/file_edit_sample' do
-#   content 'Hello, world'
-#   owner 'itamae'
-#   group 'itamae'
-#   mode '444'
-# end
-#
-# file '/tmp/file_edit_sample' do
-#   action :edit
-#   owner 'itamae2'
-#   group 'itamae2'
-#   mode '400'
-#   block do |content|
-#     content.gsub!('world', 'Itamae')
-#   end
-#   notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
-# end
-#
-# file '/tmp/file_edit_keeping_mode_owner' do
-#   content 'Hello, world'
-#   owner 'itamae'
-#   group 'itamae'
-#   mode '444'
-# end
-#
-# file '/tmp/file_edit_keeping_mode_owner' do
-#   action :edit
-#   block do |content|
-#     content.gsub!('world', 'Itamae')
-#   end
-# end
+
+file '/tmp/file_edit_sample' do
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '444'
+end
+
+file '/tmp/file_edit_sample' do
+  action :edit
+  owner 'itamae2'
+  group 'itamae2'
+  mode '400'
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
+  # notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
+end
+
+file '/tmp/file_edit_keeping_mode_owner' do
+  content 'Hello, world'
+  owner 'itamae'
+  group 'itamae'
+  mode '444'
+end
+
+file '/tmp/file_edit_keeping_mode_owner' do
+  action :edit
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
+end
 
 ###
 
-# execute "f=/tmp/file_edit_with_content_change_updates_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-02T01:23:45Z $f"
-#
-# file "/tmp/file_edit_with_content_change_updates_timestamp" do
-#   action :edit
-#   block do |content|
-#     content.gsub!('world', 'Itamae')
-#   end
-# end
+execute "f=/tmp/file_edit_with_content_change_updates_timestamp && echo 'Hello, world' > $f && touch -d 2016-05-02T01:23:45Z $f"
+
+file "/tmp/file_edit_with_content_change_updates_timestamp" do
+  action :edit
+  block do |content|
+    content.gsub!('world', 'Itamae')
+  end
+end
 
 ###
 
-# execute "touch -d 2016-05-02T12:34:56Z /tmp/file_edit_without_content_change_keeping_timestamp"
-#
-# file "/tmp/file_edit_without_content_change_keeping_timestamp" do
-#   action :edit
-#   block do |content|
-#     # no change
-#   end
-# end
+execute "touch -d 2016-05-02T12:34:56Z /tmp/file_edit_without_content_change_keeping_timestamp"
+
+file "/tmp/file_edit_without_content_change_keeping_timestamp" do
+  action :edit
+  block do |content|
+    # no change
+  end
+end
 
 ###
 

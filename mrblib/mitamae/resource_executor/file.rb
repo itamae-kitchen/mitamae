@@ -59,6 +59,16 @@ module MItamae
           desired.exist = true
         when :delete
           desired.exist = false
+        when :edit
+          desired.exist = true
+          desired.mode  ||= run_specinfra(:get_file_mode, desired.path).stdout.chomp
+          desired.owner ||= run_specinfra(:get_file_owner_user, desired.path).stdout.chomp
+          desired.group ||= run_specinfra(:get_file_owner_group, desired.path).stdout.chomp
+          if !@dry_run || @existed
+            content = ::File.read(desired.path)
+            attributes.block.call(content)
+            desired.content = content
+          end
         end
 
         send_tempfile(desired)
