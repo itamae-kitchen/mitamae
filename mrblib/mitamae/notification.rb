@@ -29,9 +29,10 @@ module MItamae
     private
 
     def find_resource_by_description
-      recipe.children.find do |resource|
+      recipe.children.find do |child|
         type, name = parse_description
-        resource.resource_type == type && resource.resource_name == name
+        child.respond_to?(:resource_type) && child.resource_type == type &&
+          child.respond_to?(:resource_name) && child.resource_name == name
       end.tap do |resource|
         unless resource
           raise NotFoundError, "'#{target_resource_desc}' resource is not found."

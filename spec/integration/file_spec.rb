@@ -64,4 +64,8 @@ describe 'file resource' do
   describe file('/tmp/file_edit_without_content_change_keeping_timestamp') do
     its(:mtime) { should eq(DateTime.iso8601("2016-05-02T12:34:56Z")) }
   end
+
+  describe file('/tmp/file_edit_notifies') do
+    its(:content) { should eq("1") }
+  end
 end

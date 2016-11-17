@@ -44,9 +44,9 @@ end
 
 #####
 
-# execute 'echo -n 1 > /tmp/file_edit_notifies' do
-#   action :nothing
-# end
+execute 'echo -n 1 > /tmp/file_edit_notifies' do
+  action :nothing
+end
 
 file '/tmp/file_edit_sample' do
   content 'Hello, world'
@@ -63,7 +63,7 @@ file '/tmp/file_edit_sample' do
   block do |content|
     content.gsub!('world', 'Itamae')
   end
-  # notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
+  notifies :run, "execute[echo -n 1 > /tmp/file_edit_notifies]"
 end
 
 file '/tmp/file_edit_keeping_mode_owner' do
