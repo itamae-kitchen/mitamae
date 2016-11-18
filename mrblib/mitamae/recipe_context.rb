@@ -49,6 +49,10 @@ module MItamae
       @recipe.children << Resource::Git.new(destination, @recipe, @variables, &block)
     end
 
+    def http_request(path, &block)
+      @recipe.children << Resource::HTTPRequest.new(path, @recipe, @variables, &block)
+    end
+
     def link(link_path, &block)
       @recipe.children << Resource::Link.new(link_path, @recipe, @variables, &block)
     end
