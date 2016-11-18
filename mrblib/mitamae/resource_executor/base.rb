@@ -168,7 +168,7 @@ module MItamae
       end
 
       def notify
-        @resource.notifications.each do |notification|
+        (@resource.notifications + @resource.recipe.root.subscriptions_for(@resource)).each do |notification|
           message = "Notifying #{notification.action} to #{notification.resource.resource_type} resource '#{notification.resource.resource_name}'"
 
           if notification.delayed?
@@ -179,14 +179,14 @@ module MItamae
 
           MItamae.logger.info message
 
-          # if notification.instance_of?(Subscription)
-          #   MItamae.logger.info "(because it subscribes this resource)"
-          # end
+          if notification.instance_of?(Subscription)
+            MItamae.logger.info "(because it subscribes this resource)"
+          end
 
           if notification.delayed?
             @resource.recipe.delayed_notifications << notification
           elsif notification.immediately?
-            ResourceExecutor.create(notification.resource, @runner).execute(notification.action)
+            ResourceExecutor.create(notification.action_resource, @runner).execute(notification.action)
           end
         end
       end

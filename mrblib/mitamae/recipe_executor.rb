@@ -33,7 +33,7 @@ module MItamae
           execute_node(resource)
         end
         node.delayed_notifications.each do |notification|
-          ResourceExecutor.create(notification.resource, @runner).execute(notification.action)
+          ResourceExecutor.create(notification.action_resource, @runner).execute(notification.action)
         end
       end
     end

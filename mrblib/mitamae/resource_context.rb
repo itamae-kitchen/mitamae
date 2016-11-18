@@ -12,7 +12,11 @@ module MItamae
     end
 
     def notifies(action, resource_desc, timing = :delay)
-      @resource.notifications << Notification.create(@resource.recipe, action, resource_desc, timing)
+      @resource.notifications << Notification.create(@resource, action, resource_desc, timing)
+    end
+
+    def subscribes(action, resource_desc, timing = :delay)
+      @resource.subscriptions << Subscription.create(@resource, action, resource_desc, timing)
     end
 
     def not_if(command)

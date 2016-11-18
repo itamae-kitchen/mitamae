@@ -1,3 +1,4 @@
+# Wrapper of Specinfra used by not only ResourceExecutor but also MItamae::Node.
 module MItamae
   class Backend
     CommandExecutionError = Class.new(StandardError)

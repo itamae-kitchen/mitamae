@@ -1,5 +1,5 @@
 module MItamae
-  class Notification < Struct.new(:recipe, :action, :target_resource_desc, :timing)
+  class Notification < Struct.new(:defined_in_resource, :action, :target_resource_desc, :timing)
     NotFoundError = Class.new(StandardError)
     ParseError = Class.new(StandardError)
 
@@ -26,13 +26,16 @@ module MItamae
       find_resource_by_description
     end
 
+    def action_resource
+      resource
+    end
+
     private
 
     def find_resource_by_description
-      recipe.children.find do |child|
+      defined_in_resource.recipe.root.all_resources.find do |resource|
         type, name = parse_description
-        child.respond_to?(:resource_type) && child.resource_type == type &&
-          child.respond_to?(:resource_name) && child.resource_name == name
+        resource.resource_type == type && resource.resource_name == name
       end.tap do |resource|
         unless resource
           raise NotFoundError, "'#{target_resource_desc}' resource is not found."

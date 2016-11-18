@@ -84,7 +84,7 @@ module MItamae
       defined_path = @recipe.path
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
-        @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), name, n).tap do |recipe|
+        @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), @recipe, name, n).tap do |recipe|
           params = klass.new(n, recipe, variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, variables.merge(params: params)).instance_exec(&block)
         end
@@ -108,7 +108,7 @@ module MItamae
       RecipeContext.included_paths << path
 
       src = File.read(path)
-      @recipe.children << Recipe.new(path).tap do |recipe|
+      @recipe.children << Recipe.new(path, @recipe).tap do |recipe|
         RecipeContext.new(recipe, @variables).instance_eval(src, path, 1)
       end
     end
