@@ -53,6 +53,10 @@ module MItamae
       @recipe.children << Resource::Link.new(link_path, @recipe, @variables, &block)
     end
 
+    def local_ruby_block(name, &block)
+      @recipe.children << Resource::LocalRubyBlock.new(name, @recipe, @variables, &block)
+    end
+
     def package(name, &block)
       @recipe.children << Resource::Package.new(name, @recipe, @variables, &block)
     end
