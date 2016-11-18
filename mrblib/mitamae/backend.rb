@@ -24,6 +24,15 @@ module MItamae
         else
           method = :error
           message = "Command `#{command}` failed. (exit status: #{result.exit_status})"
+
+          unless MItamae.logger.level == Logger::DEBUG
+            result.stdout.each_line do |l|
+              log_output_line("stdout", l)
+            end
+            result.stderr.each_line do |l|
+              log_output_line("stderr", l)
+            end
+          end
         end
         MItamae.logger.send(method, message)
       end
@@ -62,6 +71,11 @@ module MItamae
       unless stderr.empty?
         MItamae.logger.debug("stderr | #{stderr}")
       end
+    end
+
+    def log_output_line(output_name, line)
+      line = line.gsub(/[[:cntrl:]]/, '')
+      MItamae.logger.error("#{output_name} | #{line}")
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
