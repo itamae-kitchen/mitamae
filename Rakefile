@@ -1,8 +1,8 @@
 require 'fileutils'
 
-file :mruby do
-  # Using fork to apply https://github.com/mruby/mruby/pull/3192
-  sh "git clone --depth=1 https://github.com/k0kubun/mruby"
+file 'mruby/.git' do
+  # Using master to apply https://github.com/mruby/mruby/pull/3192
+  sh "git submodule init && git submodule update --depth 1"
 
   #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
   #FileUtils.mv("mruby-1.2.0", "mruby")
@@ -15,7 +15,7 @@ mruby_root=File.expand_path(ENV["MRUBY_ROOT"] || "#{APP_ROOT}/mruby")
 mruby_config=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 ENV['MRUBY_ROOT'] = mruby_root
 ENV['MRUBY_CONFIG'] = mruby_config
-Rake::Task[:mruby].invoke unless Dir.exist?(mruby_root)
+Rake::Task['mruby/.git'].invoke unless Dir.exist?(File.join(mruby_root, '.git'))
 Dir.chdir(mruby_root)
 load "#{mruby_root}/Rakefile"
 
