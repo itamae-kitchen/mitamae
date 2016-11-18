@@ -1,10 +1,9 @@
 module MItamae
   module ResourceExecutor
     class Base
-      def initialize(resource, options)
+      def initialize(resource, runner)
         @resource = resource
-        @backend  = options[:backend]
-        @dry_run  = options[:dry_run]
+        @runner   = runner
         @updated  = false
       end
 
@@ -66,7 +65,7 @@ module MItamae
             MItamae.logger.error "action #{action.inspect} is unavailable"
             exit 1
           end
-          return if @dry_run
+          return if @runner.dry_run?
 
           apply(current, desired)
           if different?(current, desired)
@@ -139,7 +138,7 @@ module MItamae
 
         args.last[:user] ||= attributes.user
         args.last[:cwd]  ||= attributes.cwd
-        @backend.run_command(*args)
+        @runner.run_command(*args)
       end
 
       def check_command(*args)
@@ -150,7 +149,7 @@ module MItamae
       end
 
       def run_specinfra(type, *args)
-        command = @backend.get_command(type, *args)
+        command = @runner.get_command(type, *args)
 
         if type.to_s.start_with?('check_')
           check_command(command)
@@ -187,8 +186,7 @@ module MItamae
           if notification.delayed?
             @resource.recipe.delayed_notifications << notification
           elsif notification.immediately?
-            options = { backend: @backend, dry_run: @dry_run }
-            ResourceExecutor.create(notification.resource, options).execute(notification.action)
+            ResourceExecutor.create(notification.resource, @runner).execute(notification.action)
           end
         end
       end

@@ -33,10 +33,8 @@ module MItamae
           backend:   backend,
         ).load(@recipe_paths)
 
-        RecipeExecutor.new(
-          dry_run: @options[:dry_run],
-          backend: backend,
-        ).execute(recipes)
+        runner = Runner.new(dry_run: @options[:dry_run], backend: backend)
+        RecipeExecutor.new(runner).execute(recipes)
       end
 
       private

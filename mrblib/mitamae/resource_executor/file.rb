@@ -64,7 +64,7 @@ module MItamae
           desired.mode  ||= run_specinfra(:get_file_mode, desired.path).stdout.chomp
           desired.owner ||= run_specinfra(:get_file_owner_user, desired.path).stdout.chomp
           desired.group ||= run_specinfra(:get_file_owner_group, desired.path).stdout.chomp
-          if !@dry_run || @existed
+          if !@runner.dry_run? || @existed
             content = ::File.read(desired.path)
             attributes.block.call(content)
             desired.content = content
