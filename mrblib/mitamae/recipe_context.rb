@@ -69,6 +69,10 @@ module MItamae
       @recipe.children << Resource::User.new(user_name, @recipe, @variables, &block)
     end
 
+    def remote_directory(path, &block)
+      @recipe.children << Resource::RemoteDirectory.new(path, @recipe, @variables, &block)
+    end
+
     def remote_file(path, &block)
       @recipe.children << Resource::RemoteFile.new(path, @recipe, @variables, &block)
     end
