@@ -1,7 +1,7 @@
 module MItamae
   class RecipeExecutor
-    def initialize(options = {})
-      @options = options
+    def initialize(runner)
+      @runner = runner
     end
 
     def execute(recipes)
@@ -21,7 +21,7 @@ module MItamae
         MItamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
         execute_children(node)
       when Resource::Base
-        ResourceExecutor.create(node, @options).execute
+        ResourceExecutor.create(node, @runner).execute
       else
         raise "unexpected execute node: #{node.class}"
       end
@@ -33,7 +33,7 @@ module MItamae
           execute_node(resource)
         end
         node.delayed_notifications.each do |notification|
-          ResourceExecutor.create(notification.resource, @options).execute(notification.action)
+          ResourceExecutor.create(notification.resource, @runner).execute(notification.action)
         end
       end
     end

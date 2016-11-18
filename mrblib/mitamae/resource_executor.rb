@@ -3,8 +3,8 @@ module MItamae
     NotFoundError = Class.new(StandardError)
 
     class << self
-      def create(resource, options)
-        find(resource.class).new(resource, options)
+      def create(resource, runner)
+        find(resource.class).new(resource, runner)
       end
 
       private
