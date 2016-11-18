@@ -17,7 +17,7 @@ module MItamae
             run_action(action)
           end
 
-          # XXX: verify (`verify` method in resource)
+          verify
           if updated?
             notify
           end
@@ -187,6 +187,16 @@ module MItamae
             @resource.recipe.delayed_notifications << notification
           elsif notification.immediately?
             ResourceExecutor.create(notification.action_resource, @runner).execute(notification.action)
+          end
+        end
+      end
+
+      def verify
+        return if @resource.verify_commands.empty?
+        MItamae.logger.info "Verifying..."
+        MItamae.logger.with_indent do
+          @resource.verify_commands.each do |command|
+            run_command(command)
           end
         end
       end

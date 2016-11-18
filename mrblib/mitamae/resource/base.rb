@@ -30,6 +30,7 @@ module MItamae
       attr_accessor :attributes
       attr_accessor :only_if_command
       attr_accessor :not_if_command
+      attr_reader :verify_commands
       attr_reader :notifications
       attr_reader :subscriptions
       attr_reader :resource_name
@@ -39,6 +40,7 @@ module MItamae
         @recipe = recipe
         @attributes = Hashie::Mash.new
         @resource_name = resource_name
+        @verify_commands = []
         @notifications = []
         @subscriptions = []
         if block

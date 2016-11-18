@@ -27,6 +27,10 @@ module MItamae
       @resource.only_if_command = command
     end
 
+    def verify(command)
+      @resource.verify_commands << command
+    end
+
     private
 
     def respond_to_missing?(method, include_private = false)
