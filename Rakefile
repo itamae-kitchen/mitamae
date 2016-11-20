@@ -2,7 +2,7 @@ require 'fileutils'
 
 file 'mruby/.git' do
   # Using master to apply https://github.com/mruby/mruby/pull/3192
-  sh "git submodule init && git submodule update --depth 1"
+  sh "git submodule init && git submodule update"
 
   #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
   #FileUtils.mv("mruby-1.2.0", "mruby")
