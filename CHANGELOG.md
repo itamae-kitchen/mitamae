@@ -3,6 +3,7 @@
   - Support `subscribes`, `verify`
   - Add `local_ruby_block`, `remote_directory`, `http_request` resources
   - Implement Host Inventory
+- Print stdout and stderr on command failure
 
 ## v0.6.2
 - Support edit action for file resource
