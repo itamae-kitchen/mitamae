@@ -5,6 +5,7 @@ module MItamae
 
     def initialize(options = {})
       @shell = options.fetch(:shell, '/bin/sh')
+      @backend = Specinfra::Backend::Exec.new(shell: @shell)
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L46-L86
@@ -14,7 +15,7 @@ module MItamae
       command = build_command(commands, options)
       MItamae.logger.debug "Executing `#{command}`..."
 
-      result = spawn_command(command)
+      result = @backend.run_command(command)
 
       MItamae.logger.with_indent do
         flush_buffers(result.stdout, result.stderr)
@@ -45,22 +46,12 @@ module MItamae
       result
     end
 
-    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/base.rb#L27-L36
-    def os_info
-      return @os_info if @os_info
-      Specinfra::Helper::DetectOs.all.each do |klass|
-        if @os_info = klass.new(self).detect
-          @os_info[:arch] ||= run_command('uname -m').stdout.strip
-          return @os_info
-        end
-      end
-      raise 'Failed to detect OS!'
+    def get_command(*args)
+      @backend.command.get(*args)
     end
 
-    # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L88-L90
-    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/base.rb#L38-L40
-    def get_command(*args)
-      Specinfra::CommandFactory.new(os_info).get(*args)
+    def host_inventory
+      @backend.host_inventory
     end
 
     private
@@ -99,12 +90,6 @@ module MItamae
       end
 
       command
-    end
-
-    # https://github.com/mizzy/specinfra/blob/v2.60.2/lib/specinfra/backend/exec.rb#L56-L141
-    def spawn_command(cmd)
-      stdout, stderr, status = Open3.capture3(@shell, '-c', cmd)
-      CommandResult.new(stdout: stdout, stderr: stderr, exit_status: status.exitstatus)
     end
   end
 end

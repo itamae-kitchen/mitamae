@@ -46,15 +46,7 @@ module MItamae
     end
 
     def fetch_inventory_value(key)
-      host_inventory[key]
-    end
-
-    def host_inventory
-      @host_inventory ||= Hashie::Mash.new.tap do |inv|
-        os_info = @backend.os_info
-        inv[:platform] = os_info[:family]
-        inv[:platform_version] = os_info[:release]
-      end
+      @backend.host_inventory[key]
     end
   end
 end
