@@ -1,3 +1,4 @@
+# This class has API-limited version of MItamae::Backend to execute resource
 module MItamae
   class Runner
     def initialize(options)

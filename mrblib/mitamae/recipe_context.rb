@@ -49,8 +49,16 @@ module MItamae
       @recipe.children << Resource::Git.new(destination, @recipe, @variables, &block)
     end
 
+    def http_request(path, &block)
+      @recipe.children << Resource::HTTPRequest.new(path, @recipe, @variables, &block)
+    end
+
     def link(link_path, &block)
       @recipe.children << Resource::Link.new(link_path, @recipe, @variables, &block)
+    end
+
+    def local_ruby_block(name, &block)
+      @recipe.children << Resource::LocalRubyBlock.new(name, @recipe, @variables, &block)
     end
 
     def package(name, &block)
@@ -63,6 +71,10 @@ module MItamae
 
     def user(user_name, &block)
       @recipe.children << Resource::User.new(user_name, @recipe, @variables, &block)
+    end
+
+    def remote_directory(path, &block)
+      @recipe.children << Resource::RemoteDirectory.new(path, @recipe, @variables, &block)
     end
 
     def remote_file(path, &block)
@@ -84,7 +96,7 @@ module MItamae
       defined_path = @recipe.path
       klass = Resource::Definition.create_class(name, params)
       RecipeContext.send(:define_method, name) do |n, &b|
-        @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), name, n).tap do |recipe|
+        @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), @recipe, name, n).tap do |recipe|
           params = klass.new(n, recipe, variables, &b).attributes.merge(name: n)
           RecipeContext.new(recipe, variables.merge(params: params)).instance_exec(&block)
         end
@@ -108,7 +120,7 @@ module MItamae
       RecipeContext.included_paths << path
 
       src = File.read(path)
-      @recipe.children << Recipe.new(path).tap do |recipe|
+      @recipe.children << Recipe.new(path, @recipe).tap do |recipe|
         RecipeContext.new(recipe, @variables).instance_eval(src, path, 1)
       end
     end
