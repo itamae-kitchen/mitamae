@@ -5,7 +5,7 @@ With mitamae's standalone binary, you can write a configuration recipe in Ruby a
 
 ## Status
 
-Beta. Most of the features are implemented and tested.
+All features are implemented and tested.
 
 ## Synopsis
 
@@ -79,8 +79,8 @@ In recipes, you can use the features listed below.
   - [x] only\_if
   - [x] not\_if
   - [x] notifies
-  - [ ] subscribes
-  - [ ] verify
+  - [x] subscribes
+  - [x] verify
 - Resources
   - [x] execute resource
   - [x] package resource
@@ -94,15 +94,15 @@ In recipes, you can use the features listed below.
   - [x] gem\_package resource
   - [x] user resource
   - [x] group resource
-  - [ ] remote\_directory resource
-  - [ ] http\_request resource
-  - [ ] local\_ruby\_block resource
+  - [x] remote\_directory resource
+  - [x] http\_request resource
+  - [x] local\_ruby\_block resource
 - [x] Definitions
 - [x] Including Recipes
 - [x] Node Attributes
 - [x] run\_command
 - [x] Plugins
-- [ ] Host Inventory
+- [x] Host Inventory
 
 ### Supported platforms
 

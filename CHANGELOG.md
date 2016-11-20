@@ -1,3 +1,9 @@
+## v1.0.0
+- Implement all features for `itamae local`
+  - Support `subscribes`, `verify`
+  - Add `local_ruby_block`, `remote_directory`, `http_request` resources
+  - Implement Host Inventory
+
 ## v0.6.2
 - Support edit action for file resource
 
