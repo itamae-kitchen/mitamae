@@ -1,6 +1,6 @@
 require 'fileutils'
 
-file 'mruby/.git' do
+file :mruby do
   # Using master to apply https://github.com/mruby/mruby/pull/3192
   revision = "0ff3ae1fbaed62010c54c43235e29cdc85da2f78"
   sh "git clone https://github.com/mruby/mruby && git -C mruby reset --hard #{revision}"
@@ -16,7 +16,7 @@ mruby_root=File.expand_path(ENV["MRUBY_ROOT"] || "#{APP_ROOT}/mruby")
 mruby_config=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 ENV['MRUBY_ROOT'] = mruby_root
 ENV['MRUBY_CONFIG'] = mruby_config
-Rake::Task['mruby/.git'].invoke unless Dir.exist?(File.join(mruby_root, '.git'))
+Rake::Task[:mruby].invoke unless Dir.exist?(mruby_root)
 Dir.chdir(mruby_root)
 load "#{mruby_root}/Rakefile"
 
