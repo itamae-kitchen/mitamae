@@ -1,3 +1,6 @@
+## v1.0.1
+- Add `warn` and `fatal` log levels to `MItamae.logger`
+
 ## v1.0.0
 - Implement all features for `itamae local`
   - Support `subscribes`, `verify`
