@@ -46,17 +46,37 @@ module MItamae
       DEBUG >= @level
     end
 
+    def info?
+      INFO >= @level
+    end
+
+    def warn?
+      WARN >= @level
+    end
+
     def error?
       ERROR >= @level
     end
 
-    def info?
-      INFO >= @level
+    def fatal?
+      FATAL >= @level
     end
 
     def debug(message)
       if debug?
         add(:debug, message)
+      end
+    end
+
+    def info(message)
+      if info?
+        add(:info, message)
+      end
+    end
+
+    def warn(message)
+      if warn?
+        add(:warn, message)
       end
     end
 
@@ -66,9 +86,9 @@ module MItamae
       end
     end
 
-    def info(message)
-      if info?
-        add(:info, message)
+    def fatal(message)
+      if fatal?
+        add(:fatal, message)
       end
     end
 
