@@ -1,3 +1,8 @@
+## v1.1.0
+- Add supported platforms
+  - aix, alpine, amazon, coreos, cumulus, eos, esxi, fedora, freebsd,linuxmint,
+  - nixos, openbsd, opensuse, plamo, poky, sles, smartos, solaris, suse
+
 ## v1.0.1
 - Add `warn` and `fatal` log levels to `MItamae.logger`
 

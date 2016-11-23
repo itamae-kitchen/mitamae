@@ -108,12 +108,15 @@ In recipes, you can use the features listed below.
 
 Currently following platforms are supported but others can be easily supported by porting specinfra modules.
 
+- Alpine Linux
+- Amazon Linux
 - Arch Linux
 - CentOS
 - Debian
 - Gentoo
-- OSX
 - Ubuntu
+- macOS
+- [...etc](https://github.com/k0kubun/mruby-specinfra/tree/master/mrblib/specinfra/command)
 
 ## Contributing
 ### Development
