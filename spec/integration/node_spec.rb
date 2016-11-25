@@ -14,4 +14,14 @@ describe 'node object' do
     it { should be_file }
     its(:content) { should eq('node.yml') }
   end
+
+  describe file('/tmp/node_assign') do
+    it { should be_file }
+    its(:content) { should eq("hello: hello\nworld: world\n") }
+  end
+
+  describe file('/tmp/node_merge') do
+    it { should be_file }
+    its(:content) { should eq("hello: hello\nworld: world\n" * 2) }
+  end
 end

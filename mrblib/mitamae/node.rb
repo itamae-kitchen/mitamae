@@ -33,7 +33,7 @@ module MItamae
 
     def method_missing(method, *args)
       if @mash.respond_to?(method)
-        return @mash.public_send(method, *args)
+        return @mash.send(method, *args)
       elsif args.empty? && value = fetch_inventory_value(method)
         return value
       end

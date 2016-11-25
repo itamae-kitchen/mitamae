@@ -1,0 +1,7 @@
+<%- node.reverse_merge!(node_merge_a: 'hello', nest: { node_merge_b: 'world' }) -%>
+hello: <%= node[:node_merge_a] %>
+world: <%= node[:nest][:node_merge_b] %>
+<%- node.merge!(nest: { node_merge_b: 'hello' }) -%>
+<%- node.reverse_merge!(nest: { node_merge_b: 'world', node_merge_c: 'world' }) -%>
+hello: <%= node[:nest][:node_merge_b] %>
+world: <%= node[:nest][:node_merge_c] %>
