@@ -1,0 +1,4 @@
+<%- node.merge!(node_assign: 'hello') -%>
+hello: <%= node[:node_assign] %>
+<%- node[:node_assign] = 'world' -%>
+world: <%= node[:node_assign] %>
