@@ -1,3 +1,6 @@
+## v1.1.1
+- Fix assignment failure on node object
+
 ## v1.1.0
 - Add supported platforms
   - aix, alpine, amazon, coreos, cumulus, eos, esxi, fedora, freebsd,linuxmint,
