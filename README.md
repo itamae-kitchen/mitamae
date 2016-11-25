@@ -132,7 +132,6 @@ $ rake clean
 
 ```bash
 # Run integration tests on Docker
-$ docker-compose run -e BUILD_TARGET=linux-x86_64 compile
 $ bundle exec rspec
 ```
 
