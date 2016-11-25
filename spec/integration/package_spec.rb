@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'package resource' do
   before(:all) do
+    run_command('apt-get', 'update')
     apply_recipe('package')
   end
 

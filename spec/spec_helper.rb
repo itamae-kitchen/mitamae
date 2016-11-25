@@ -10,10 +10,11 @@ module MItamaeSpec
     recipe = "/recipes/#{recipe}"
 
     puts "\n=== Apply #{recipe} #{options.join(' ')} ==="
-    system(
-      'docker', 'exec', '-it', MItamaeSpec.container,
-      '/mitamae/bin/mitamae', 'local', *options, recipe,
-    ) || raise("Failed to apply: #{recipe}")
+    run_command('/mitamae/bin/mitamae', 'local', *options, recipe)
+  end
+
+  def run_command(*cmd)
+    system('docker', 'exec', '-it', MItamaeSpec.container, *cmd) || raise("Failed to execute: #{cmd.inspect}")
   end
 end
 
