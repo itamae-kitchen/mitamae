@@ -1,3 +1,6 @@
+## v1.1.2
+- Allow creating file with empty content
+
 ## v1.1.1
 - Fix assignment failure on node object
 
