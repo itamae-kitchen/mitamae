@@ -3,7 +3,7 @@ module MItamae
     class File < Base
       def apply(current, desired)
         if desired.exist
-          if current.exist && !@temppath
+          if !current.exist && !@temppath
             run_command(["touch", attributes.path])
           end
 

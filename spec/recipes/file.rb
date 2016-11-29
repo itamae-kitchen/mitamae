@@ -135,3 +135,12 @@ execute "f=/tmp/file_without_content_change_keeping_timestamp && echo 'Hello, wo
 file "/tmp/file_without_content_change_keeping_timestamp" do
   content "Hello, world\n"
 end
+
+###
+
+file '/tmp/empty_file_with_owner' do
+  action :create
+  mode '600'
+  owner 'itamae'
+  group 'itamae'
+end

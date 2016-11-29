@@ -68,4 +68,12 @@ describe 'file resource' do
   describe file('/tmp/file_edit_notifies') do
     its(:content) { should eq("1") }
   end
+
+  describe file('/tmp/empty_file_with_owner') do
+    it { should be_file }
+    its(:content) { should eq('') }
+    it { should be_mode 600 }
+    it { should be_owned_by "itamae" }
+    it { should be_grouped_into "itamae" }
+  end
 end
