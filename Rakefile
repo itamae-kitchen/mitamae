@@ -1,14 +1,5 @@
 require 'fileutils'
 
-file :mruby do
-  # Using master to apply https://github.com/mruby/mruby/pull/3192
-  revision = "0ff3ae1fbaed62010c54c43235e29cdc85da2f78"
-  sh "git clone https://github.com/mruby/mruby && git -C mruby reset --hard #{revision}"
-
-  #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
-  #FileUtils.mv("mruby-1.2.0", "mruby")
-end
-
 APP_NAME=ENV["APP_NAME"] || "mitamae"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
