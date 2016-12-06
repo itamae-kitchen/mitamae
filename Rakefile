@@ -1,14 +1,5 @@
 require 'fileutils'
 
-file :mruby do
-  # Using master to apply https://github.com/mruby/mruby/pull/3192
-  revision = "0ff3ae1fbaed62010c54c43235e29cdc85da2f78"
-  sh "git clone https://github.com/mruby/mruby && git -C mruby reset --hard #{revision}"
-
-  #sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
-  #FileUtils.mv("mruby-1.2.0", "mruby")
-end
-
 APP_NAME=ENV["APP_NAME"] || "mitamae"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
@@ -27,78 +18,68 @@ task :compile => [:all] do
   end
 end
 
-namespace :test do
-  desc "run mruby & unit tests"
-  # only build mtest for host
-  task :mtest => :compile do
-    # in order to get mruby/test/t/synatx.rb __FILE__ to pass,
-    # we need to make sure the tests are built relative from mruby_root
-    MRuby.each_target do |target|
-      # only run unit tests here
-      target.enable_bintest = false
-      run_test if target.test_enabled?
-    end
+desc "run mruby & unit tests"
+# only build mtest for host
+task 'test:mtest' => 'test:compile' do
+  # in order to get mruby/test/t/synatx.rb __FILE__ to pass,
+  # we need to make sure the tests are built relative from mruby_root
+  MRuby.each_target do |target|
+    # only run unit tests here
+    target.enable_bintest = false
+    run_test if target.test_enabled?
   end
+end
 
-  def clean_env(envs)
-    old_env = {}
-    envs.each do |key|
-      old_env[key] = ENV[key]
-      ENV[key] = nil
-    end
-    yield
-    envs.each do |key|
-      ENV[key] = old_env[key]
-    end
+ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
+desc 'run spec container'
+task 'test:compile' do
+  Dir.chdir(__dir__) do
+    sh 'docker-compose run -e BUILD_TARGET=linux-x86_64 compile'
   end
+end
 
-  ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
-  desc 'run spec container'
-  task :compile do
-    Dir.chdir(__dir__) do
-      sh 'docker-compose run -e BUILD_TARGET=linux-x86_64 compile'
-    end
+desc 'run bundle install'
+task 'test:bundle_install' do
+  Dir.chdir(__dir__) do
+    sh 'bundle check || bundle install -j4'
   end
+end
 
-  desc 'run bundle install'
-  task :bundle_install do
-    Dir.chdir(__dir__) do
-      sh 'bundle check || bundle install -j4'
-    end
+desc 'run serverspec'
+task 'test:serverspec' => 'test:bundle_install' do
+  Dir.chdir(__dir__) do
+    sh 'bundle exec rspec'
   end
+end
 
-  desc 'run serverspec'
-  task :serverspec => :bundle_install do
-    Dir.chdir(__dir__) do
-      sh 'bundle exec rspec'
-    end
-  end
+desc 'run integration tests'
+task 'test:integration' => 'test:serverspec'
 
-  desc 'run integration tests'
-  task integration: :serverspec
+desc 'Benchmark recipe execution'
+task 'test:benchmark' => 'test:compile' do
+  Dir.chdir(__dir__) do
+    ENV['MITAMAE_BENCH_ITERATIONS'] ||= '100'
 
-  desc 'Benchmark recipe execution'
-  task benchmark: :compile do
-    Dir.chdir(__dir__) do
-      ENV['MITAMAE_BENCH_ITERATIONS'] ||= '100'
+    puts 'Preparing...'
+    sh 'mruby/build/host/bin/mitamae local benchmark/delete.rb'
 
-      puts 'Preparing...'
-      sh 'mruby/build/host/bin/mitamae local benchmark/delete.rb'
+    puts "\n\n=== file creation ==="
+    sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
 
-      puts "\n\n=== file creation ==="
-      sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
+    puts "\n\n=== no operation ==="
+    sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
 
-      puts "\n\n=== no operation ==="
-      sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
-
-      puts "\n\n=== file deletion ==="
-      sh 'time mruby/build/host/bin/mitamae local benchmark/delete.rb'
-    end
+    puts "\n\n=== file deletion ==="
+    sh 'time mruby/build/host/bin/mitamae local benchmark/delete.rb'
   end
 end
 
 desc "run all tests"
-Rake::Task['test'].clear
+if Object.const_defined?(:MiniRake)
+  MiniRake::Task::TASKS.delete('test')
+else
+  Rake::Task['test'].clear
+end
 task :test => ["test:mtest", "test:bintest"]
 
 desc "cleanup"
@@ -106,83 +87,79 @@ task :clean do
   sh "rake deep_clean"
 end
 
-namespace :release do
-  desc "cross compile for release"
-  task :build do
-    sh 'docker-compose run -e BUILD_TARGET=all compile'
+desc "cross compile for release"
+task 'release:build' do
+  sh 'docker-compose run -e BUILD_TARGET=all compile'
 
-    Dir.chdir(__dir__) do
-      FileUtils.mkdir_p('mitamae-build')
+  Dir.chdir(__dir__) do
+    FileUtils.mkdir_p('mitamae-build')
 
-      {
-        'i386-apple-darwin14'   => 'mitamae-i386-darwin',
-        'i686-pc-linux-gnu'     => 'mitamae-i686-linux',
-        'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
-        'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
-      }.each do |build, bin|
-        FileUtils.cp(
-          "mruby/build/#{build}/bin/mitamae",
-          "mitamae-build/#{bin}",
-        )
-      end
+    {
+      'i386-apple-darwin14'   => 'mitamae-i386-darwin',
+      'i686-pc-linux-gnu'     => 'mitamae-i686-linux',
+      'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
+      'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
+    }.each do |build, bin|
+      FileUtils.cp(
+        "mruby/build/#{build}/bin/mitamae",
+        "mitamae-build/#{bin}",
+      )
     end
   end
+end
 
-  namespace :build do
-    %w[
-      linux-x86_64
-      linux-i686
-      darwin-x86_64
-      darwin-i386
-    ].each do |target|
-      desc "Build for #{target}"
-      task target do
-        sh "docker-compose run -e BUILD_TARGET=#{target} compile"
-      end
+%w[
+  linux-x86_64
+  linux-i686
+  darwin-x86_64
+  darwin-i386
+].each do |target|
+  desc "Build for #{target}"
+  task "release:build:#{target}" do
+    sh "docker-compose run -e BUILD_TARGET=#{target} compile"
+  end
+end
+
+desc "compress binaries in mitamae-build"
+task 'release:compress' do
+  Dir.chdir(File.expand_path('./mitamae-build', __dir__)) do
+    Dir.glob('mitamae-*-darwin').each do |path|
+      sh "tar zcvf #{path}.tar.gz #{path}"
+    end
+
+    Dir.glob('mitamae-*-linux').each do |path|
+      sh "tar zcvf #{path}.tar.gz #{path}"
     end
   end
+end
 
-  desc "compress binaries in mitamae-build"
-  task :compress do
-    Dir.chdir(File.expand_path('./mitamae-build', __dir__)) do
-      Dir.glob('mitamae-*-darwin').each do |path|
-        sh "tar zcvf #{path}.tar.gz #{path}"
-      end
+desc "fetch ghr binary"
+task 'release:ghr' do
+  Dir.chdir(__dir__) do
+    next if File.exist?('ghr')
 
-      Dir.glob('mitamae-*-linux').each do |path|
-        sh "tar zcvf #{path}.tar.gz #{path}"
+    zip_url =
+      if `uname` =~ /\ADarwin/
+        'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_darwin_386.zip'
+      else
+        'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_linux_386.zip'
       end
-    end
+    sh "curl -L #{zip_url} > ghr.zip"
+    sh "unzip ghr.zip"
+  end
+end
+
+desc "upload compiled binary to GitHub"
+task 'release:upload' => 'release:ghr' do
+  unless ENV.has_key?('GITHUB_TOKEN')
+    puts 'Usage: rake release GITHUB_TOKEN="..."'
+    puts
+    abort 'Specify GITHUB_TOKEN generated from https://github.com/settings/tokens.'
   end
 
-  desc "fetch ghr binary"
-  task :ghr do
-    Dir.chdir(__dir__) do
-      next if File.exist?('ghr')
-
-      zip_url =
-        if `uname` =~ /\ADarwin/
-          'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_darwin_386.zip'
-        else
-          'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_linux_386.zip'
-        end
-      sh "curl -L #{zip_url} > ghr.zip"
-      sh "unzip ghr.zip"
-    end
-  end
-
-  desc "upload compiled binary to GitHub"
-  task upload: :ghr do
-    unless ENV.has_key?('GITHUB_TOKEN')
-      puts 'Usage: rake release GITHUB_TOKEN="..."'
-      puts
-      abort 'Specify GITHUB_TOKEN generated from https://github.com/settings/tokens.'
-    end
-
-    Dir.chdir(__dir__) do
-      require_relative './mrblib/mitamae/version'
-      sh "./ghr -u k0kubun v#{MItamae::VERSION} mitamae-build"
-    end
+  Dir.chdir(__dir__) do
+    require_relative './mrblib/mitamae/version'
+    sh "./ghr -u k0kubun v#{MItamae::VERSION} mitamae-build"
   end
 end
 
