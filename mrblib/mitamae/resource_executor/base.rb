@@ -50,12 +50,14 @@ module MItamae
         MItamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] action: #{action}"
 
         MItamae.logger.with_indent_if(MItamae.logger.debug?) do
-          # The (in *) logging is just for backward compatibility with original MItamae.
-          MItamae.logger.debug '(in pre_action)'
+          MItamae.logger.debug '(in set_desired_attributes)'
           desired = desired_attributes(action)
 
           MItamae.logger.debug '(in set_current_attributes)'
           current = current_attributes(action)
+
+          MItamae.logger.debug '(in pre_action)'
+          pre_action(current, desired)
 
           MItamae.logger.debug '(in show_differences)'
           show_differences(current, desired)
@@ -131,6 +133,12 @@ module MItamae
 
       def set_desired_attributes(desired, action)
         raise NotImplementedError
+      end
+
+      # All destructive operations before `show_differences` should be put here,
+      # not in `set_desired_attributes` or `set_current_attributes`.
+      def pre_action(current, desired)
+        # Override this if necessary.
       end
 
       def run_command(*args)
