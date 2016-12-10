@@ -7,7 +7,7 @@ module MItamae
             run_command(["touch", attributes.path])
           end
 
-          change_target = attributes.modified ? @temppath : attributes.path
+          change_target = @modified ? @temppath : attributes.path
 
           if desired.mode
             run_specinfra(:change_file_mode, change_target, desired.mode || current.mode)
@@ -17,7 +17,7 @@ module MItamae
             run_specinfra(:change_file_owner, change_target, desired.owner || current.owner, desired.group || current.group)
           end
 
-          if attributes.modified
+          if @modified
             run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
           end
         else
@@ -99,7 +99,7 @@ module MItamae
       end
 
       def compare_file
-        attributes.modified = false
+        @modified = false
         unless @temppath
           return
         end
@@ -107,7 +107,7 @@ module MItamae
         case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
         when 1
           # diff found
-          attributes.modified = true
+          @modified = true
         when 2
           # error
           raise MItamae::Backend::CommandExecutionError, "diff command exited with 2"
@@ -115,7 +115,7 @@ module MItamae
       end
 
       def show_content_diff
-        if attributes.modified
+        if @modified
           MItamae.logger.info "diff:"
           diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
           diff.stdout.each_line do |line|
