@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class RemoteDirectory < Base
-      def apply(_, desired)
+      def apply
         if desired.exist
           if FileTest.directory?(desired.path)
             run_specinfra(:remove_file, desired.path)
@@ -55,7 +55,7 @@ module MItamae
         sprintf("%4s", mode).gsub(/ /, '0')
       end
 
-      def show_differences(current, desired)
+      def show_differences
         super
 
         if current.exist

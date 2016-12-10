@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class GemPackage < Base
-      def apply(current, desired)
+      def apply
         if desired.installed
           if current.installed
             if desired.version && current.version != desired.version

@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class Directory < Base
-      def apply(_, desired)
+      def apply
         if desired.exist
           if !run_specinfra(:check_file_is_directory, desired.path)
             run_specinfra(:create_file_as_directory, desired.path)

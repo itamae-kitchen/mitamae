@@ -6,7 +6,7 @@ module MItamae
         @under = attributes.provider ? "_under_#{attributes.provider}" : ""
       end
 
-      def apply(current, desired)
+      def apply
         if desired.has_key?(:running)
           if desired.running && !current.running
             run_specinfra(:"start_service#{@under}", attributes.name)

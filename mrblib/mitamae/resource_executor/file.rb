@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class File < Base
-      def apply(current, desired)
+      def apply
         if desired.exist
           if !current.exist && !@temppath
             run_command(["touch", attributes.path])
@@ -71,38 +71,38 @@ module MItamae
         desired.mode = normalize_mode(desired.mode) if desired.mode
       end
 
-      def pre_action(current, desired)
-        send_tempfile(desired)
-        compare_file(current)
+      def pre_action
+        send_tempfile
+        compare_file
       end
 
       def normalize_mode(mode)
         sprintf("%4s", mode).gsub(/ /, '0')
       end
 
-      def show_differences(current, desired)
+      def show_differences
         super
 
         if @temppath && desired.exist
-          show_content_diff(current)
+          show_content_diff
         end
       end
 
-      def compare_to(current)
+      def compare_to
         if current.exist
-          attributes.path
+          desired.path
         else
           '/dev/null'
         end
       end
 
-      def compare_file(current)
+      def compare_file
         @modified = false
         unless @temppath
           return
         end
 
-        case run_command(["diff", "-q", compare_to(current), @temppath], error: false).exit_status
+        case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
         when 1
           # diff found
           @modified = true
@@ -112,10 +112,10 @@ module MItamae
         end
       end
 
-      def show_content_diff(current)
+      def show_content_diff
         if @modified
           MItamae.logger.info "diff:"
-          diff = run_command(["diff", "-u", compare_to(current), @temppath], error: false)
+          diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
@@ -139,7 +139,7 @@ module MItamae
         nil
       end
 
-      def send_tempfile(desired)
+      def send_tempfile
         if !desired.content && !content_file
           @temppath = nil
           return
