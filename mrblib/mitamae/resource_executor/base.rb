@@ -51,10 +51,10 @@ module MItamae
 
         MItamae.logger.with_indent_if(MItamae.logger.debug?) do
           MItamae.logger.debug '(in set_desired_attributes)'
-          desired = desired_attributes(action)
+          desired = desired_attributes(action).freeze
 
           MItamae.logger.debug '(in set_current_attributes)'
-          current = current_attributes(action)
+          current = current_attributes(action).freeze
 
           MItamae.logger.debug '(in pre_action)'
           pre_action(current, desired)

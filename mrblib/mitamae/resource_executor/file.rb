@@ -41,6 +41,7 @@ module MItamae
         current.exist = FileTest.exist?(attributes.path)
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          current.mode = normalize_mode(current.mode)
           current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
           current.group = run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
         else
@@ -67,6 +68,7 @@ module MItamae
             desired.content = content
           end
         end
+        desired.mode = normalize_mode(desired.mode) if desired.mode
       end
 
       def pre_action(current, desired)
@@ -79,9 +81,6 @@ module MItamae
       end
 
       def show_differences(current, desired)
-        current.mode = normalize_mode(current.mode) if current.mode
-        desired.mode = normalize_mode(desired.mode) if desired.mode
-
         super
 
         if @temppath && desired.exist
