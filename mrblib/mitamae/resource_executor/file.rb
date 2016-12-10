@@ -38,7 +38,7 @@ module MItamae
 
       def set_current_attributes(current, action)
         current.modified = false
-        current.exist = @existed
+        current.exist = FileTest.exist?(attributes.path)
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
           current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
@@ -51,9 +51,6 @@ module MItamae
       end
 
       def set_desired_attributes(desired, action)
-        # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/resource/file.rb#L15
-        @existed = FileTest.exist?(desired.path)
-
         case action
         when :create
           desired.exist = true
@@ -64,15 +61,17 @@ module MItamae
           desired.mode  ||= run_specinfra(:get_file_mode, desired.path).stdout.chomp
           desired.owner ||= run_specinfra(:get_file_owner_user, desired.path).stdout.chomp
           desired.group ||= run_specinfra(:get_file_owner_group, desired.path).stdout.chomp
-          if !@runner.dry_run? || @existed
+          if !@runner.dry_run? || FileTest.exist?(desired.path)
             content = ::File.read(desired.path)
             attributes.block.call(content)
             desired.content = content
           end
         end
+      end
 
+      def pre_action(current, desired)
         send_tempfile(desired)
-        compare_file
+        compare_file(current)
       end
 
       def normalize_mode(mode)
@@ -86,25 +85,25 @@ module MItamae
         super
 
         if @temppath && desired.exist
-          show_content_diff
+          show_content_diff(current)
         end
       end
 
-      def compare_to
-        if @existed
+      def compare_to(current)
+        if current.exist
           attributes.path
         else
           '/dev/null'
         end
       end
 
-      def compare_file
+      def compare_file(current)
         @modified = false
         unless @temppath
           return
         end
 
-        case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
+        case run_command(["diff", "-q", compare_to(current), @temppath], error: false).exit_status
         when 1
           # diff found
           @modified = true
@@ -114,10 +113,10 @@ module MItamae
         end
       end
 
-      def show_content_diff
+      def show_content_diff(current)
         if @modified
           MItamae.logger.info "diff:"
-          diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
+          diff = run_command(["diff", "-u", compare_to(current), @temppath], error: false)
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
