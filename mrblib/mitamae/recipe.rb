@@ -14,6 +14,11 @@ module MItamae
       self.delayed_notifications ||= []
     end
 
+    # XXX: The default #inspect causes SEGV...
+    def inspect
+      "<#{self.class}:0x#{object_id.to_s(16)}>"
+    end
+
     def dir
       File.dirname(path)
     end
