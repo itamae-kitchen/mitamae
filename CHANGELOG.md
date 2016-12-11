@@ -1,3 +1,6 @@
+## v1.2.1
+- Fix SEGV on undefined method in recipe
+
 ## v1.2.0
 - Internal changes for resource plugins [#27](https://github.com/k0kubun/mitamae/pull/27)
   - **[breaking change]** `MItamae::ResourceExecutor::Base#apply` is changed to have no arguments
