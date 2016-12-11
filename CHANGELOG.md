@@ -1,3 +1,12 @@
+## v1.2.0
+- Internal changes for resource plugins [#27](https://github.com/k0kubun/mitamae/pull/27)
+  - **[breaking change]** `MItamae::ResourceExecutor::Base#apply` is changed to have no arguments
+     - Original arguments `current`/`desired` are defined as `attr_reader` instead.
+  - `current`/`desired` are frozen after `set_current_attributes`/`set_desired_attributes`
+  - Add `pre_action` hook for destructive operations.
+     - `set_current_attributes`/`set_desired_attributes` should have no side effects.
+- Drop rake.gem from build dependency
+
 ## v1.1.2
 - Allow creating file with empty content
 
