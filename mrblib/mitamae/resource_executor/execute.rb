@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class Execute < Base
-      def apply(_, desired)
+      def apply
         if desired.executed
           run_command(desired.command)
           updated!

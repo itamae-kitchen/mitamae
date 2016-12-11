@@ -3,7 +3,7 @@ module MItamae
     class Git < Base
       DEPLOY_BRANCH = "deploy"
 
-      def apply(_, desired)
+      def apply
         ensure_git_available
 
         new_repository = false

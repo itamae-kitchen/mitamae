@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class File < Base
-      def apply(current, desired)
+      def apply
         if desired.exist
           if !current.exist && !@temppath
             run_command(["touch", attributes.path])
@@ -38,9 +38,10 @@ module MItamae
 
       def set_current_attributes(current, action)
         current.modified = false
-        current.exist = @existed
+        current.exist = FileTest.exist?(attributes.path)
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
+          current.mode = normalize_mode(current.mode)
           current.owner = run_specinfra(:get_file_owner_user, attributes.path).stdout.chomp
           current.group = run_specinfra(:get_file_owner_group, attributes.path).stdout.chomp
         else
@@ -51,9 +52,6 @@ module MItamae
       end
 
       def set_desired_attributes(desired, action)
-        # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/resource/file.rb#L15
-        @existed = FileTest.exist?(desired.path)
-
         case action
         when :create
           desired.exist = true
@@ -64,14 +62,17 @@ module MItamae
           desired.mode  ||= run_specinfra(:get_file_mode, desired.path).stdout.chomp
           desired.owner ||= run_specinfra(:get_file_owner_user, desired.path).stdout.chomp
           desired.group ||= run_specinfra(:get_file_owner_group, desired.path).stdout.chomp
-          if !@runner.dry_run? || @existed
+          if !@runner.dry_run? || FileTest.exist?(desired.path)
             content = ::File.read(desired.path)
             attributes.block.call(content)
             desired.content = content
           end
         end
+        desired.mode = normalize_mode(desired.mode) if desired.mode
+      end
 
-        send_tempfile(desired)
+      def pre_action
+        send_tempfile
         compare_file
       end
 
@@ -79,10 +80,7 @@ module MItamae
         sprintf("%4s", mode).gsub(/ /, '0')
       end
 
-      def show_differences(current, desired)
-        current.mode = normalize_mode(current.mode) if current.mode
-        desired.mode = normalize_mode(desired.mode) if desired.mode
-
+      def show_differences
         super
 
         if @temppath && desired.exist
@@ -91,8 +89,8 @@ module MItamae
       end
 
       def compare_to
-        if @existed
-          attributes.path
+        if current.exist
+          desired.path
         else
           '/dev/null'
         end
@@ -141,7 +139,7 @@ module MItamae
         nil
       end
 
-      def send_tempfile(desired)
+      def send_tempfile
         if !desired.content && !content_file
           @temppath = nil
           return

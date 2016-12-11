@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class Group < Base
-      def apply(current, desired)
+      def apply
         if desired.exist
           if exist?(desired.groupname)
             if desired.gid && desired.gid != current.gid

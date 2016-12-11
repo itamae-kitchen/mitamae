@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class LocalRubyBlock < Base
-      def apply(_, desired)
+      def apply
         desired.block.call
       end
 

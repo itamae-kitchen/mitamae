@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class User < Base
-      def apply(current, desired)
+      def apply
         if desired.exist
           if current.exist
             if desired.uid && desired.uid != current.uid

@@ -47,6 +47,7 @@ module MItamae
           ResourceContext.new(self, variables).instance_exec(&block)
         end
         process_attributes
+        @attributes.freeze
       end
 
       def resource_type

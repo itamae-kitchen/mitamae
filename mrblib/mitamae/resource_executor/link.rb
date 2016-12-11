@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class Link < Base
-      def apply(_, desired)
+      def apply
         unless run_specinfra(:check_file_is_linked_to, desired.link, desired.to)
           run_specinfra(:link_file_to, desired.link, desired.to, force: desired.force)
         end

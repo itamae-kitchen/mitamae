@@ -28,11 +28,17 @@ module MItamae
       end
 
       # Given current and desired attributes, apply it to the real state.
-      def apply(current, desired)
+      def apply
         raise NotImplementedError
       end
 
       private
+
+      # @attribute [Hashie::Mash] current - Current state of attributes
+      attr_reader :current
+
+      # @attribute [Hashie::Mash] desired - Desired state of attributes
+      attr_reader :desired
 
       def skip_condition?
         if @resource.only_if_command && run_command(@resource.only_if_command, error: false).exit_status != 0
@@ -50,15 +56,17 @@ module MItamae
         MItamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] action: #{action}"
 
         MItamae.logger.with_indent_if(MItamae.logger.debug?) do
-          # The (in *) logging is just for backward compatibility with original MItamae.
-          MItamae.logger.debug '(in pre_action)'
-          desired = desired_attributes(action)
+          MItamae.logger.debug '(in set_desired_attributes)'
+          @desired = desired_attributes(action).freeze
 
           MItamae.logger.debug '(in set_current_attributes)'
-          current = current_attributes(action)
+          @current = current_attributes(action).freeze
+
+          MItamae.logger.debug '(in pre_action)'
+          pre_action
 
           MItamae.logger.debug '(in show_differences)'
-          show_differences(current, desired)
+          show_differences
 
           return if action == :nothing
           unless available_action?(action)
@@ -67,8 +75,8 @@ module MItamae
           end
           return if @runner.dry_run?
 
-          apply(current, desired)
-          if different?(current, desired)
+          apply
+          if different?
             updated!
           end
         end
@@ -78,7 +86,7 @@ module MItamae
         @resource.class.available_actions.include?(action)
       end
 
-      def different?(current, desired)
+      def different?
         current.any? do |key, current_value|
           !current_value.nil? &&
             !desired[key].nil? &&
@@ -86,7 +94,7 @@ module MItamae
         end
       end
 
-      def show_differences(current, desired)
+      def show_differences
         current.each_pair do |key, current_value|
           desired_value = desired[key]
           if current_value.nil? && desired_value.nil?
@@ -131,6 +139,12 @@ module MItamae
 
       def set_desired_attributes(desired, action)
         raise NotImplementedError
+      end
+
+      # All destructive operations before `show_differences` should be put here,
+      # not in `set_desired_attributes` or `set_current_attributes`.
+      def pre_action
+        # Override this if necessary.
       end
 
       def run_command(*args)

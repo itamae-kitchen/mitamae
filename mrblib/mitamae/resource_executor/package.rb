@@ -1,7 +1,7 @@
 module MItamae
   module ResourceExecutor
     class Package < Base
-      def apply(current, desired)
+      def apply
         if desired.installed
           unless run_specinfra(:check_package_is_installed, desired.name, desired.version)
             run_specinfra(:install_package, desired.name, desired.version, desired.options)
