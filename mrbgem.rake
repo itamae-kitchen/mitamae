@@ -33,4 +33,5 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
 
   spec.add_dependency 'mruby-erb',       github: 'k0kubun/mruby-erb', checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
   spec.add_dependency 'mruby-io',        github: 'k0kubun/mruby-io',  checksum_hash: '6cb5d157341ceec8f5818ce0000fa99920258c11'
+  spec.add_dependency 'mruby-etc',       github: 'eagletmt/mruby-etc',  checksum_hash: 'v0.1.0'
 end
