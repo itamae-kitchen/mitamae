@@ -163,12 +163,17 @@ module MItamae
       end
 
       def run_specinfra(type, *args)
-        command = @runner.get_command(type, *args)
-
-        if type.to_s.start_with?('check_')
-          check_command(command)
+        inline_backend = @runner.find_inline_backend(type, *args)
+        if inline_backend
+          inline_backend.run(type, *args)
         else
-          run_command(command)
+          command = @runner.get_command(type, *args)
+
+          if type.to_s.start_with?('check_')
+            check_command(command)
+          else
+            run_command(command)
+          end
         end
       end
 
