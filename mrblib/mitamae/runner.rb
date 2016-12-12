@@ -3,6 +3,7 @@ module MItamae
   class Runner
     def initialize(options)
       @backend = options.fetch(:backend)
+      @inline_backend = options.fetch(:inline_backend)
       @dry_run = options.fetch(:dry_run)
     end
 
@@ -16,6 +17,10 @@ module MItamae
 
     def get_command(*args)
       @backend.get_command(*args)
+    end
+
+    def find_inline_backend(type, *args)
+      @inline_backend.find_backend(type, *args)
     end
   end
 end
