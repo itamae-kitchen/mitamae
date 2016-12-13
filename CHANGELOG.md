@@ -1,3 +1,7 @@
+## v1.2.2
+- Improved performance [#30](https://github.com/k0kubun/mitamae/pull/30) [#31](https://github.com/k0kubun/mitamae/pull/31) [#32](https://github.com/k0kubun/mitamae/pull/32)
+- GC is enabled
+
 ## v1.2.1
 - Fix SEGV on undefined method in recipe
 
