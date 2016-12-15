@@ -159,9 +159,20 @@ module MItamae
 
         File.open(@temppath, 'a') {}
         run_specinfra(:change_file_mode, @temppath, '0600')
-        run_command(['cp', src, @temppath])
+        copy_file(src, @temppath)
 
         run_specinfra(:change_file_mode, @temppath, '0600')
+      end
+
+      # This could be slow and inefficient for large files, but I believe no
+      # one manages large files by file resource. Most files are small plain
+      # text files (e.g. configuration files).
+      def copy_file(src, dst)
+        File.open(src) do |fin|
+          File.open(dst, 'w') do |fout|
+            fout.write(fin.read)
+          end
+        end
       end
     end
   end
