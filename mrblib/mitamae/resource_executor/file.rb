@@ -145,23 +145,19 @@ module MItamae
           return
         end
 
-        src = if content_file
-                content_file
-              else
-                f = Tempfile.open('mitamae')
-                f.write(desired.content)
-                f.close
-                f.path
-              end
-
         # XXX: `runner.tmpdir` is changed to '/tmp'
         @temppath = ::File.join('/tmp', Time.now.to_f.to_s)
 
         File.open(@temppath, 'a') {}
         run_specinfra(:change_file_mode, @temppath, '0600')
-        copy_file(src, @temppath)
 
-        run_specinfra(:change_file_mode, @temppath, '0600')
+        if content_file
+          copy_file(content_file, @temppath)
+        else
+          File.open(@temppath, 'w') do |f|
+            f.write(desired.content)
+          end
+        end
       end
 
       # This could be slow and inefficient for large files, but I believe no
