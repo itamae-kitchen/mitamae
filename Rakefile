@@ -89,7 +89,8 @@ end
 
 desc "cross compile for release"
 task 'release:build' do
-  sh 'docker-compose run -e BUILD_TARGET=all compile'
+  sh 'docker-compose run -e BUILD_TARGET=linux-i686,linux-x86_64 compile'
+  sh 'docker-compose run -e BUILD_TARGET=darwin-i386,darwin-x86_64 compile'
 
   Dir.chdir(__dir__) do
     FileUtils.mkdir_p('mitamae-build')
