@@ -4,7 +4,7 @@ module MItamae
       def apply
         if desired.exist
           if !current.exist && !@temppath
-            run_command(["touch", attributes.path])
+            File.open(attributes.path, 'a') {}
           end
 
           change_target = @modified ? @temppath : attributes.path
@@ -145,23 +145,30 @@ module MItamae
           return
         end
 
-        src = if content_file
-                content_file
-              else
-                f = Tempfile.open('mitamae')
-                f.write(desired.content)
-                f.close
-                f.path
-              end
-
         # XXX: `runner.tmpdir` is changed to '/tmp'
         @temppath = ::File.join('/tmp', Time.now.to_f.to_s)
 
-        run_command(["touch", @temppath])
+        File.open(@temppath, 'a') {}
         run_specinfra(:change_file_mode, @temppath, '0600')
-        run_command(['cp', src, @temppath])
 
-        run_specinfra(:change_file_mode, @temppath, '0600')
+        if content_file
+          copy_file(content_file, @temppath)
+        else
+          File.open(@temppath, 'w') do |f|
+            f.write(desired.content)
+          end
+        end
+      end
+
+      # This could be slow and inefficient for large files, but I believe no
+      # one manages large files by file resource. Most files are small plain
+      # text files (e.g. configuration files).
+      def copy_file(src, dst)
+        File.open(src) do |fin|
+          File.open(dst, 'w') do |fout|
+            fout.write(fin.read)
+          end
+        end
       end
     end
   end
