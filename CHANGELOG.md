@@ -1,3 +1,8 @@
+## v1.2.3
+- Improved performance
+  - For file operations [#34](https://github.com/k0kubun/mitamae/pull/34)
+  - For users and groups operations [#35](https://github.com/k0kubun/mitamae/pull/35)
+
 ## v1.2.2
 - Improve performance [#30](https://github.com/k0kubun/mitamae/pull/30) [#31](https://github.com/k0kubun/mitamae/pull/31) [#32](https://github.com/k0kubun/mitamae/pull/32)
 - GC is enabled
