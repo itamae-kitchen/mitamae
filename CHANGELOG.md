@@ -1,3 +1,6 @@
+## v1.2.4
+- Disable GC to avoid bus error
+
 ## v1.2.3
 - Improved performance
   - For file operations [#34](https://github.com/k0kubun/mitamae/pull/34)
