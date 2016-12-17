@@ -12,26 +12,26 @@ module MItamae
     def run_command(commands, options = {})
       options = { error: true }.merge(options)
 
-      command = build_command(commands, options)
-      MItamae.logger.debug "Executing `#{command}`..."
+      command_for_display = build_command(commands, options)
+      MItamae.logger.debug "Executing `#{command_for_display}`..."
 
-      result = @backend.run_command(command)
+      stdout, stderr, status = run_with_open3(commands, options)
 
       MItamae.logger.with_indent do
-        flush_buffers(result.stdout, result.stderr)
+        flush_buffers(stdout, stderr)
 
-        if result.exit_status == 0 || !options[:error]
+        if status.exitstatus == 0 || !options[:error]
           method = :debug
-          message = "exited with #{result.exit_status}"
+          message = "exited with #{status.exitstatus}"
         else
           method = :error
-          message = "Command `#{command}` failed. (exit status: #{result.exit_status})"
+          message = "Command `#{command_for_display}` failed. (exit status: #{status.exitstatus})"
 
           unless MItamae.logger.level == Logger::DEBUG
-            result.stdout.each_line do |l|
+            stdout.each_line do |l|
               log_output_line("stdout", l)
             end
-            result.stderr.each_line do |l|
+            stderr.each_line do |l|
               log_output_line("stderr", l)
             end
           end
@@ -39,11 +39,11 @@ module MItamae
         MItamae.logger.send(method, message)
       end
 
-      if options[:error] && result.exit_status != 0
+      if options[:error] && status.exitstatus != 0
         raise CommandExecutionError
       end
 
-      result
+      Specinfra::CommandResult.new(stdout: stdout, stderr: stderr, exit_status: status.exitstatus)
     end
 
     def get_command(*args)
@@ -90,6 +90,25 @@ module MItamae
       end
 
       command
+    end
+
+    def run_with_open3(commands, options)
+      if options[:user]
+        # Cannot emulate `:user` option without the shell. Fallback to the slow version.
+        Open3.capture3(@shell, '-c', build_command(commands, options))
+      else
+        if commands.is_a?(String)
+          commands = [@shell, '-c', commands]
+        end
+
+        spawn_opts = {}
+        cwd = options[:cwd]
+        if cwd
+          spawn_opts[:chdir] = cwd
+        end
+
+        Open3.capture3(*commands, spawn_opts)
+      end
     end
   end
 end
