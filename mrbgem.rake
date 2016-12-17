@@ -24,7 +24,8 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-hashie',      mgem: 'mruby-hashie',      checksum_hash: 'bfdbb8aebc8786bc9e88469dae87a8dfe8ec4300'
   spec.add_dependency 'mruby-httprequest', mgem: 'mruby-httprequest'
   spec.add_dependency 'mruby-iijson',      mgem: 'mruby-iijson'
-  spec.add_dependency 'mruby-open3',       mgem: 'mruby-open3',       checksum_hash: 'a6d8e41667cfa158cc398ab059bc185d82aaa1b8'
+  spec.add_dependency 'mruby-io',          mgem: 'mruby-io',          checksum_hash: '7e8973629143de1952365803df0c45a89d462857'
+  spec.add_dependency 'mruby-open3',       mgem: 'mruby-open3',       checksum_hash: '96ba6a8f95f8d18c6427635c54a3c9e8b47c2181'
   spec.add_dependency 'mruby-optparse',    mgem: 'mruby-optparse'
   spec.add_dependency 'mruby-shellwords',  mgem: 'mruby-shellwords',  checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
   spec.add_dependency 'mruby-specinfra',   mgem: 'mruby-specinfra',   checksum_hash: 'ebfb79f312b910f13b70186fbedfdd5ef61f2988'
@@ -32,6 +33,5 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-yaml',        mgem: 'mruby-yaml'
 
   spec.add_dependency 'mruby-erb',       github: 'k0kubun/mruby-erb', checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
-  spec.add_dependency 'mruby-io',        github: 'k0kubun/mruby-io',  checksum_hash: '6cb5d157341ceec8f5818ce0000fa99920258c11'
   spec.add_dependency 'mruby-etc',       github: 'eagletmt/mruby-etc',  checksum_hash: 'v0.1.0'
 end
