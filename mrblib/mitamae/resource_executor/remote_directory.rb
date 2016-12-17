@@ -6,7 +6,7 @@ module MItamae
           if FileTest.directory?(desired.path)
             run_specinfra(:remove_file, desired.path)
           end
-          run_command("cp -r #{::File.join(@resource.recipe.dir, desired.source)} #{desired.path}")
+          run_command(['cp', '-r', ::File.join(@resource.recipe.dir, desired.source), desired.path])
 
           if desired.mode
             run_specinfra(:change_file_mode, desired.path, desired.mode)

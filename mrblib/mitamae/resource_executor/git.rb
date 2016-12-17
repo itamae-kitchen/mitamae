@@ -20,7 +20,7 @@ module MItamae
                    get_revision(desired.revision)
                  else
                    fetch_origin!
-                   run_command_in_repo("git ls-remote origin HEAD | cut -f1").stdout.strip
+                   run_command_in_repo(['git', 'ls-remote', 'origin', 'HEAD']).stdout.split[0]
                  end
 
         if new_repository || target != get_revision('HEAD')
@@ -28,7 +28,7 @@ module MItamae
 
           deploy_old_created = false
           if current_branch == DEPLOY_BRANCH
-            run_command_in_repo("git branch -m deploy-old")
+            run_command_in_repo(['git', 'branch', '-m', 'deploy-old'])
             deploy_old_created = true
           end
 
@@ -36,7 +36,7 @@ module MItamae
           run_command_in_repo(["git", "checkout", target, "-b", DEPLOY_BRANCH])
 
           if deploy_old_created
-            run_command_in_repo("git branch -d deploy-old")
+            run_command_in_repo(['git', 'branch', '-d', 'deploy-old'])
           end
         end
       end
@@ -58,7 +58,7 @@ module MItamae
       end
 
       def ensure_git_available
-        unless run_command("which git", error: false).exit_status == 0
+        unless run_command(['which', 'git'], error: false).exit_status == 0
           raise "`git` command is not available. Please install git."
         end
       end
@@ -76,15 +76,15 @@ module MItamae
       end
 
       def current_branch
-        run_command_in_repo("git rev-parse --abbrev-ref HEAD").stdout.strip
+        run_command_in_repo(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).stdout.strip
       end
 
       def get_revision(branch)
-        result = run_command_in_repo("git rev-list #{Shellwords.shellescape(branch)}", error: false)
+        result = run_command_in_repo(['git', 'rev-list', branch], error: false)
         unless result.exit_status == 0
           fetch_origin!
         end
-        run_command_in_repo("git rev-list #{Shellwords.shellescape(branch)}").stdout.lines.first.strip
+        run_command_in_repo(['git', 'rev-list', branch]).stdout.lines.first.strip
       end
 
       def fetch_origin!
