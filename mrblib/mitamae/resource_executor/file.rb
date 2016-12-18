@@ -22,7 +22,7 @@ module MItamae
           end
         else
           if FileTest.file?(desired.path)
-            run_specinfra(:remove_file, desired.path)
+            ::File.unlink(desired.path)
           end
         end
       end
@@ -32,7 +32,7 @@ module MItamae
       def run_action(action)
         super
         if @temppath
-          run_specinfra(:remove_file, @temppath)
+          ::File.unlink(@temppath)
         end
       end
 
