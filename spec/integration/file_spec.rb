@@ -76,4 +76,13 @@ describe 'file resource' do
     it { should be_owned_by "itamae" }
     it { should be_grouped_into "itamae" }
   end
+
+  describe file('/tmp/file_changed_sample') do
+    it { should be_file }
+    its(:content) { should eq('Changed') }
+  end
+
+  describe file('/tmp/file_changed_notifies') do
+    its(:content) { should eq('1') }
+  end
 end
