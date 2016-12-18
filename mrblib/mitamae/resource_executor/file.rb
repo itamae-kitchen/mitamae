@@ -19,6 +19,7 @@ module MItamae
 
           if @modified
             run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
+            updated!
           end
         else
           if FileTest.file?(desired.path)

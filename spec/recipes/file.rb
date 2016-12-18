@@ -144,3 +144,24 @@ file '/tmp/empty_file_with_owner' do
   owner 'itamae'
   group 'itamae'
 end
+
+### Test notification on file change
+
+execute 'echo -n 1 > /tmp/file_changed_notifies' do
+  action :nothing
+end
+
+file '/tmp/file_changed_sample' do
+  owner 'itamae'
+  group 'itamae'
+  mode '644'
+  content 'Change me'
+end
+
+file '/tmp/file_changed_sample' do
+  owner 'itamae'
+  group 'itamae'
+  mode '644'
+  content 'Changed'
+  notifies :run, 'execute[echo -n 1 > /tmp/file_changed_notifies]'
+end
