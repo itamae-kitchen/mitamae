@@ -20,6 +20,13 @@ module MItamae
         Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
       end
 
+      def change_file_mode(path, mode_str)
+        File.chmod(mode_str.to_i(8), path)
+        Specinfra::CommandResult.new(stdout: '', stderr: '', exit_status: 0)
+      rescue SystemCallError => e
+        Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
+      end
+
       def get_file_owner_user(path)
         uid = File.stat(path).uid
         passwd = Etc.getpwuid(uid)
