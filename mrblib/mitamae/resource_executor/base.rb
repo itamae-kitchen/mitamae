@@ -73,9 +73,8 @@ module MItamae
             MItamae.logger.error "action #{action.inspect} is unavailable"
             exit 1
           end
-          return if @runner.dry_run?
 
-          apply
+          apply unless @runner.dry_run?
           if different?
             updated!
           end
