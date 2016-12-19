@@ -1,3 +1,13 @@
+## v1.3.0
+- Improve performance
+  - Use syscall for file mode changes [#37](https://github.com/k0kubun/mitamae/pull/37)
+  - Use syscall to remove files [#38](https://github.com/k0kubun/mitamae/pull/38)
+  - Skip unnecessary file copy for file resource [#41](https://github.com/k0kubun/mitamae/pull/41)
+- Notify file's content changes [#40](https://github.com/k0kubun/mitamae/pull/40)
+- Show notifies' log for dry-run mode [#39](https://github.com/k0kubun/mitamae/pull/39)
+- Improve internal implementation
+  - Update `Open3.capture3` to add chdir option, symbolize options and fix a potential bug
+
 ## v1.2.4
 - Disable GC to avoid bus error
 
