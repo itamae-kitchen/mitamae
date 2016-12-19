@@ -42,6 +42,23 @@ module MItamae
       rescue SystemCallError => e
         Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
       end
+
+      def check_file_is_link(path)
+        File.symlink?(path)
+      end
+
+      def get_file_link_target(path)
+        target = File.readlink(path)
+        Specinfra::CommandResult.new(stdout: target, stderr: '', exit_status: 0)
+      rescue SystemCallError => e
+        Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
+      end
+
+      def check_file_is_linked_to(link, target)
+        File.readlink(link) == target
+      rescue SystemCallError
+        false
+      end
     end
   end
 end
