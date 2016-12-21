@@ -1,3 +1,7 @@
+## v1.3.1
+- Improve performance
+  - Use syscall for link operations [#43](https://github.com/k0kubun/mitamae/pull/43)
+
 ## v1.3.0
 - Improve performance
   - Use syscall for file mode changes [#37](https://github.com/k0kubun/mitamae/pull/37)
@@ -12,9 +16,9 @@
 - Disable GC to avoid bus error
 
 ## v1.2.3
-- Improved performance
-  - For file operations [#34](https://github.com/k0kubun/mitamae/pull/34)
-  - For users and groups operations [#35](https://github.com/k0kubun/mitamae/pull/35)
+- Improve performance
+  - Use syscall for file operations [#34](https://github.com/k0kubun/mitamae/pull/34)
+  - Use syscall for users and groups operations [#35](https://github.com/k0kubun/mitamae/pull/35)
 
 ## v1.2.2
 - Improve performance [#30](https://github.com/k0kubun/mitamae/pull/30) [#31](https://github.com/k0kubun/mitamae/pull/31) [#32](https://github.com/k0kubun/mitamae/pull/32)
