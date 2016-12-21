@@ -47,6 +47,8 @@ module MItamae
 
     def fetch_inventory_value(key)
       @backend.host_inventory[key]
+    rescue NotImplementedError
+      nil
     end
   end
 end
