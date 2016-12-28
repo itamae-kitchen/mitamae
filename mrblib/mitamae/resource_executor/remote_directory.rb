@@ -59,7 +59,7 @@ module MItamae
         super
 
         if current.exist
-          diff = run_command(["diff", "-u", attributes.path, @temppath], error: false)
+          diff = run_command(["diff", "-u", attributes.path, ::File.join(@resource.recipe.dir, desired.source)], error: false)
           if diff.exit_status == 0
             # no change
             MItamae.logger.debug "directory content will not change"
