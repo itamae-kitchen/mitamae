@@ -10,4 +10,4 @@ script:
 env:
   - TASK=test:integration
   #- TASK=test:benchmark
-  - TASK=release:build
+  #- TASK=release:build
