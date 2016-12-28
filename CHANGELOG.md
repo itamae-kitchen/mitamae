@@ -1,3 +1,7 @@
+## v1.3.2
+- Suppress `NotImplementedError` on node object like Itamae [#44](https://github.com/k0kubun/mitamae/issues/44)
+- Fix error on applying `remote_directory` twice [#45](https://github.com/k0kubun/mitamae/pull/45)
+
 ## v1.3.1
 - Improve performance
   - Use syscall for link operations [#43](https://github.com/k0kubun/mitamae/pull/43)
