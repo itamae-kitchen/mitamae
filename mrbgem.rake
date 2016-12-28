@@ -24,7 +24,7 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-hashie',      mgem: 'mruby-hashie',      checksum_hash: 'bfdbb8aebc8786bc9e88469dae87a8dfe8ec4300'
   spec.add_dependency 'mruby-httprequest', mgem: 'mruby-httprequest'
   spec.add_dependency 'mruby-iijson',      mgem: 'mruby-iijson'
-  spec.add_dependency 'mruby-io',          mgem: 'mruby-io',          checksum_hash: '458b517c6f5d5bdf0ab2f742841279d6f43e9aac'
+  spec.add_dependency 'mruby-io',          mgem: 'mruby-io',          checksum_hash: '69623078a86b45617a6fdbe0238c147e280ad9db'
   spec.add_dependency 'mruby-open3',       mgem: 'mruby-open3',       checksum_hash: '211550775492e68ba217526808cf1df9deb7fa5a'
   spec.add_dependency 'mruby-optparse',    mgem: 'mruby-optparse'
   spec.add_dependency 'mruby-shellwords',  mgem: 'mruby-shellwords',  checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
