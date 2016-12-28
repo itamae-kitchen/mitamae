@@ -59,7 +59,6 @@ module MItamae
         super
 
         if current.exist
-          run_command(['cp', '-r', ::File.join(@resource.recipe.dir, desired.source), temppath])
           diff = run_command(["diff", "-u", attributes.path, ::File.join(@resource.recipe.dir, desired.source)], error: false)
           if diff.exit_status == 0
             # no change
