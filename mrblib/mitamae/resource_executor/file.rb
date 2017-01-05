@@ -3,11 +3,11 @@ module MItamae
     class File < Base
       def apply
         if desired.exist
-          if !current.exist && !@source_path
+          if !current.exist && !@temppath
             File.open(attributes.path, 'a') {}
           end
 
-          change_target = @modified ? @source_path : attributes.path
+          change_target = @modified ? @temppath : attributes.path
 
           if desired.mode
             run_specinfra(:change_file_mode, change_target, desired.mode || current.mode)
@@ -18,7 +18,7 @@ module MItamae
           end
 
           if @modified
-            run_specinfra(:copy_file, @source_path, attributes.path) # NOTE: currently cleaned in run_action
+            run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
             updated!
           end
         else
@@ -73,7 +73,7 @@ module MItamae
       end
 
       def pre_action
-        prepare_source_path
+        send_tempfile
         compare_file
       end
 
@@ -84,7 +84,7 @@ module MItamae
       def show_differences
         super
 
-        if @source_path && desired.exist
+        if @temppath && desired.exist
           show_content_diff
         end
       end
@@ -99,11 +99,11 @@ module MItamae
 
       def compare_file
         @modified = false
-        unless @source_path
+        unless @temppath
           return
         end
 
-        case run_command(["diff", "-q", compare_to, @source_path], error: false).exit_status
+        case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
         when 1
           # diff found
           @modified = true
@@ -116,7 +116,7 @@ module MItamae
       def show_content_diff
         if @modified
           MItamae.logger.info "diff:"
-          diff = run_command(["diff", "-u", compare_to, @source_path], error: false)
+          diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
           diff.stdout.each_line do |line|
             color = if line.start_with?('+')
                       :green
@@ -140,24 +140,34 @@ module MItamae
         nil
       end
 
-      def prepare_source_path
-        case
-        when !desired.content && !content_file
+      def send_tempfile
+        if !desired.content && !content_file
           @temppath = nil
-          @source_path = nil
-        when content_file
-          @temppath = nil
-          @source_path = content_file
+          return
+        end
+
+        # XXX: `runner.tmpdir` is changed to '/tmp'
+        @temppath = ::File.join('/tmp', Time.now.to_f.to_s)
+
+        File.open(@temppath, 'a') {}
+        run_specinfra(:change_file_mode, @temppath, '0600')
+
+        if content_file
+          copy_file(content_file, @temppath)
         else
-          # XXX: `runner.tmpdir` is changed to '/tmp'
-          @temppath = ::File.join('/tmp', Time.now.to_f.to_s)
-          @source_path = @temppath
-
-          File.open(@temppath, 'a') {}
-          run_specinfra(:change_file_mode, @temppath, '0600')
-
           File.open(@temppath, 'w') do |f|
             f.write(desired.content)
+          end
+        end
+      end
+
+      # This could be slow and inefficient for large files, but I believe no
+      # one manages large files by file resource. Most files are small plain
+      # text files (e.g. configuration files).
+      def copy_file(src, dst)
+        File.open(src) do |fin|
+          File.open(dst, 'w') do |fout|
+            fout.write(fin.read)
           end
         end
       end
