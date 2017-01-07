@@ -19,12 +19,24 @@ module MItamae
       @resource.subscriptions << Subscription.create(@resource, action, resource_desc, timing)
     end
 
-    def not_if(command)
-      @resource.not_if_command = command
+    def not_if(command = nil, &block)
+      if block
+        @resource.not_if_command = block
+      elsif command
+        @resource.not_if_command = command
+      else
+        raise ArgumentError, 'not_if requires command or block'
+      end
     end
 
-    def only_if(command)
-      @resource.only_if_command = command
+    def only_if(command = nil, &block)
+      if block
+        @resource.only_if_command = block
+      elsif command
+        @resource.only_if_command = command
+      else
+        raise ArgumentError, 'only_if requires command or block'
+      end
     end
 
     def verify(command)

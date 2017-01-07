@@ -15,6 +15,14 @@ file "/tmp/never_exist2" do
   not_if "exit 0"
 end
 
+file "/tmp/never_exist3" do
+  only_if { false }
+end
+
+file "/tmp/never_exist4" do
+  not_if { true }
+end
+
 ###
 
 file "/tmp/never_exist4" do
