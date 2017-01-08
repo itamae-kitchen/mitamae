@@ -18,6 +18,14 @@ describe 'execute resource' do
     it { should_not be_file }
   end
 
+  describe file('/tmp/never_exist3') do
+    it { should_not be_file }
+  end
+
+  describe file('/tmp/never_exist4') do
+    it { should_not be_file }
+  end
+
   describe file('/tmp/execute_array') do
     it { should be_file }
   end

@@ -41,14 +41,22 @@ module MItamae
       attr_reader :desired
 
       def skip_condition?
-        if @resource.only_if_command && run_command(@resource.only_if_command, error: false).exit_status != 0
+        if @resource.only_if_command && !run_condition_command(@resource.only_if_command)
           MItamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] Execution skipped because of only_if attribute"
           true
-        elsif @resource.not_if_command && run_command(@resource.not_if_command, error: false).exit_status == 0
+        elsif @resource.not_if_command && run_condition_command(@resource.not_if_command)
           MItamae.logger.debug "#{@resource.resource_type}[#{@resource.resource_name}] Execution skipped because of not_if attribute"
           true
         else
           false
+        end
+      end
+
+      def run_condition_command(command)
+        if command.respond_to?(:call)
+          command.call
+        else
+          run_command(command, error: false).exit_status == 0
         end
       end
 
