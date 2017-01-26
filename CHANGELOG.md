@@ -1,3 +1,9 @@
+## v1.3.3
+- Prevent source of file resource from being modified
+  - Optimization introduced in [#41](https://github.com/k0kubun/mitamae/pull/41) is reverted for this
+- Accept callable object for `only_if`/`not_if` [#49](https://github.com/k0kubun/mitamae/pull/49)
+- Allow using Array for execute resource [#50](https://github.com/k0kubun/mitamae/pull/50)
+
 ## v1.3.2
 - Suppress `NotImplementedError` on node object like Itamae [#44](https://github.com/k0kubun/mitamae/issues/44)
 - Fix error on applying `remote_directory` twice [#45](https://github.com/k0kubun/mitamae/pull/45)
