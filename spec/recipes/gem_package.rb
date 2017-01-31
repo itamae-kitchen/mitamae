@@ -23,14 +23,14 @@ gem_package 'unindent' do
   version '1.0'
 end
 
-gem_package 'test-unit' do
-  version '3.2.0'
+gem_package 'itamae-template' do
+  version '0.1.4'
 end
 
-gem_package 'test-unit' do
-  version '3.1.9'
+gem_package 'itamae-template' do
+  version '0.1.3'
 end
 
-gem_package 'test-unit' do
+gem_package 'itamae-template' do
   action :uninstall
 end
