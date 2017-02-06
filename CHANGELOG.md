@@ -1,3 +1,6 @@
+## v1.3.4
+- Improve Gentoo support [mruby-specinfra#2](https://github.com/k0kubun/mruby-specinfra/pull/2)
+
 ## v1.3.3
 - Prevent source of file resource from being modified
   - Optimization introduced in [#41](https://github.com/k0kubun/mitamae/pull/41) is reverted for this
