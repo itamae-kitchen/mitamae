@@ -5,7 +5,7 @@ def gem_config(conf)
   conf.gem File.expand_path(File.dirname(__FILE__))
 
   conf.gem mgem: 'mruby-hashie',         checksum_hash: 'bfdbb8aebc8786bc9e88469dae87a8dfe8ec4300'
-  conf.gem mgem: 'mruby-io',             checksum_hash: '69623078a86b45617a6fdbe0238c147e280ad9db'
+  conf.gem mgem: 'mruby-io',             checksum_hash: '86d58a2d3727f556e6e6ce10d170b6170911a263'
   conf.gem mgem: 'mruby-open3',          checksum_hash: '211550775492e68ba217526808cf1df9deb7fa5a'
   conf.gem mgem: 'mruby-shellwords',     checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
   conf.gem mgem: 'mruby-specinfra',      checksum_hash: '4132571dec892ba4962f98766ee891e8466e3a47'
