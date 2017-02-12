@@ -5,6 +5,7 @@ module MItamae
       @node = build_node(options[:node_json], options[:node_yaml], @backend)
     end
 
+    # @return [Array<MItamae::Recipe>]
     def load(paths)
       backend = @backend
       variables = {
@@ -12,8 +13,11 @@ module MItamae
         run_command: -> (*args) { backend.run_command(*args) },
       }
 
+      root = RecipeRoot.new
       paths.map do |path|
-        Recipe.load(path, variables)
+        Recipe.load(path, root, variables)
+      end.tap do |recipes|
+        root.children = recipes
       end
     end
 

@@ -1,8 +1,11 @@
 module MItamae
   class Recipe < Struct.new(:path, :parent, :children, :delayed_notifications)
-    def self.load(path, variables = {})
+    # @param path [String]
+    # @param parent [MItamae::RecipeRoot]
+    # @param variables [Hash]
+    def self.load(path, parent, variables)
       path = File.expand_path(path)
-      Recipe.new(path).tap do |recipe|
+      Recipe.new(path, parent).tap do |recipe|
         source = File.read(path)
         RecipeContext.new(recipe, variables).instance_eval(source, path, 1)
       end
@@ -30,9 +33,17 @@ module MItamae
         self
       end
     end
+  end
+
+  class RecipeRoot < Struct.new(:children)
+    def root
+      self
+    end
 
     def all_resources
-      resources_for(children)
+      children.map do |recipe|
+        resources_for(recipe.children)
+      end.flatten
     end
 
     def subscriptions_for(target)
@@ -55,7 +66,7 @@ module MItamae
         else
           raise "unexpected node: #{node.class}"
         end
-      end.flatten
+      end
     end
   end
 end

@@ -5,12 +5,14 @@ module MItamaeSpec
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
   end
 
-  def apply_recipe(recipe, options: [])
-    recipe << '.rb' unless recipe.end_with?('.rb')
-    recipe = "/recipes/#{recipe}"
+  def apply_recipe(*recipes, options: [])
+    recipes = recipes.map do |recipe|
+      recipe = "#{recipe}.rb" unless recipe.end_with?('.rb')
+      "/recipes/#{recipe}"
+    end
 
-    puts "\n=== Apply #{recipe} #{options.join(' ')} ==="
-    run_command('/mitamae/bin/mitamae', 'local', *options, recipe)
+    puts "\n=== Apply #{recipes.join(' ')} #{options.join(' ')} ==="
+    run_command('/mitamae/bin/mitamae', 'local', *options, *recipes)
   end
 
   def run_command(*cmd)
