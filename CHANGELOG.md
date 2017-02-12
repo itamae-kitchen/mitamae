@@ -1,3 +1,7 @@
+## v1.4.0
+- Update mruby and mruby-io
+- Share notifiable resources among recipes specified by ARGV
+
 ## v1.3.4
 - Improve Gentoo support [mruby-specinfra#2](https://github.com/k0kubun/mruby-specinfra/pull/2)
 
