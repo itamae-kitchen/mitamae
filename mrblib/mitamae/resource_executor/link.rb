@@ -3,7 +3,7 @@ module MItamae
     class Link < Base
       def apply
         unless run_specinfra(:check_file_is_linked_to, desired.link, desired.to)
-          run_specinfra(:link_file_to, desired.link, desired.to, force: desired.force)
+          run_specinfra(:link_file_to, desired.link, desired.to, force: desired.force, no_dereference: desired.force)
         end
       end
 
