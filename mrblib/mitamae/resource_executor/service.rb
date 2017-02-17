@@ -35,16 +35,10 @@ module MItamae
       private
 
       def set_current_attributes(current, action)
-        case action
-        when :start, :stop
-          current.running = run_specinfra(:"check_service_is_running#{@under}", attributes.name)
-        when :restart
-          current.restarted = false
-        when :reload
-          current.reloaded = false
-        when :enable, :disable
-          current.enabled = run_specinfra(:"check_service_is_enabled#{@under}", attributes.name)
-        end
+        current.running = run_specinfra(:"check_service_is_running#{@under}", attributes.name)
+        current.enabled = run_specinfra(:"check_service_is_enabled#{@under}", attributes.name)
+        current.restarted = false
+        current.reloaded = false
       end
 
       def set_desired_attributes(desired, action)
