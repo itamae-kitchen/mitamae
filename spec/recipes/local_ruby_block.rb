@@ -11,3 +11,27 @@ local_ruby_block "greeting" do
     MItamae.logger.info "板前"
   end
 end
+
+local_ruby_block 'create /tmp/local_ruby_block_executed' do
+  block do
+    File.open('/tmp/local_ruby_block_executed', 'w') {}
+  end
+
+  notifies :run, 'local_ruby_block[create /tmp/local_ruby_block_notified]'
+end
+
+local_ruby_block 'create /tmp/local_ruby_block_notified' do
+  action :nothing
+
+  block do
+    File.open('/tmp/local_ruby_block_notified', 'w') {}
+  end
+end
+
+local_ruby_block 'create /tmp/local_ruby_block_nothing' do
+  action :nothing
+
+  block do
+    File.open('/tmp/local_ruby_block_nothing', 'w') {}
+  end
+end
