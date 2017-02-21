@@ -1,3 +1,8 @@
+## v1.4.1
+- Support force link to a directory [#54](https://github.com/k0kubun/mitamae/pull/54)
+- Allow service resource to execute only reload action [#55](https://github.com/k0kubun/mitamae/pull/55)
+- Allow local\_ruby\_block to notify changes [#56](https://github.com/k0kubun/mitamae/pull/56)
+
 ## v1.4.0
 - Update mruby and mruby-io
 - Share notifiable resources among recipes specified by ARGV
