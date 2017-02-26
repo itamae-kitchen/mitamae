@@ -1,3 +1,6 @@
+## v1.4.2
+- Fix unexpected blocking on executing commands [mruby-open3#9](https://github.com/k0kubun/mruby-open3/pull/9)
+
 ## v1.4.1
 - Support force link to a directory [#54](https://github.com/k0kubun/mitamae/pull/54)
 - Allow service resource to execute only reload action [#55](https://github.com/k0kubun/mitamae/pull/55)
