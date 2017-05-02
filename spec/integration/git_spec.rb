@@ -12,4 +12,8 @@ describe 'git resource' do
   describe command('cd /tmp/git_repo_submodule/empty_repo && cat README.md') do
     its(:stdout) { should match(/Empty Repo/) }
   end
+
+  describe command('cd /tmp/fake_depth_repo && git rev-list --count HEAD') do
+    its(:stdout) { should eq "1\n" }
+  end
 end
