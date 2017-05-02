@@ -1,3 +1,6 @@
+## v1.4.3
+- Add depth attribute to git resource [#57](https://github.com/k0kubun/mitamae/pull/57)
+
 ## v1.4.2
 - Fix unexpected blocking on executing commands [mruby-open3#9](https://github.com/k0kubun/mruby-open3/pull/9)
 
