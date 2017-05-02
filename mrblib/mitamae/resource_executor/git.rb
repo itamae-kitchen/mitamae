@@ -11,6 +11,7 @@ module MItamae
         if check_empty_dir
           cmd = ['git', 'clone']
           cmd << '--recursive' if desired.recursive
+          cmd += ['--depth', attributes.depth.to_s] if attributes.depth
           cmd << desired.repository << desired.destination
           run_command(cmd)
           new_repository = true
@@ -95,4 +96,3 @@ module MItamae
     end
   end
 end
-

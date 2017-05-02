@@ -6,6 +6,7 @@ module MItamae
       define_attribute :repository, type: String, required: true
       define_attribute :revision, type: String
       define_attribute :recursive, type: [TrueClass, FalseClass], default: false
+      define_attribute :depth, type: Integer, default: false
 
       self.available_actions = [:sync]
     end
