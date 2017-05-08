@@ -1,11 +1,13 @@
-compile: &defaults
-  build: .
-  volumes:
-    - .:/home/mruby/code:rw
-  command: rake compile
-clean:
-  <<: *defaults
-  command: rake clean
-shell:
-  <<: *defaults
-  command: bash
+version: '2'
+services:
+  compile: &defaults
+    build: .
+    volumes:
+      - .:/home/mruby/code:rw
+    command: rake compile
+  clean:
+    <<: *defaults
+    command: rake clean
+  shell:
+    <<: *defaults
+    command: bash
