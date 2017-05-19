@@ -4,6 +4,7 @@ module MItamae
     # @param parent [MItamae::RecipeRoot]
     # @param variables [Hash]
     def self.load(path, parent, variables)
+      MItamae.logger.debug "Loading recipe: #{path}"
       path = File.expand_path(path)
       Recipe.new(path, parent).tap do |recipe|
         source = File.read(path)
