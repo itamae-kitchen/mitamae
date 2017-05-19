@@ -159,7 +159,7 @@ task 'release:upload' => 'release:ghr' do
 
   Dir.chdir(__dir__) do
     require_relative './mrblib/mitamae/version'
-    sh "./ghr -u k0kubun v#{MItamae::VERSION} mitamae-build"
+    sh "./ghr -u itamae-kitchen v#{MItamae::VERSION} mitamae-build"
   end
 end
 
