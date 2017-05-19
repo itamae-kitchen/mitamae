@@ -1,3 +1,6 @@
+## v1.4.4
+- Add debug log on recipe loading [#60](https://github.com/itamae-kitchen/mitamae/pull/60)
+
 ## v1.4.3
 - Add depth attribute to git resource [#57](https://github.com/k0kubun/mitamae/pull/57)
 
