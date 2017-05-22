@@ -133,16 +133,17 @@ task 'release:compress' do
   end
 end
 
-desc "fetch ghr binary"
-task 'release:ghr' do
+desc "download ghr binary"
+task 'download:ghr' do
   Dir.chdir(__dir__) do
     next if File.exist?('ghr')
 
+    version = "v0.5.4"
     zip_url =
       if `uname` =~ /\ADarwin/
-        'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_darwin_386.zip'
+        "https://github.com/tcnksm/ghr/releases/download/#{version}/ghr_#{version}_darwin_amd64.zip"
       else
-        'https://github.com/tcnksm/ghr/releases/download/v0.4.0/ghr_v0.4.0_linux_386.zip'
+        "https://github.com/tcnksm/ghr/releases/download/#{version}/ghr_#{version}_linux_amd64.zip"
       end
     sh "curl -L #{zip_url} > ghr.zip"
     sh "unzip ghr.zip"
@@ -150,7 +151,7 @@ task 'release:ghr' do
 end
 
 desc "upload compiled binary to GitHub"
-task 'release:upload' => 'release:ghr' do
+task 'release:upload' => 'download:ghr' do
   unless ENV.has_key?('GITHUB_TOKEN')
     puts 'Usage: rake release GITHUB_TOKEN="..."'
     puts
