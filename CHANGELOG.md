@@ -1,3 +1,6 @@
+## v1.4.5
+- Update mruby-io [#61](https://github.com/itamae-kitchen/mitamae/pull/61)
+
 ## v1.4.4
 - Add debug log on recipe loading [#60](https://github.com/itamae-kitchen/mitamae/pull/60)
 
