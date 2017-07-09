@@ -1,5 +1,10 @@
 require 'fileutils'
 
+file :mruby do
+  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.3.0.tar.gz -s -o - | tar zxf -"
+  FileUtils.mv("mruby-1.3.0", "mruby")
+end
+
 APP_NAME=ENV["APP_NAME"] || "mitamae"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
