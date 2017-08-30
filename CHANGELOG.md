@@ -1,3 +1,6 @@
+## v1.5.0
+- Upgrade mruby to 1.3.0 [#63](https://github.com/itamae-kitchen/mitamae/pull/63)
+
 ## v1.4.5
 - Update mruby-io [#61](https://github.com/itamae-kitchen/mitamae/pull/61)
 
