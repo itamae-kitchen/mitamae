@@ -6,7 +6,7 @@ branches:
 services:
   - docker
 script:
-  - "mruby/minirake $TASK"
+  - rake $TASK
 env:
   - TASK=test:integration
   #- TASK=test:benchmark

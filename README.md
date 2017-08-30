@@ -122,10 +122,10 @@ Currently following platforms are supported but others can be easily supported b
 ### Development
 
 ```bash
-$ mruby/minirake compile && ./mruby/bin/mitamae local recipe.rb
+$ rake compile && ./mruby/bin/mitamae local recipe.rb
 
 # If you add mrbgem to mrbgem.rake, execute:
-$ mruby/minirake clean
+$ rake clean
 ```
 
 ### Testing
@@ -139,13 +139,13 @@ $ bundle exec rspec
 
 ```bash
 # Compile and copy binaries to ./mitamae-build
-$ mruby/minirake release:build
+$ rake release:build
 ```
 
 ### Release
 
 ```bash
-$ mruby/minirake release
+$ rake release
 ```
 
 ## Notes
