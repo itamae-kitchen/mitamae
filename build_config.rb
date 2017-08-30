@@ -12,6 +12,7 @@ def gem_config(conf)
   conf.gem mgem: 'mruby-specinfra',      checksum_hash: '22a54436fe53afd310ad4473d28edd03dd960a24'
   conf.gem github: 'k0kubun/mruby-erb',  checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
   conf.gem github: 'eagletmt/mruby-etc', checksum_hash: 'v0.1.0'
+  conf.gem github: 'take-cheeze/mruby-socket', checksum_hash: '7b4978b639e9b73296f5ced39dbcb722bf42cd0d' # https://github.com/iij/mruby-socket/issues/36
 end
 
 def debug_config(conf)
