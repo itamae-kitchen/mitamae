@@ -1,3 +1,7 @@
+## v1.5.1
+- GC is enabled again
+  - Please try v1.5.0 too if you encounter any trouble
+
 ## v1.5.0
 - Upgrade mruby to 1.3.0 [#63](https://github.com/itamae-kitchen/mitamae/pull/63)
 
