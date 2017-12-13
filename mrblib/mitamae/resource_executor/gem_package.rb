@@ -47,7 +47,7 @@ module MItamae
         run_command([*Array(attributes.gem_binary), 'list', '-l']).stdout.each_line do |line|
           if /\A([^ ]+) \(([^\)]+)\)\z/ =~ line.strip
             name = $1
-            versions = $2.split(', ')
+            versions = $2.split(', ').map { |v| v.sub(/\Adefault: /, '') }
             gems << {name: name, versions: versions}
           end
         end
