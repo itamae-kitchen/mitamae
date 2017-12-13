@@ -17,7 +17,11 @@ describe 'gem_package resource' do
     its(:stdout) { should_not include('itamae-template') }
   end
 
-  describe command('ri Bundler') do
-    its(:stderr) { should eq("Nothing known about Bundler\n") }
+  describe command('ri Rake') do
+    its(:stderr) { should eq("Nothing known about Rake\n") }
+  end
+
+  describe file('/tmp/bundler_is_installed') do
+    it { should_not be_file }
   end
 end
