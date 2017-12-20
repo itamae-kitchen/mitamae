@@ -1,3 +1,6 @@
+## v1.5.2
+- Fix gem\_package resource to strip "default: " prefix from gem versions [#66](https://github.com/itamae-kitchen/mitamae/pull/63)
+
 ## v1.5.1
 - GC is enabled again
   - Please try v1.5.0 too if you encounter any trouble
