@@ -1,3 +1,7 @@
+## v1.5.3
+
+- Allow using `Kernel#at_exit` from recipe [#69](https://github.com/itamae-kitchen/mitamae/pull/69)
+
 ## v1.5.2
 - Fix gem\_package resource to strip "default: " prefix from gem versions [#66](https://github.com/itamae-kitchen/mitamae/pull/63)
 
