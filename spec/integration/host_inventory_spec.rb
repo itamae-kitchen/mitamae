@@ -26,4 +26,8 @@ describe 'host_inventory' do
       its(:content) { should match(expected) }
     end
   end
+
+  describe file('/tmp/host_inventory_ec2') do
+    it { should be_file }
+  end
 end

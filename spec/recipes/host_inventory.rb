@@ -18,3 +18,8 @@ keys = [
     content node[key].to_s
   end
 end
+
+# Just testing that this doesn't raise an error
+file '/tmp/host_inventory_ec2' do
+  content node[:ec2][:instance_type].inspect
+end
