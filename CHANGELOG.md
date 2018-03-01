@@ -1,3 +1,7 @@
+## v1.5.4
+
+- Fix error when seeing EC2 metadata from node
+
 ## v1.5.3
 
 - Allow using `Kernel#at_exit` from recipe [#69](https://github.com/itamae-kitchen/mitamae/pull/69)
