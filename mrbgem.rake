@@ -12,7 +12,6 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-exit',        core: 'mruby-exit'
   spec.add_dependency 'mruby-hash-ext',    core: 'mruby-hash-ext'
   spec.add_dependency 'mruby-kernel-ext',  core: 'mruby-kernel-ext'
-  spec.add_dependency 'mruby-method',      core: 'mruby-method'
   spec.add_dependency 'mruby-object-ext',  core: 'mruby-object-ext'
   spec.add_dependency 'mruby-print',       core: 'mruby-print'
   spec.add_dependency 'mruby-struct',      core: 'mruby-struct'
