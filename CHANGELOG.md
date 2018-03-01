@@ -1,3 +1,8 @@
+## v1.5.6
+
+- Allow using `URI` module to write recipes
+- Improve error message on NoMethodError in resource context
+
 ## v1.5.5
 
 - Allow using Symbol in `node[:ec2][xxx]` as well
