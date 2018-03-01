@@ -18,13 +18,18 @@ describe 'host_inventory' do
     virtualization: /\A{}\z/,
     kernel: /"name"=>"Linux"/,
     block_device: /\A{}\z/,
-    user: /"name"=>"root", "uid"=>"0"/,
-    group: /"name"=>"root", "gid"=>"0"/,
+    user: /"root"=>{"uid"=>"0", /,
+    group: /"gid"=>"0", "name"=>"root"/,
   }.each do |key, expected|
     describe file("/tmp/host_inventory_#{key}") do
       it { should be_file }
       its(:content) { should match(expected) }
     end
+  end
+
+  describe file('/tmp/host_inventory_cpu_total') do
+    it { should be_file }
+    its(:content) { should match(/\A\d+\z/) }
   end
 
   describe file('/tmp/host_inventory_ec2') do

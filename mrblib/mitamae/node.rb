@@ -46,7 +46,12 @@ module MItamae
     end
 
     def fetch_inventory_value(key)
-      @backend.host_inventory[key]
+      value = @backend.host_inventory[key]
+      if value.is_a?(Hash)
+        value = Hashie::Mash.new(value)
+      end
+
+      value
     rescue NotImplementedError
       nil
     end
