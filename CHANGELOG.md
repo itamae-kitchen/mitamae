@@ -1,3 +1,7 @@
+## v1.5.6
+
+- Allow using `URI` module to write recipes
+
 ## v1.5.5
 
 - Allow using Symbol in `node[:ec2][xxx]` as well
