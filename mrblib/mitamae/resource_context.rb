@@ -60,7 +60,9 @@ module MItamae
         end
       end
 
-      super
+      # TODO: build mruby with MRB_DEFAULT_METHOD_MISSING
+      # super
+      raise NoMethodError, "undefined method `#{method}' for #{self.class}"
     end
   end
 end
