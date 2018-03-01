@@ -1,7 +1,11 @@
+## v1.5.5
+
+- Allow using Symbol in `node[:ec2][xxx]` as well
+
 ## v1.5.4
 
 - Fix error when seeing EC2 metadata from node
-- Return Hash::Mash instead of Hash from node[xxx] when it's host inventory
+- Return Hash::Mash instead of Hash from `node[xxx]` when it's host inventory
 
 ## v1.5.3
 
