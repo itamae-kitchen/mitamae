@@ -10,9 +10,9 @@ def gem_config(conf)
   conf.gem mgem: 'mruby-open3',          checksum_hash: 'b7480b6300a81d0e5fac469a36a383518e3dfc78'
   conf.gem mgem: 'mruby-shellwords',     checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
   conf.gem mgem: 'mruby-specinfra',      checksum_hash: 'd802a755cfa94675c6df80547ca553abb323ec7f'
+  conf.gem mgem: 'mruby-socket',         checksum_hash: 'a8b6d6ee4c6ccea81a805cc9204b36c3792123c9'
   conf.gem github: 'k0kubun/mruby-erb',  checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
   conf.gem github: 'eagletmt/mruby-etc', checksum_hash: 'v0.1.0'
-  conf.gem github: 'take-cheeze/mruby-socket', checksum_hash: '7b4978b639e9b73296f5ced39dbcb722bf42cd0d' # https://github.com/iij/mruby-socket/issues/36
 end
 
 def debug_config(conf)
