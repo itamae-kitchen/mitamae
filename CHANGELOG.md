@@ -1,3 +1,7 @@
+## v1.5.7
+
+- Release binaries from Travis CI instead of k0kubun's machine
+
 ## v1.5.6
 
 - Allow using `URI` module to write recipes
