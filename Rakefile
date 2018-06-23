@@ -60,25 +60,6 @@ end
 desc 'run integration tests'
 task 'test:integration' => 'test:serverspec'
 
-desc 'Benchmark recipe execution'
-task 'test:benchmark' => 'test:compile' do
-  Dir.chdir(__dir__) do
-    ENV['MITAMAE_BENCH_ITERATIONS'] ||= '100'
-
-    puts 'Preparing...'
-    sh 'mruby/build/host/bin/mitamae local benchmark/delete.rb'
-
-    puts "\n\n=== file creation ==="
-    sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
-
-    puts "\n\n=== no operation ==="
-    sh 'time mruby/build/host/bin/mitamae local benchmark/create.rb'
-
-    puts "\n\n=== file deletion ==="
-    sh 'time mruby/build/host/bin/mitamae local benchmark/delete.rb'
-  end
-end
-
 desc "run all tests"
 if Object.const_defined?(:MiniRake)
   MiniRake::Task::TASKS.delete('test')
