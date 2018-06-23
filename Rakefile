@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'shellwords'
 
 file :mruby do
   sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.3.0.tar.gz -s -o - | tar zxf -"
@@ -86,10 +87,7 @@ task 'release:build' do
       'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
       'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
     }.each do |build, bin|
-      FileUtils.cp(
-        "mruby/build/#{build}/bin/mitamae",
-        "mitamae-build/#{bin}",
-      )
+      sh "cp mruby/build/#{build.shellescape}/bin/mitamae mitamae-build/#{bin.shellescape}"
     end
   end
 end
