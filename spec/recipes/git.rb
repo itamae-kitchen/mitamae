@@ -9,6 +9,6 @@ git "/tmp/git_repo_submodule" do
 end
 
 git "/tmp/fake_depth_repo" do
-  repository "https://github.com/hatappi/fake_depth_repo.git"
+  repository "https://github.com/itamae-kitchen/mitamae.git"
   depth 1
 end
