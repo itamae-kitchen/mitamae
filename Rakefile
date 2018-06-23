@@ -116,37 +116,3 @@ task 'release:compress' do
     end
   end
 end
-
-desc "download ghr binary"
-task 'download:ghr' do
-  Dir.chdir(__dir__) do
-    next if File.exist?('ghr')
-
-    version = "v0.5.4"
-    zip_url =
-      if `uname` =~ /\ADarwin/
-        "https://github.com/tcnksm/ghr/releases/download/#{version}/ghr_#{version}_darwin_amd64.zip"
-      else
-        "https://github.com/tcnksm/ghr/releases/download/#{version}/ghr_#{version}_linux_amd64.zip"
-      end
-    sh "curl -L #{zip_url} > ghr.zip"
-    sh "unzip ghr.zip"
-  end
-end
-
-desc "upload compiled binary to GitHub"
-task 'release:upload' => 'download:ghr' do
-  unless ENV.has_key?('GITHUB_TOKEN')
-    puts 'Usage: rake release GITHUB_TOKEN="..."'
-    puts
-    abort 'Specify GITHUB_TOKEN generated from https://github.com/settings/tokens.'
-  end
-
-  Dir.chdir(__dir__) do
-    require_relative './mrblib/mitamae/version'
-    sh "./ghr -u itamae-kitchen v#{MItamae::VERSION} mitamae-build"
-  end
-end
-
-desc "release mitamae with current revision"
-task release: ['release:build', 'release:compress', 'release:upload']
