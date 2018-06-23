@@ -145,7 +145,10 @@ $ rake release:build
 ### Release
 
 ```bash
-$ rake release
+$ git commit -m "Version vX.X.X"
+$ git tag vX.X.X
+$ git push origin --tags # released here
+$ git push origin master
 ```
 
 ## Notes
