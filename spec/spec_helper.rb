@@ -31,8 +31,10 @@ RSpec.configure do |config|
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
       system('docker-compose', 'run', 'compile') || raise
     end
-
     system('docker', 'rm', '-f', MItamaeSpec.container)
+
+    # k0kubun/mitamae-spec is automatically built from `spec/Dockerfile`:
+    # https://hub.docker.com/r/k0kubun/mitamae-spec/builds/
     system(
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
       '-v', "#{File.expand_path('mruby/build/host')}:/mitamae",
