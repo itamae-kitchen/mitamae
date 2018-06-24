@@ -1,3 +1,10 @@
+## v1.6.0
+
+- `http_request` resource requires `curl(1)` in a host
+  - `http_request` supports https request [#46](https://github.com/itamae-kitchen/mitamae/pull/46)
+  - `http_request` follows redirection
+  - POST or PUT `http_request` with request body `foo=bar` is interpreted properly
+
 ## v1.5.7
 
 - Release binaries from Travis CI instead of k0kubun's machine
