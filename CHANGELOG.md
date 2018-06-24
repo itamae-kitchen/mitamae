@@ -1,3 +1,7 @@
+## v1.6.1
+
+- Add mitamae-armhf-linux binary in the released binaries
+
 ## v1.6.0
 
 - `http_request` resource requires `curl(1)` in a host
