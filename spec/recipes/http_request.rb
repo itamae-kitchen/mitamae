@@ -1,3 +1,5 @@
+package 'curl'
+
 http_request "/tmp/http_request.html" do
   url "http://httpbin.org/get?from=itamae"
 end
@@ -27,4 +29,8 @@ end
 http_request "/tmp/http_request_redirect.html" do
   redirect_limit 1
   url "http://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fget%3Ffrom%3Ditamae"
+end
+
+http_request "/tmp/https_request.json" do
+  url "https://httpbin.org/get?from=itamae"
 end
