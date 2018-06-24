@@ -23,7 +23,6 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-env',         mgem: 'mruby-env'
   spec.add_dependency 'mruby-file-stat',   mgem: 'mruby-file-stat'
   spec.add_dependency 'mruby-hashie',      mgem: 'mruby-hashie'
-  spec.add_dependency 'mruby-httprequest', mgem: 'mruby-httprequest'
   spec.add_dependency 'mruby-iijson',      mgem: 'mruby-iijson'
   spec.add_dependency 'mruby-io',          mgem: 'mruby-io'
   spec.add_dependency 'mruby-open3',       mgem: 'mruby-open3'
