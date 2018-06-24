@@ -28,6 +28,7 @@ if build_targets == ['all']
   build_targets = %w[
     linux-x86_64
     linux-i686
+    linux-armhf
     darwin-x86_64
     darwin-i386
   ]
@@ -60,6 +61,25 @@ if build_targets.include?('linux-i686')
     [conf.cc, conf.cxx, conf.linker].each do |cc|
       cc.flags << "-m32"
     end
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
+
+if build_targets.include?('linux-armhf')
+  MRuby::CrossBuild.new('arm-linux-gnueabihf') do |conf|
+    toolchain :gcc
+
+    # See also: tools/mruby-cli/Dockerfile
+    conf.cc.command       = 'arm-linux-gnueabihf-gcc'
+    conf.cxx.command      = 'arm-linux-gnueabihf-g++'
+    conf.linker.command   = 'arm-linux-gnueabihf-g++'
+    conf.archiver.command = 'arm-linux-gnueabihf-ar'
+
+    # For hone/mruby-yaml configure
+    conf.build_target = 'x86_64-pc-linux-gnu'
+    conf.host_target  = 'arm-linux-gnueabihf'
 
     debug_config(conf)
     gem_config(conf)

@@ -86,6 +86,7 @@ task 'release:build' do
       'i686-pc-linux-gnu'     => 'mitamae-i686-linux',
       'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
       'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
+      'arm-linux-gnueabihf'   => 'mitamae-armhf-linux',
     }.each do |build, bin|
       sh "cp mruby/build/#{build.shellescape}/bin/mitamae mitamae-build/#{bin.shellescape}"
     end
@@ -95,6 +96,7 @@ end
 %w[
   linux-x86_64
   linux-i686
+  linux-armhf
   darwin-x86_64
   darwin-i386
 ].each do |target|

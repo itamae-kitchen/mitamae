@@ -1,4 +1,5 @@
 # Changing https://github.com/hone/mruby-cli-docker to support cross compile for raspberry pi
+# https://hub.docker.com/r/k0kubun/mruby-cli/builds/
 FROM hone/mruby-cli
 
 # Not using since it's too slow

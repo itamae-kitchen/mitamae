@@ -1,6 +1,7 @@
 version: '2'
 services:
   compile: &defaults
+    image: k0kubun/mruby-cli
     build: .
     volumes:
       - .:/home/mruby/code:rw
