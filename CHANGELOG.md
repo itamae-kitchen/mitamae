@@ -1,6 +1,6 @@
 ## v1.6.1
 
-- Add mitamae-armhf-linux binary in the released binaries
+- Add mitamae-armhf-linux binary in the released binaries for Raspberry Pi
 
 ## v1.6.0
 
