@@ -2,7 +2,7 @@ module MItamae
   class RecipeLoader
     def initialize(options)
       @backend = options[:backend]
-      @node = build_node(options[:node_json], options[:node_yaml], @backend)
+      @node = build_node(options[:node_jsons], options[:node_yamls], @backend)
     end
 
     # @return [Array<MItamae::Recipe>]
@@ -23,15 +23,15 @@ module MItamae
 
     private
 
-    def build_node(node_json, node_yaml, backend)
+    def build_node(node_jsons, node_yamls, backend)
       Node.new({}, backend).tap do |node|
-        if node_json
+        node_jsons.each do |node_json|
           json = File.read(node_json)
-          node.reverse_merge!(JSON.load(json))
+          node.merge!(JSON.load(json))
         end
-        if node_yaml
+        node_yamls.each do |node_yaml|
           yaml = File.read(node_yaml)
-          node.reverse_merge!(YAML.load(yaml))
+          node.merge!(YAML.load(yaml))
         end
       end
     end

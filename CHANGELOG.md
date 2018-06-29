@@ -1,3 +1,8 @@
+## v1.6.2
+
+- Allow specifying `-j`/`--node-json` and `-y`/`--node-yaml` multiple times
+  - The latter node JSON/YAML overrides the former JSON/YAML
+
 ## v1.6.1
 
 - Add mitamae-armhf-linux binary in the released binaries for Raspberry Pi
