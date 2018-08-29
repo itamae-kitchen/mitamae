@@ -1,4 +1,4 @@
-# MItamae [![Build Status](https://travis-ci.org/itamae-kitchen/mitamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/mitamae)
+# mitamae [![Build Status](https://travis-ci.org/itamae-kitchen/mitamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/mitamae)
 
 [Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.
 With mitamae's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
@@ -46,7 +46,7 @@ end
 # wget https://github.com/k0kubun/mitamae/releases/download/v0.4.0/mitamae-x86_64-linux
 # chmod +x ./mitamae-x86_64-linux
 # ./mitamae-x86_64-linux local -j node.json recipe.rb
- INFO : Starting MItamae...
+ INFO : Starting mitamae...
  INFO : Recipe: /home/k0kubun/mitamae/recipe.rb
  INFO :   Recipe: /home/k0kubun/mitamae/included.rb
  INFO :     service[mysqld] running will change from 'false' to 'true'

@@ -21,7 +21,7 @@ module MItamae
         end
 
         MItamae.logger = Logger.new(@options[:log_level])
-        MItamae.logger.info 'Starting MItamae...'
+        MItamae.logger.info 'Starting mitamae...'
 
         Plugin.load_resources
 
