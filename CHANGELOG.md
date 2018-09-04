@@ -1,3 +1,8 @@
+## v1.6.3
+
+- Fix an error by creating a file with `content ""` with `owner`/`group` specified
+- "mitamae" is printed in the log instead of "MItamae"
+
 ## v1.6.2
 
 - Allow specifying `-j`/`--node-json` and `-y`/`--node-yaml` multiple times
