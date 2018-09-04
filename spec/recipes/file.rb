@@ -153,6 +153,14 @@ file '/tmp/empty_file_with_owner' do
   group 'itamae'
 end
 
+file '/tmp/explicit_empty_file_with_owner' do
+  action :create
+  content ''
+  mode '600'
+  owner 'itamae'
+  group 'itamae'
+end
+
 ### Test notification on file change
 
 execute 'echo -n 1 > /tmp/file_changed_notifies' do

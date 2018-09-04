@@ -7,7 +7,7 @@ module MItamae
             File.open(attributes.path, 'a') {}
           end
 
-          change_target = @modified ? @temppath : attributes.path
+          change_target = @use_temppath ? @temppath : attributes.path
 
           if desired.mode
             run_specinfra(:change_file_mode, change_target, desired.mode || current.mode)
@@ -17,7 +17,7 @@ module MItamae
             run_specinfra(:change_file_owner, change_target, desired.owner || current.owner, desired.group || current.group)
           end
 
-          if @modified
+          if @use_temppath
             run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
             updated!
           end
@@ -38,7 +38,6 @@ module MItamae
       end
 
       def set_current_attributes(current, action)
-        current.modified = false
         current.exist = FileTest.exist?(attributes.path)
         if current.exist
           current.mode = run_specinfra(:get_file_mode, attributes.path).stdout.chomp
@@ -98,15 +97,22 @@ module MItamae
       end
 
       def compare_file
-        @modified = false
+        @use_temppath = false
         unless @temppath
+          return
+        end
+
+        # When the path currently doesn't exist yet, :change_file_xxx should be performed against `@temppath`.
+        # Checking that by `diff -q /dev/null xxx` doesn't work when xxx's content is "", because /dev/null's content is also "".
+        if !current.exist && desired.exist
+          @use_temppath = true
           return
         end
 
         case run_command(["diff", "-q", compare_to, @temppath], error: false).exit_status
         when 1
           # diff found
-          @modified = true
+          @use_temppath = true
         when 2
           # error
           raise MItamae::Backend::CommandExecutionError, "diff command exited with 2"
@@ -114,7 +120,7 @@ module MItamae
       end
 
       def show_content_diff
-        if @modified
+        if @use_temppath
           MItamae.logger.info "diff:"
           diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
           diff.stdout.each_line do |line|

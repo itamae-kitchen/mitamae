@@ -77,6 +77,14 @@ describe 'file resource' do
     it { should be_grouped_into "itamae" }
   end
 
+  describe file('/tmp/explicit_empty_file_with_owner') do
+    it { should be_file }
+    its(:content) { should eq('') }
+    it { should be_mode 600 }
+    it { should be_owned_by "itamae" }
+    it { should be_grouped_into "itamae" }
+  end
+
   describe file('/tmp/file_changed_sample') do
     it { should be_file }
     its(:content) { should eq('Changed') }
