@@ -1,3 +1,4 @@
+execute 'apt-get update' # for installing curl
 package 'curl'
 
 http_request "/tmp/http_request.html" do
