@@ -1,3 +1,7 @@
+## v1.6.5
+
+- Fix LocalJumpError inside `Hash#uniq` by backporting mruby's patch
+
 ## v1.6.4
 
 - Support group name with spaces [mruby-specinfra#8](https://github.com/itamae-kitchen/mruby-specinfra/pull/8)
