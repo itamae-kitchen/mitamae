@@ -1,10 +1,10 @@
 # This class has API-limited version of MItamae::Backend to execute resource
 module MItamae
   class Runner
-    def initialize(options)
-      @backend = options.fetch(:backend)
-      @inline_backend = options.fetch(:inline_backend)
-      @dry_run = options.fetch(:dry_run)
+    def initialize(backend:, inline_backend:, dry_run:)
+      @backend = backend
+      @inline_backend = inline_backend
+      @dry_run = dry_run
     end
 
     def dry_run?
