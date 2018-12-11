@@ -1,3 +1,7 @@
+## v1.7.0
+
+- Upgrade mruby to v2.0.0
+
 ## v1.6.6
 
 - Change JSON parse/generator from mruby-iijson to mruby-json to support `JSON.pretty_generate`
