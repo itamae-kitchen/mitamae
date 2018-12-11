@@ -1,3 +1,7 @@
+## v1.6.4
+
+- Support group name with spaces [mruby-specinfra#8](https://github.com/itamae-kitchen/mruby-specinfra/pull/8)
+
 ## v1.6.3
 
 - Fix an error by creating a file with `content ""` with `owner`/`group` specified
