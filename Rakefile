@@ -1,13 +1,10 @@
 require 'fileutils'
 require 'shellwords'
 
-# Using v1.3.0 fork for https://github.com/mruby/mruby/issues/3750
-# This is fixed in v1.4.1, but some other issues exist...
-#
-# file :mruby do
-#   sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.3.0.tar.gz -s -o - | tar zxf -"
-#   FileUtils.mv("mruby-1.3.0", "mruby")
-# end
+file :mruby do
+  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/2.0.0.tar.gz -s -o - | tar zxf -"
+  FileUtils.mv("mruby-2.0.0", "mruby")
+end
 
 APP_NAME=ENV["APP_NAME"] || "mitamae"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
