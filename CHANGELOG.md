@@ -1,3 +1,7 @@
+## v1.6.6
+
+- Change JSON parse/generator from mruby-iijson to mruby-json to support `JSON.pretty_generate`
+
 ## v1.6.5
 
 - Fix LocalJumpError inside `Hash#uniq` by backporting mruby's patch
