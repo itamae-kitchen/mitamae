@@ -1,3 +1,8 @@
+## v1.7.1
+
+- Deduplicate delayed notifications
+  - The same notification by subscribes/notifices will run only once
+
 ## v1.7.0
 
 - Upgrade mruby to v2.0.0
