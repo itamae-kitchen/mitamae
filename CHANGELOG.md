@@ -1,3 +1,7 @@
+## v1.7.3
+
+- Fix `file` resource error when it has `user` attribute which is not the same as mitamae executor.
+
 ## v1.7.2
 
 - Support Amazon Linux 2 [mruby-specinfra#9](https://github.com/itamae-kitchen/mruby-specinfra/pull/9)
