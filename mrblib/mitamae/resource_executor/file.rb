@@ -4,7 +4,7 @@ module MItamae
       def apply
         if desired.exist
           if !current.exist && !@temppath
-            File.open(attributes.path, 'a') {}
+            run_command(["touch", attributes.path])
           end
 
           change_target = @modified ? @temppath : attributes.path
@@ -155,7 +155,7 @@ module MItamae
         # XXX: `runner.tmpdir` is changed to '/tmp'
         @temppath = ::File.join('/tmp', Time.now.to_f.to_s)
 
-        File.open(@temppath, 'a') {}
+        run_command(["touch", @temppath])
         run_specinfra(:change_file_mode, @temppath, '0600')
 
         if content_file
