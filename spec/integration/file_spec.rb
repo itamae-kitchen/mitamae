@@ -57,6 +57,12 @@ describe 'file resource' do
     it { should be_grouped_into "itamae" }
   end
 
+  describe file('/tmp/root_owned_tempfile_operated_by_normal_user') do
+    it { should be_file }
+    it { should be_owned_by "itamae" }
+    it { should be_grouped_into "itamae" }
+  end
+
   describe file('/tmp/file_edit_with_content_change_updates_timestamp') do
     its(:mtime) { should be > DateTime.iso8601("2016-05-02T01:23:45Z") }
   end

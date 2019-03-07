@@ -81,6 +81,12 @@ file '/tmp/file_edit_keeping_mode_owner' do
   mode '444'
 end
 
+# This should use `owner`/`group` instead, but for keeping compatibility with itamae.
+file '/tmp/root_owned_tempfile_operated_by_normal_user' do
+  user 'itamae'
+  content 'operated_by_itamae'
+end
+
 file '/tmp/file_edit_keeping_mode_owner' do
   action :edit
   block do |content|
