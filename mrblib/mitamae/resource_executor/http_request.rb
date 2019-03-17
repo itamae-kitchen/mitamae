@@ -28,14 +28,19 @@ module MItamae
           raise "`curl` command is not available. Please install curl to use mitamae's http_request."
         end
 
-        command = ['curl', '-sL', '-X', method, url]
+        command = ['curl', '-fsSL', '-X', method, url]
         unless body.empty?
           command.concat(['-d', body])
         end
         headers.each do |key, value|
           command.concat(['-H', "#{key}: #{value}"])
         end
-        run_command(command, error: false)
+
+        result = run_command(command, error: false)
+        if result.exit_status != 0
+          raise "failed to execute curl: #{result.stderr}"
+        end
+        result
       end
     end
   end
