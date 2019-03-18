@@ -20,10 +20,10 @@ module MItamae
           raise "invalid http_request action: #{desired.action.inspect}"
         end
 
-        curl(desired.action.to_s.upcase, desired.url, desired.message, desired.headers).stdout
+        curl(desired.action.to_s.upcase, desired.url, desired.message, desired.headers, desired.check_error).stdout
       end
 
-      def curl(method, url, body, headers)
+      def curl(method, url, body, headers, check_error)
         if run_command(['which', 'curl'], error: false).exit_status != 0
           raise "`curl` command is not available. Please install curl to use mitamae's http_request."
         end
@@ -37,7 +37,7 @@ module MItamae
         end
 
         result = run_command(command, error: false)
-        if result.exit_status != 0
+        if check_error and result.exit_status != 0
           raise "failed to execute curl: #{result.stderr}"
         end
         result
