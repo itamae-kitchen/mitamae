@@ -1,3 +1,7 @@
+## v1.7.4
+
+- Add `check_error` attribute to `http_request` resource
+
 ## v1.7.3
 
 - Fix `file` resource error when it has `user` attribute which is not the same as mitamae executor.
