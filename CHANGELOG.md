@@ -1,3 +1,7 @@
+## v1.7.5
+
+- Upgrade mruby to v2.0.1
+
 ## v1.7.4
 
 - Add `check_error` attribute to `http_request` resource
