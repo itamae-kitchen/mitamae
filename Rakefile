@@ -1,9 +1,11 @@
 require 'fileutils'
 require 'shellwords'
 
+MRUBY_VERSION = '2.0.1'
+
 file :mruby do
-  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/2.0.0.tar.gz -s -o - | tar zxf -"
-  FileUtils.mv("mruby-2.0.0", "mruby")
+  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
+  FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
 end
 
 APP_NAME=ENV["APP_NAME"] || "mitamae"
