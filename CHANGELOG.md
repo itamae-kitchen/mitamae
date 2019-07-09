@@ -1,3 +1,7 @@
+## v1.7.6
+
+- Allow using `content` attribute in `template` resource
+
 ## v1.7.5
 
 - Upgrade mruby to v2.0.1
