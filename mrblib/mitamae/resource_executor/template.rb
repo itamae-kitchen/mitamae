@@ -6,7 +6,17 @@ module MItamae
       def set_desired_attributes(desired, action)
         case action
         when :create
-          desired.content = RenderContext.new(@resource).render_file(source_file)
+          if attributes.content.nil?
+            desired.content = RenderContext.new(@resource).render_file(source_file)
+          else
+            if attributes.source != :auto
+              MItamae.logger.warn(
+                "Both `content` and `source` are specified in #{@resource.resource_type}" +
+                "[#{@resource.resource_name}]. `content` will be used."
+              )
+            end
+            desired.content = RenderContext.new(@resource).render(attributes.content)
+          end
         end
 
         super
@@ -34,10 +44,15 @@ module MItamae
           end
         end
 
-        def render_file(src)
-          template = ::File.read(src)
+        def render_file(filename)
+          render(::File.read(filename), filename: filename)
+        end
+
+        def render(template, filename: nil)
           ERB.new(template, nil, '-').tap do |erb|
-            erb.filename = src
+            if filename
+              erb.filename = filename
+            end
           end.result(self)
         end
 

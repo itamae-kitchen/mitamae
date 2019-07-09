@@ -14,4 +14,9 @@ describe 'template resource' do
       its(:content) { should match(/^uninitialized node key: $/) }
     end
   end
+
+  describe file('/tmp/template_content') do
+    it { should be_file }
+    its(:content) { should eq("This is some foo\nThis is some bar\n") }
+  end
 end
