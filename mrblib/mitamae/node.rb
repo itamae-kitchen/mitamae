@@ -25,6 +25,16 @@ module MItamae
       end
     end
 
+    def validate!(&block)
+      errors = Schash::Validator.new(&block).validate(@mash)
+      unless errors.empty?
+        errors.each do |error|
+          MItamae.logger.error "'#{error.position.join('->')}' #{error.message}"
+        end
+        raise ValidationError
+      end
+    end
+
     private
 
     def _reverse_merge(other_hash)
