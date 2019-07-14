@@ -17,3 +17,12 @@ end
 template '/tmp/node_assign'
 
 template '/tmp/node_merge'
+
+node.validate! do
+  {
+    deep: {
+      node1: string,
+      node2: string,
+    },
+  }
+end
