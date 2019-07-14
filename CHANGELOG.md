@@ -1,3 +1,7 @@
+## v1.7.7
+
+- Add `Node#validate!` like Itamae [#83](https://github.com/itamae-kitchen/mitamae/pull/83)
+
 ## v1.7.6
 
 - Allow using `content` attribute in `template` resource
