@@ -1,3 +1,7 @@
+## v1.7.8
+
+- Support Clear Linux OS [mruby-specinfra#10](https://github.com/itamae-kitchen/mruby-specinfra/pull/10)
+
 ## v1.7.7
 
 - Add `Node#validate!` like Itamae [#83](https://github.com/itamae-kitchen/mitamae/pull/83)
