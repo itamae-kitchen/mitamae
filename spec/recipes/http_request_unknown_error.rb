@@ -1,0 +1,6 @@
+execute 'apt-get update' # for installing curl
+package 'curl'
+
+http_request "/tmp/http_request_unknown_error.html" do
+  url "http://httpbin.org/status/999?from=itamae"
+end

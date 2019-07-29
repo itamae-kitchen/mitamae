@@ -5,6 +5,18 @@ describe 'http_request resource' do
     expect {
       apply_recipe('http_request_without_curl')
     }.to raise_error(RuntimeError)
+    expect {
+      apply_recipe('http_request_client_error')
+    }.to raise_error(RuntimeError)
+    expect {
+      apply_recipe('http_request_server_error')
+    }.to raise_error(RuntimeError)
+    expect {
+      apply_recipe('http_request_unknown_error')
+    }.to raise_error(RuntimeError)
+    expect {
+      apply_recipe('http_request_redirect_limit')
+    }.to raise_error(RuntimeError)
     apply_recipe('http_request')
   end
 
