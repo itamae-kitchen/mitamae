@@ -1,3 +1,8 @@
+## v1.8.0
+
+- `http_request` resource drops `check_error` attribute (v1.7.4 feature) and always raises
+  exceptions on 4XX or 5XX responses [#85](https://github.com/itamae-kitchen/mitamae/pull/85)
+
 ## v1.7.8
 
 - Support Clear Linux OS [mruby-specinfra#10](https://github.com/itamae-kitchen/mruby-specinfra/pull/10)
