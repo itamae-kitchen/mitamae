@@ -10,6 +10,7 @@ def gem_config(conf)
   conf.gem mgem: 'mruby-shellwords',     checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
   conf.gem mgem: 'mruby-specinfra',      checksum_hash: 'be5e6fe1c575106308ba49236c802a1ade925e45'
   conf.gem github: 'k0kubun/mruby-erb',  checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
+  conf.gem github: 'mrbgems/mruby-yaml', checksum_hash: '8e0d30b4b616a83619b6e70d6e2a93986fbd6458'
   conf.gem github: 'eagletmt/mruby-etc', checksum_hash: 'v0.1.0'
 end
 

@@ -31,7 +31,7 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-specinfra',   mgem: 'mruby-specinfra'
   spec.add_dependency 'mruby-tempfile',    mgem: 'mruby-tempfile'
 
-  spec.add_dependency 'mruby-yaml',      github: 'k0kubun/mruby-yaml'
+  spec.add_dependency 'mruby-yaml',      github: 'mrbgems/mruby-yaml'
   spec.add_dependency 'mruby-erb',       github: 'k0kubun/mruby-erb'
   spec.add_dependency 'mruby-etc',       github: 'eagletmt/mruby-etc'
   spec.add_dependency 'mruby-uri',       github: 'zzak/mruby-uri'
