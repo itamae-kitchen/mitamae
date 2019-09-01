@@ -1,3 +1,9 @@
+## v1.9.0
+
+- Upgrade mruby-yaml
+  - Disable `y`/`n` as shorthands of `true`/`false` [mruby-yaml#10](https://github.com/mrbgems/mruby-yaml/pull/10)
+  - Update libyaml from v0.1.6 to v0.2.2 [mruby-yaml#15](https://github.com/mrbgems/mruby-yaml/pull/15)
+
 ## v1.8.0
 
 - `http_request` resource drops `check_error` attribute (v1.7.4 feature) and always raises
