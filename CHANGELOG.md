@@ -1,3 +1,7 @@
+## v1.9.3
+
+- Fix debug logs of defined resource (added since v1.9.2) to show correct names
+
 ## v1.9.2
 
 - Respect `only_if`/`not_if` in a resource defined by `define`
