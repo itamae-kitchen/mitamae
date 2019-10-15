@@ -1,3 +1,9 @@
+## v1.9.1
+
+- Upgrade mruby-yaml
+  - YAML.dump generates double quotes for String not starting with alphabet or number.
+  - Like CRuby's Psych, YAML.dump no longer generates `...`
+
 ## v1.9.0
 
 - Upgrade mruby-yaml
