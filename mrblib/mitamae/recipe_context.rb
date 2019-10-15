@@ -98,6 +98,7 @@ module MItamae
       RecipeContext.send(:define_method, name) do |n, &b|
         @recipe.children << RecipeFromDefinition.new(File.dirname(defined_path), @recipe, name, n).tap do |recipe|
           recipe.definition = klass.new(n, recipe, variables, &b)
+          recipe.definition.resource_type = name.to_s
           params = recipe.definition.attributes.merge(name: n)
           RecipeContext.new(recipe, variables.merge(params: params)).instance_exec(&block)
         end

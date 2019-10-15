@@ -7,6 +7,9 @@ module MItamae
           params.each_pair do |key, value|
             klass.define_attribute key.to_sym, type: Object, default: value
           end
+
+          # `define_method('resource_type') { name }` behaves weirdly
+          attr_writer :resource_type
         end
       end
     end
