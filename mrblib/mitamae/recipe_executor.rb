@@ -18,8 +18,10 @@ module MItamae
         MItamae.logger.info "Recipe: #{node.path}"
         execute_children(node)
       when RecipeFromDefinition
-        MItamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
-        execute_children(node)
+        unless ResourceExecutor.create(node.definition, @runner).skip_condition?
+          MItamae.logger.debug "#{node.resource_type}[#{node.resource_name}]"
+          execute_children(node)
+        end
       when Resource::Base
         ResourceExecutor.create(node, @runner).execute
       else

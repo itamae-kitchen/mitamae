@@ -7,7 +7,15 @@ describe 'definition' do
 
   describe file('/tmp/created_by_definition') do
     it { should be_file }
-    its(:content) { should eq("name:name,key:value,message:Hello, Itamae\n") }
+    its(:content) { should eq("key:value,message:Hello, Itamae\n") }
+  end
+
+  describe file('/tmp/not_created_by_definition') do
+    it { should_not exist }
+  end
+
+  describe file('/tmp/only_created_by_definition') do
+    it { should_not exist }
   end
 
   describe file('/tmp/remote_file_in_definition') do
