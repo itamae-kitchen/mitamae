@@ -1,3 +1,7 @@
+## v1.9.2
+
+- Respect `only_if`/`not_if` in a resource defined by `define`
+
 ## v1.9.1
 
 - Upgrade mruby-yaml
