@@ -1,3 +1,9 @@
+## v1.9.4
+
+- Upgrade mruby-yaml
+  - Introduce `Object#to_yaml`
+  - Psych-compatible multi-line literal is generated on YAML.dump
+
 ## v1.9.3
 
 - Fix debug logs of defined resource (added since v1.9.2) to show correct names
