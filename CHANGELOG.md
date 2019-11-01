@@ -1,3 +1,8 @@
+## v1.9.5
+
+- Upgrade mruby-yaml
+  - YAML.dump stops generating a double quotes literal when a string includes double quotes
+
 ## v1.9.4
 
 - Upgrade mruby-yaml
