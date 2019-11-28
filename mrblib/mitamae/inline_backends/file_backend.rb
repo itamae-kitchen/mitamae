@@ -30,7 +30,8 @@ module MItamae
       def get_file_owner_user(path)
         uid = File.stat(path).uid
         passwd = Etc.getpwuid(uid)
-        Specinfra::CommandResult.new(stdout: passwd.name, stderr: '', exit_status: 0)
+        result = passwd ? passwd.name : 'UNKNOWN'
+        Specinfra::CommandResult.new(stdout: result, stderr: '', exit_status: 0)
       rescue SystemCallError => e
         Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
       end
@@ -38,7 +39,8 @@ module MItamae
       def get_file_owner_group(path)
         gid = File.stat(path).gid
         group = Etc.getgrgid(gid)
-        Specinfra::CommandResult.new(stdout: group.name, stderr: '', exit_status: 0)
+        result = group ? group.name : 'UNKNOWN'
+        Specinfra::CommandResult.new(stdout: result, stderr: '', exit_status: 0)
       rescue SystemCallError => e
         Specinfra::CommandResult.new(stdout: '', stderr: e.message, exit_status: 1)
       end
