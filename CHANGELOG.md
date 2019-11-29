@@ -1,3 +1,7 @@
+## v1.9.6
+
+- Fix a crash when `file` resource handles a file with nameless owner
+
 ## v1.9.5
 
 - Upgrade mruby-yaml
