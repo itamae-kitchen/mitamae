@@ -44,14 +44,14 @@ gem_package 'unindent' do
   version '1.0'
 end
 
-gem_package 'itamae-template' do
+gem_package 'perf' do
   version '0.1.4'
 end
 
-gem_package 'itamae-template' do
+gem_package 'perf' do
   version '0.1.3'
 end
 
-gem_package 'itamae-template' do
+gem_package 'perf' do
   action :uninstall
 end

@@ -14,7 +14,7 @@ describe 'gem_package resource' do
   end
 
   describe command('gem list') do
-    its(:stdout) { should_not include('itamae-template') }
+    its(:stdout) { should_not include('perf') }
   end
 
   describe command('ri Rake') do
