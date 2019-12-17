@@ -6,7 +6,7 @@ GEM
     docker-api (1.32.1)
       excon (>= 0.38.0)
       json
-    excon (0.54.0)
+    excon (0.71.0)
     json (2.0.2)
     method_source (0.8.2)
     multi_json (1.12.1)
