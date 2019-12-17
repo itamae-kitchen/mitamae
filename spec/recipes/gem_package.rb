@@ -45,11 +45,11 @@ gem_package 'unindent' do
 end
 
 gem_package 'perf' do
-  version '0.1.4'
+  version '0.1.2'
 end
 
 gem_package 'perf' do
-  version '0.1.3'
+  version '0.1.1'
 end
 
 gem_package 'perf' do
