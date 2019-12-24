@@ -1,3 +1,8 @@
+## v1.9.7
+
+- Stop defining `path`, `variables`, `source`, `recipe` local variables in recipe by default
+  - They have been accidentally exposed to recipes because of the environment of internal `instance_eval` call
+
 ## v1.9.6
 
 - Fix a crash when `file` resource handles a file with nameless owner
