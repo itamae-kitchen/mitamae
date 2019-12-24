@@ -7,8 +7,7 @@ module MItamae
       MItamae.logger.debug "Loading recipe: #{path}"
       path = File.expand_path(path)
       Recipe.new(path, parent).tap do |recipe|
-        source = File.read(path)
-        RecipeContext.new(recipe, variables).instance_eval(source, path, 1)
+        recipe.eval_file(path, variables)
       end
     end
 
@@ -33,6 +32,11 @@ module MItamae
       else
         self
       end
+    end
+
+    def eval_file(path, variables)
+      src = File.read(path)
+      RecipeContext.new(self, variables).instance_eval(src, path, 1)
     end
   end
 

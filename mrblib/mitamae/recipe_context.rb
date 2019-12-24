@@ -121,9 +121,8 @@ module MItamae
       end
       RecipeContext.included_paths << path
 
-      src = File.read(path)
       @recipe.children << Recipe.new(path, @recipe).tap do |recipe|
-        RecipeContext.new(recipe, @variables).instance_eval(src, path, 1)
+        recipe.eval_file(path, @variables)
       end
     end
   end
