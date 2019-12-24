@@ -4,6 +4,7 @@ node.reverse_merge!({
 
 include_recipe 'definition/example'
 include_recipe 'definition/nested_params'
+include_recipe 'definition/tmp_append'
 
 definition_example '/tmp/created_by_definition' do
   key 'value'
@@ -20,3 +21,6 @@ definition_example '/tmp/only_created_by_definition' do
 end
 
 nested_params 'true'
+
+tmp_append 'foo'
+tmp_append 'bar'

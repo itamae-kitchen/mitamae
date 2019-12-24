@@ -36,7 +36,22 @@ module MItamae
 
     def eval_file(path, variables)
       src = File.read(path)
-      RecipeContext.new(self, variables).instance_eval(src, path, 1)
+      context = RecipeContext.new(self, variables)
+      InstanceEval.new(src, path, 1, receiver: context).call
+    end
+
+    # For #instance_eval with TOPLEVEL_BINDING
+    class InstanceEval
+      def initialize(*args, receiver:)
+        @args = args
+        @receiver = receiver
+      end
+
+      def call
+        # When we call #instance_eval, we should not have local variables.
+        # Otherwise a recipe may see the local variables by default.
+        @receiver.instance_eval(*@args)
+      end
     end
   end
 

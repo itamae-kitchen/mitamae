@@ -27,4 +27,9 @@ describe 'definition' do
     it { should be_file }
     its(:content) { should eq("true\n") }
   end
+
+  describe file('/tmp/append') do
+    it { should be_file }
+    its(:content) { should eq("foobar") }
+  end
 end
