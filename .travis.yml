@@ -6,6 +6,9 @@ script:
   - rake $TASK
 env:
   - TASK=test:integration
+branches:
+  only:
+    - master
 
 before_deploy:
   - rake release:build
