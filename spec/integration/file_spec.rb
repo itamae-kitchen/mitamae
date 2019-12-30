@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'file resource' do
   before(:all) do
-    apply_recipe('file', options: ['--log-level=debug'])
+    apply_recipe('file')
   end
 
   describe file('/tmp/file') do
