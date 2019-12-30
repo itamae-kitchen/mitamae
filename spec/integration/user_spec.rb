@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'user resource' do
   before(:all) do
-    apply_recipe('user')
+    apply_recipe('user', options: ['--log-level=debug'])
   end
 
   describe user('itamae') do

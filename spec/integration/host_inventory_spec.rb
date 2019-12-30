@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'host_inventory' do
   before(:all) do
-    apply_recipe('host_inventory')
+    apply_recipe('host_inventory', options: ['--log-level=debug'])
   end
 
   {
