@@ -1,3 +1,11 @@
+## v1.10.0
+
+- Upgrade mruby-specinfra to an automated fork based on specinfra v2.82.4
+  [mruby-specinfra#12](https://github.com/itamae-kitchen/mruby-specinfra/pull/12)
+  - mruby-specinfra diff: [mruby-specinfra@21cd47d...f02c409](https://github.com/itamae-kitchen/mruby-specinfra/compare/21cd47d48cb15d4039cd8449f65cfc1ac1babe3b...f02c40935ab7c334bdb110edef243556e69e391b)
+  - upstream specinfra base is changed [from v2.60.2 to v2.82.4](https://github.com/mizzy/specinfra/compare/v2.60.2...v2.82.4)
+     - Some of the diff was already backported to mruby-specinfra individually. So the actual diff may vary.
+
 ## v1.9.8
 
 - Detect OS name of CoreOS correctly [mruby-specinfra#11](https://github.com/itamae-kitchen/mruby-specinfra/pull/11)
