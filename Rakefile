@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'shellwords'
 
-MRUBY_VERSION = '2.0.1'
+MRUBY_VERSION = '2.1.0'
 
 file :mruby do
   sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
