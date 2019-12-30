@@ -5,18 +5,18 @@ module MItamaeSpec
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
   end
 
-  def apply_recipe(*recipes, options: [])
+  def apply_recipe(*recipes, options: [], redirect: {})
     recipes = recipes.map do |recipe|
       recipe = "#{recipe}.rb" unless recipe.end_with?('.rb')
       "/recipes/#{recipe}"
     end
 
     puts "\n=== Apply #{recipes.join(' ')} #{options.join(' ')} ==="
-    run_command('/mitamae/bin/mitamae', 'local', *options, *recipes)
+    run_command('/mitamae/bin/mitamae', 'local', *options, *recipes, redirect: redirect)
   end
 
-  def run_command(*cmd)
-    system('docker', 'exec', '-it', MItamaeSpec.container, *cmd) || raise("Failed to execute: #{cmd.inspect}")
+  def run_command(*cmd, redirect: {})
+    system('docker', 'exec', '-it', MItamaeSpec.container, *cmd, redirect) || raise("Failed to execute: #{cmd.inspect}")
   end
 end
 

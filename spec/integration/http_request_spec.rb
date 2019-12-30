@@ -3,19 +3,19 @@ require 'spec_helper'
 describe 'http_request resource' do
   before(:all) do
     expect {
-      apply_recipe('http_request_without_curl', { err: File::NULL })
+      apply_recipe('http_request_without_curl', redirect: { err: File::NULL })
     }.to raise_error(RuntimeError)
     expect {
-      apply_recipe('http_request_client_error', { err: File::NULL })
+      apply_recipe('http_request_client_error', redirect: { err: File::NULL })
     }.to raise_error(RuntimeError)
     expect {
-      apply_recipe('http_request_server_error', { err: File::NULL })
+      apply_recipe('http_request_server_error', redirect: { err: File::NULL })
     }.to raise_error(RuntimeError)
     expect {
-      apply_recipe('http_request_unknown_error', { err: File::NULL })
+      apply_recipe('http_request_unknown_error', redirect: { err: File::NULL })
     }.to raise_error(RuntimeError)
     expect {
-      apply_recipe('http_request_redirect_limit', { err: File::NULL })
+      apply_recipe('http_request_redirect_limit', redirect: { err: File::NULL })
     }.to raise_error(RuntimeError)
     apply_recipe('http_request')
   end
