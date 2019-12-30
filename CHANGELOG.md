@@ -1,3 +1,7 @@
+## v1.9.8
+
+- Detect OS name of CoreOS correctly [mruby-specinfra#11](https://github.com/itamae-kitchen/mruby-specinfra/pull/11)
+
 ## v1.9.7
 
 - Stop defining `path`, `variables`, `source`, `recipe` local variables in recipe by default
