@@ -4,8 +4,10 @@ require 'shellwords'
 MRUBY_VERSION = '2.0.1'
 
 file :mruby do
-  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
-  FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
+  # sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
+  # FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
+  revision = "9174b18f34cdee25fdf8433ee33642932b06a445"
+  sh "git clone https://github.com/mruby/mruby && git -C mruby reset --hard #{revision}"
 end
 
 APP_NAME=ENV["APP_NAME"] || "mitamae"
