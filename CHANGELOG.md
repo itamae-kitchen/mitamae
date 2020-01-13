@@ -1,3 +1,7 @@
+## Unreleased
+
+- Change `MItamae` in help and log messages to `mitamae`
+
 ## v1.10.0
 
 - Upgrade mruby-specinfra to an automated fork based on specinfra v2.82.4

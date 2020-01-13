@@ -16,7 +16,7 @@ module MItamae
       when 'local'
         Local.new(@args).run
       when 'version'
-        puts "MItamae v#{MItamae::VERSION}"
+        puts "mitamae v#{MItamae::VERSION}"
       when 'help'
         print_help
       else
@@ -30,7 +30,7 @@ module MItamae
     def print_usage
       puts <<-USAGE
 Commands:
-  mitamae local RECIPE [RECIPE...]  # Run MItamae locally
+  mitamae local RECIPE [RECIPE...]  # Run mitamae locally
   mitamae help [COMMAND]            # Describe available commands or one specific command
   mitamae version                   # Print version
 
@@ -56,7 +56,7 @@ Options:
       [--shell=SHELL]              # Default: /bin/sh
   -l, [--log-level=LOG_LEVEL]      # Default: info
 
-Run MItamae locally
+Run mitamae locally
         HELP
       when 'version'
         puts <<-HELP
