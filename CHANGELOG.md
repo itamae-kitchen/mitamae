@@ -1,3 +1,8 @@
+## v1.10.2
+
+- Upgrade specinfra [from v2.82.4 to v2.82.7](https://github.com/mizzy/specinfra/compare/v2.82.4...v2.82.7)
+  ([mruby-specinfra@f02c409...58981a4](https://github.com/itamae-kitchen/mruby-specinfra/compare/f02c409...58981a4))
+
 ## v1.10.1
 
 - Add `--plugins` option to specify plugins directory
