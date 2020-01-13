@@ -5,7 +5,7 @@ mitamae is a tool to automate configuration management using a Chef-like DSL pow
 ### Key Features
 
 * **Fast** -
-  mitamae is optimized for local execution. It uses C functions via mruby libraries for some core operations where possible,
+  mitamae is optimized for local execution. It uses C functions via mruby libraries for core operations where possible,
   instead of executing commands on a shell or over a SSH connection like other tools, which is very slow.
 
 * **Simple** -
@@ -152,6 +152,10 @@ when you migrate Chef recipes to mitamae recipes.
 | `cron` | You may use [mitamae-plugin-resource-cron](https://github.com/k0kubun/mitamae-plugin-resource-cron). |
 | `deploy_revision` | You may use [mitamae-plugin-resource-deploy\_revision](https://github.com/k0kubun/mitamae-plugin-resource-deploy_revision). <br> See also: [mitamae-plugin-resource-deploy\_directory](https://github.com/k0kubun/mitamae-plugin-resource-deploy_directory)|
 | `runit_service` | You may use [mitamae-plugin-resource-runit\_service](https://github.com/k0kubun/mitamae-plugin-resource-runit_service). |
+
+### Change Log
+
+See [CHANGELOG.md](./CHANGELOG.md).
 
 ## Contributing
 
