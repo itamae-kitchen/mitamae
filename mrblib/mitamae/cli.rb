@@ -55,6 +55,7 @@ Options:
   -n, [--dry-run]
       [--shell=SHELL]              # Default: /bin/sh
   -l, [--log-level=LOG_LEVEL]      # Default: info
+      [--plugins=PATH]             # Default: ./plugins
 
 Run mitamae locally
         HELP

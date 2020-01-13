@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add `--plugins` option to specify plugins directory
 - Change `MItamae` in help and log messages to `mitamae`
 
 ## v1.10.0

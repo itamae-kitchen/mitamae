@@ -1,9 +1,25 @@
 # mitamae's plugin system
 
-mitamae supports plugins for resources and recipes.
-Unlike Itamae, it's not achieved by gem or mrbgem.
-It's dynamically loaded from working directory you execute mitamae.
+mitamae supports plugins for resources and recipes. Unlike Itamae, it's not achieved by gem or mrbgem.
+It's dynamically loaded from `./plugins` directory searched from a working directory.
+
 Note that this feature is experimental for now and load paths may be changed in the future.
+
+## `plugins` directory
+
+By default, it loads plugin repositories under `./plugins` directory, based on a working directory of mitamae process.
+If you put plugins in `/path/to/plugins`, you can `cd` to the directory which has `plugins`.
+
+```
+cd /path/to
+mitamae local ...
+```
+
+Since mitamae v1.10.1, you can also specify the plugins directory by a command line option.
+
+```
+mitamae local --plugins=/path/to/plugins ...
+```
 
 ## How to create and use plugin
 ### Resource

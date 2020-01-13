@@ -23,6 +23,9 @@ module MItamae
         MItamae.logger = Logger.new(@options[:log_level])
         MItamae.logger.info 'Starting mitamae...'
 
+        if @options[:plugins]
+          Plugin.plugins_path = @options[:plugins]
+        end
         Plugin.load_resources
 
         backend = Backend.new(shell: @options[:shell])
@@ -46,6 +49,7 @@ module MItamae
         opt.on('-n', '--dry-run') { |v| @options[:dry_run] = v }
         opt.on('--shell=VAL')     { |v| @options[:shell] = v }
         opt.on('--log-level=VAL') { |v| @options[:log_level] = v }
+        opt.on('--plugins=VAL')   { |v| @options[:plugins] = v }
         opt.parse!(args.dup)
       end
     end

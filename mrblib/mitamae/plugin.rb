@@ -2,10 +2,16 @@ module MItamae
   module Plugin
     # Put a plugin repository under `plugins/` as git submodule or just copy it.
     class << self
+      attr_writer :plugins_path
+
+      def plugins_path
+        @plugins_path ||= File.join(Dir.pwd, 'plugins')
+      end
+
       # Load plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb before running recipes.
       def load_resources
         if File.directory?('plugins')
-          Dir.glob('plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb').sort.each do |source|
+          Dir.glob(File.join(plugins_path, '{,m}itamae-plugin-resource-*/mrblib/**/*.rb')).sort.each do |source|
             eval File.read(source)
           end
         end
@@ -29,9 +35,9 @@ module MItamae
         if recipe_file
           recipe_file = recipe_file.gsub("::", "/")
           recipe_file << '.rb' unless recipe_file.end_with?('.rb')
-          Dir.glob("plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}/#{recipe_file}")
+          Dir.glob(File.join(plugins_path, "{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}/#{recipe_file}"))
         else
-          Dir.glob("plugins/{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}{/default,}.rb")
+          Dir.glob(File.join(plugins_path, "{,m}itamae-plugin-recipe-#{name}/mrblib/{,m}itamae/plugin/recipe/#{name}{/default,}.rb"))
         end
       end
     end
