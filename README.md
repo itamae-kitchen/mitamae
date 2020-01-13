@@ -1,163 +1,162 @@
-# mitamae
-[![Latest Version](https://img.shields.io/github/v/release/itamae-kitchen/mitamae)](https://github.com/itamae-kitchen/mitamae/releases)
-[![Build Status](https://travis-ci.org/itamae-kitchen/mitamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/mitamae)
+# :sushi: mitamae [![Latest Version](https://img.shields.io/github/v/release/itamae-kitchen/mitamae)](https://github.com/itamae-kitchen/mitamae/releases) [![Build Status](https://travis-ci.org/itamae-kitchen/mitamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/mitamae)
 
-[Itamae](https://github.com/itamae-kitchen/itamae) implementation that is runnable without Ruby, which is a lightweight configuration management tool inspired by Chef.
-With mitamae's standalone binary, you can write a configuration recipe in Ruby and apply it without Ruby.
+mitamae is a tool to automate configuration management using a Chef-like DSL powered by mruby.
 
-## Status
+### Key Features
 
-All features are implemented and tested.
+* **Fast** -
+  mitamae is optimized for local execution. It uses C functions via mruby libraries for some core operations where possible,
+  instead of executing commands on a shell or over a SSH connection like other tools, which is very slow.
 
-## Synopsis
+* **Simple** -
+  Running mitamae doesn't require Chef Server, Berkshelf, Data Bags, or even RubyGems.
+  The mitamae core provides only essential features. You can quickly be a master of mitamae.
 
-Like original [Itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But mitamae does not require MRI to run.
+* **Single Binary** -
+  mitamae can be deployed by just transferring a single binary to servers.
+  You don't need to rely on slow operations over a SSH connection to workaround deployment problems.
 
-```rb
-# cat recipe.rb
-include_recipe 'included'
+## Installation
 
-directory '/tmp/etc'
-
-file '/tmp/etc/hello' do
-  content 'This is mitamae'
-end
-
-template '/tmp/etc/config.yml' do
-  source 'config.yml.erb'
-end
-```
-
-```rb
-# cat included.rb
-define :vim, options: '--with-lua --with-luajit' do
-  package 'vim' do
-    version params[:name]
-    options params[:options]
-  end
-end
-
-vim '7.4.1910-1'
-
-service 'mysqld' do
-  action [:start, :enable]
-end
-```
+Download a binary for your platform from [GitHub Releases](https://github.com/itamae-kitchen/mitamae/releases).
 
 ```bash
-# wget https://github.com/k0kubun/mitamae/releases/download/v0.4.0/mitamae-x86_64-linux
-# chmod +x ./mitamae-x86_64-linux
-# ./mitamae-x86_64-linux local -j node.json recipe.rb
- INFO : Starting mitamae...
- INFO : Recipe: /home/k0kubun/mitamae/recipe.rb
- INFO :   Recipe: /home/k0kubun/mitamae/included.rb
- INFO :     service[mysqld] running will change from 'false' to 'true'
- INFO :     service[mysqld] enabled will change from 'false' to 'true'
- INFO :   file[/tmp/etc/hello] exist will change from 'false' to 'true'
- INFO :   diff:
- INFO :   --- /dev/null 2016-07-23 16:06:36.583327464 +0900
- INFO :   +++ /tmp/1470446745.956       2016-08-06 10:25:45.967255508 +0900
- INFO :   @@ -0,0 +1 @@
- INFO :   +This is mitamae
+curl -L https://github.com/itamae-kitchen/mitamae/releases/latest/download/mitamae-x86_64-linux.tar.gz \
+  | tar xvz
+./mitamae-x86_64-linux help
 ```
 
-## How to write recipes
+## Getting Started
 
-See [Itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
+Create a recipe file as `recipe.rb`:
 
-Plugins are implemented differently. See [PLUGINS.md](./PLUGINS.md) for details.
+```rb
+package 'nginx' do
+  action :install
+end
 
-### Supported features
+service 'nginx' do
+  action [:enable, :start]
+end
+```
 
-`itamae ssh` is omitted by design because it's slow.
-If you want to provision a server, download mitamae binary, transfer recipes and execute it over ssh.
-For that reason, mitamae is more suitable for development environment bootstrap.
+And then excute `mitamae local` command to apply a recipe to a local machine.
 
-In recipes, you can use the features listed below.
+```diff
+$ mv mitamae-x86_64-linux mitamae
+$ ./mitamae local recipe.rb
+ INFO : Starting mitamae...
+ INFO : Recipe: /home/user/recipe.rb
+ INFO :   package[nginx] installed will change from 'false' to 'true'
+ INFO :   service[nginx] enabled will change from 'false' to 'true'
+ INFO :   service[nginx] running will change from 'false' to 'true'
+```
 
-- Common Attributes
-  - [x] user
-  - [x] cwd
-  - [x] only\_if
-  - [x] not\_if
-  - [x] notifies
-  - [x] subscribes
-  - [x] verify
-- Resources
-  - [x] execute resource
-  - [x] package resource
-  - [x] directory resource
-  - [x] git resource
-  - [x] file resource
-  - [x] remote\_file resource
-  - [x] template resource
-  - [x] link resource
-  - [x] service resource
-  - [x] gem\_package resource
-  - [x] user resource
-  - [x] group resource
-  - [x] remote\_directory resource
-  - [x] http\_request resource
-  - [x] local\_ruby\_block resource
-- [x] Definitions
-- [x] Including Recipes
-- [x] Node Attributes
-- [x] run\_command
-- [x] Plugins
-- [x] Host Inventory
+See `mitamae help local` for available options. `--log-level=debug` is helpful to inspect what's executed in detail.
+
+## Documentation
+
+### How to write recipes
+
+Please refer to [Itamae wiki](https://github.com/itamae-kitchen/itamae/wiki):
+
+* [Resources](https://github.com/itamae-kitchen/itamae/wiki/Resources)
+  - [directory resource](https://github.com/itamae-kitchen/itamae/wiki/directory-resource)
+  - [execute resource](https://github.com/itamae-kitchen/itamae/wiki/execute-resource)
+  - [file resource](https://github.com/itamae-kitchen/itamae/wiki/file-resource)
+  - [gem\_package resource](https://github.com/itamae-kitchen/itamae/wiki/gem_package-resource)
+  - [git resource](https://github.com/itamae-kitchen/itamae/wiki/git-resource)
+  - [group resource](https://github.com/itamae-kitchen/itamae/wiki/group-resource)
+  - [http\_request resource](https://github.com/itamae-kitchen/itamae/wiki/http_request-resource)
+  - [link resource](https://github.com/itamae-kitchen/itamae/wiki/link-resource)
+  - [local\_ruby\_block resource](https://github.com/itamae-kitchen/itamae/wiki/local_ruby_block-resource)
+  - [package resource](https://github.com/itamae-kitchen/itamae/wiki/package-resource)
+  - [remote\_directory resource](https://github.com/itamae-kitchen/itamae/wiki/remote_directory-resource)
+  - [remote\_file resource](https://github.com/itamae-kitchen/itamae/wiki/remote_file-resource)
+  - [service resource](https://github.com/itamae-kitchen/itamae/wiki/service-resource)
+  - [template resource](https://github.com/itamae-kitchen/itamae/wiki/template-resource)
+  - [user resource](https://github.com/itamae-kitchen/itamae/wiki/user-resource)
+* [Definitions](https://github.com/itamae-kitchen/itamae/wiki/Definitions)
+* [Including Recipes](https://github.com/itamae-kitchen/itamae/wiki/Including-Recipes)
+* [Node Attributes](https://github.com/itamae-kitchen/itamae/wiki/Node-Attributes)
+* [run\_command](https://github.com/itamae-kitchen/itamae/wiki/run_command)
+* [Host Inventory](https://serverspec.org/host_inventory.html)
+
+### Plugins
+
+Please see [PLUGINS.md](./PLUGINS.md) for how to install or create plugins for mitamae.
+
+Find [mitamae plugins](https://github.com/search?q=mitamae-plugin) and
+[Itamae plugins supporting mitamae](https://github.com/search?q=itamae-plugin+mitamae) on GitHub.
+
+### mruby features
+
+The DSL is based on mruby instead of standard Ruby unlike Chef and Itamae.
+You may use the following mruby features in mitamae recipes.
+
+* [mruby's built-in features](http://mruby.org/docs/api/)
+  * Some features may not be available if not specified or used by
+    [mrbgem.rake dependencies](https://github.com/itamae-kitchen/mitamae/blob/master/mrbgem.rake).
+  * Check [`MRUBY_VERSION`](https://github.com/itamae-kitchen/mitamae/blob/master/Rakefile) used by mitamae
+    and Latest News on [mruby.org](http://mruby.org/).
+* [mruby-at\_exit](https://github.com/ksss/mruby-at_exit)
+* [mruby-dir-glob](https://github.com/gromnitsky/mruby-dir-glob)
+* [mruby-dir](https://github.com/iij/mruby-dir)
+* [mruby-env](https://github.com/iij/mruby-env)
+* [mruby-erb](https://github.com/k0kubun/mruby-erb)
+* [mruby-etc](https://github.com/eagletmt/mruby-etc)
+* [mruby-file-stat](https://github.com/ksss/mruby-file-stat)
+* [mruby-hashie](https://github.com/k0kubun/mruby-hashie)
+* [mruby-json](https://github.com/mattn/mruby-json)
+* [mruby-open3](https://github.com/k0kubun/mruby-open3)
+* [mruby-shellwords](https://github.com/k0kubun/mruby-shellwords)
+* [mruby-tempfile](https://github.com/iij/mruby-tempfile)
+* [mruby-uri](https://github.com/zzak/mruby-uri)
+* [mruby-yaml](https://github.com/mrbgems/mruby-yaml)
 
 ### Supported platforms
 
-Currently following platforms are supported but others can be easily supported by porting specinfra modules.
+* See [Releases](https://github.com/itamae-kitchen/mitamae/releases) for supported architectures.
+* All [operating systems supported by Serverspec](https://serverspec.org/tutorial.html#multi_os_support)
+  are supported since they share their underlying library, [Specinfra](https://github.com/mizzy/specinfra).
+  * See [CHANGELOG](./CHANGELOG.md) or [mruby-specinfra](https://github.com/itamae-kitchen/mruby-specinfra) to find what Specinfra version is used.
 
-- Alpine Linux
-- Amazon Linux
-- Arch Linux
-- CentOS
-- Debian
-- Gentoo
-- Ubuntu
-- macOS
-- [...etc](https://github.com/k0kubun/mruby-specinfra/tree/master/mrblib/specinfra/command)
+### Running mitamae on servers
+
+When you want to use mitamae on remote servers, you need to distribute a mitamae binary
+and recipes to the servers and run them remotely. There are at least the following ways to do it:
+
+* **rsync and ssh** -
+  It's handy to send them using `rsync` and run them using `ssh` when you apply recipes to a few servers.
+  [hocho](https://github.com/sorah/hocho) is a convenient tool to do this. While it's over a SSH connection,
+  it's much faster than other tools which establish a SSH connection for each operation like `itamae ssh`.
+* **deployment tool** -
+  A more scalable way is to install an agent to each server and notify the agents to fetch mitamae
+  and recipes from an object storage and run them.
+  Deployment tools like [AWS CodeDeploy](https://aws.amazon.com/codedeploy/) are useful to achieve them.
+
+### Migrating from Chef
+
+While the DSL is inspired by Chef, there are some differences you need to keep in mind
+when you migrate Chef recipes to mitamae recipes.
+
+| Chef | mitamae |
+|:-----|:--------|
+| `cookbook_file` | Use `remote_file` or `template`, specifying a path with `source`. |
+| `directory`'s `recursive true` | `directory` is `recursive true` by default |
+| `ruby_block` | Use `local_ruby_block`. |
+| `shell_out!` | Use `run_command`. `Open3.capture3` or `system` might suffice too. |
+| `Chef::Log.*` | `MItamae.logger.*` |
+| `Digest::*.hexdigest` | Use `*sum` command (e.g. `sha1sum`) as a workaround. |
+| `bash` | Just use `execute` or specify `bash -c ...` with it. <br> mitamae's `--shell=/bin/bash` might also help. |
+| `cron` | You may use [mitamae-plugin-resource-cron](https://github.com/k0kubun/mitamae-plugin-resource-cron). |
+| `deploy_revision` | You may use [mitamae-plugin-resource-deploy\_revision](https://github.com/k0kubun/mitamae-plugin-resource-deploy_revision). <br> See also: [mitamae-plugin-resource-deploy\_directory](https://github.com/k0kubun/mitamae-plugin-resource-deploy_directory)|
+| `runit_service` | You may use [mitamae-plugin-resource-runit\_service](https://github.com/k0kubun/mitamae-plugin-resource-runit_service). |
 
 ## Contributing
-### Development
 
-```bash
-$ rake compile && ./mruby/bin/mitamae local recipe.rb
+Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-# If you add mrbgem to mrbgem.rake, execute:
-$ rake clean
-```
+## License
 
-### Testing
-
-```bash
-# Run integration tests on Docker
-$ bundle exec rspec
-```
-
-### Cross compile
-
-```bash
-# Compile and copy binaries to ./mitamae-build
-$ rake release:build
-```
-
-### Release
-
-```bash
-$ git commit -m "Version vX.X.X"
-$ git tag vX.X.X
-$ git push origin --tags # released here
-$ git push origin master
-```
-
-## Notes
-
-Thanks to the original implementation https://github.com/itamae-kitchen/itamae.  
-And this tools is built as the next generation of itamae-go https://github.com/k0kubun/itamae-go.
-
-## Author
-
-Takashi Kokubun
+[MIT License](./LICENSE)
