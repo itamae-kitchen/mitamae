@@ -5,6 +5,9 @@ module ::MItamae
         def apply
           if desired.created
             run_command("echo #{desired.message}")
+            File.open('/tmp/mitamae-plugin-resource-test-file', 'w') do |io|
+              io.write(__FILE__)
+            end
           end
         end
 

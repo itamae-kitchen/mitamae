@@ -8,7 +8,7 @@ module MItamae
       def load_resources
         if File.directory?(plugins_path)
           Dir.glob(File.join(plugins_path, '{,m}itamae-plugin-resource-*/mrblib/**/*.rb')).sort.each do |source|
-            eval File.read(source)
+            eval(File.read(source), nil, source)
           end
         end
       end
