@@ -2,11 +2,7 @@ module MItamae
   module Plugin
     # Put a plugin repository under `plugins/` as git submodule or just copy it.
     class << self
-      attr_writer :plugins_path
-
-      def plugins_path
-        @plugins_path ||= File.join(Dir.pwd, 'plugins')
-      end
+      attr_accessor :plugins_path
 
       # Load plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb before running recipes.
       def load_resources

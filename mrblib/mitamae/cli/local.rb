@@ -7,6 +7,7 @@ module MItamae
         dry_run:   false,
         shell:     '/bin/sh',
         log_level: 'info',
+        plugins:   './plugins',
       }
 
       def initialize(args)
@@ -23,9 +24,7 @@ module MItamae
         MItamae.logger = Logger.new(@options[:log_level])
         MItamae.logger.info 'Starting mitamae...'
 
-        if @options[:plugins]
-          Plugin.plugins_path = @options[:plugins]
-        end
+        Plugin.plugins_path = File.expand_path(@options[:plugins])
         Plugin.load_resources
 
         backend = Backend.new(shell: @options[:shell])
