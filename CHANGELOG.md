@@ -1,3 +1,7 @@
+## v1.10.3
+
+- Load resource plugins properly with `--plugins`
+
 ## v1.10.2
 
 - Upgrade specinfra [from v2.82.4 to v2.82.7](https://github.com/mizzy/specinfra/compare/v2.82.4...v2.82.7)
