@@ -5,18 +5,18 @@ module MItamaeSpec
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
   end
 
-  def apply_recipe(*recipes, options: [], redirect: {})
+  def apply_recipe(*recipes, cwd: '/', options: [], redirect: {})
     recipes = recipes.map do |recipe|
       recipe = "#{recipe}.rb" unless recipe.end_with?('.rb')
       "/recipes/#{recipe}"
     end
 
     puts "\n=== Apply #{recipes.join(' ')} #{options.join(' ')} ==="
-    run_command('/mitamae/bin/mitamae', 'local', *options, *recipes, redirect: redirect)
+    run_command('/mitamae/bin/mitamae', 'local', *options, *recipes, cwd: cwd, redirect: redirect)
   end
 
-  def run_command(*cmd, redirect: {})
-    system('docker', 'exec', '-it', MItamaeSpec.container, *cmd, redirect) || raise("Failed to execute: #{cmd.inspect}")
+  def run_command(*cmd, cwd: '/', redirect: {})
+    system('docker', 'exec', '-it', '-w', cwd, MItamaeSpec.container, *cmd, redirect) || raise("Failed to execute: #{cmd.inspect}")
   end
 end
 
@@ -39,6 +39,7 @@ RSpec.configure do |config|
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
       '-v', "#{File.expand_path('mruby/build/host')}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
+      '-v', "#{File.expand_path('spec/plugins')}:/plugins",
       'k0kubun/mitamae-spec', 'bash', '-c', 'while true; do sleep 3600; done',
     ) || raise
   end

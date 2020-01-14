@@ -10,7 +10,7 @@ module MItamae
 
       # Load plugins/{,m}itamae-plugin-resource-*/mrblib/**/*.rb before running recipes.
       def load_resources
-        if File.directory?('plugins')
+        if File.directory?(plugins_path)
           Dir.glob(File.join(plugins_path, '{,m}itamae-plugin-resource-*/mrblib/**/*.rb')).sort.each do |source|
             eval File.read(source)
           end
