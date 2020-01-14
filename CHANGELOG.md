@@ -1,3 +1,7 @@
+## v1.10.4
+
+- Pass a file name to `__FILE__` in a resource plugin instead of `(eval)`
+
 ## v1.10.3
 
 - Load resource plugins properly with `--plugins`
