@@ -56,6 +56,9 @@ See `mitamae help local` for available options. `--log-level=debug` is helpful t
 
 ## Documentation
 
+mitamae was built as an alternative implementation of [Itamae](https://github.com/itamae-kitchen/itamae).
+Therefore you may refer to resources related to Itamae for mitamae as well.
+
 ### How to write recipes
 
 Please refer to [Itamae wiki](https://github.com/itamae-kitchen/itamae/wiki):
