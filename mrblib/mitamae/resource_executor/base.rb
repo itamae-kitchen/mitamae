@@ -195,7 +195,7 @@ module MItamae
 
       def notify
         (@resource.notifications + @resource.recipe.root.subscriptions_for(@resource)).each do |notification|
-          message = "Notifying #{notification.action} to #{notification.resource.resource_type} resource '#{notification.resource.resource_name}'"
+          message = "Notifying #{notification.action} to #{notification.action_resource.resource_type} resource '#{notification.action_resource.resource_name}'"
 
           if notification.delayed?
             message << " (delayed)"
