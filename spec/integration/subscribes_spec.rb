@@ -10,6 +10,11 @@ describe 'subscribes attribute' do
     its(:content) { should eq("2431") }
   end
 
+  describe file('/tmp/subscribes-multi') do
+    it { should be_file }
+    its(:content) { should eq("12") }
+  end
+
   describe file('/tmp/subscribed_from_parent') do
     it { should be_file }
   end

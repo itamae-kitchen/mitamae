@@ -34,7 +34,7 @@ module MItamae
         node.children.each do |resource|
           execute_node(resource)
         end
-        node.delayed_notifications.uniq { |n| [n.action, n.target_resource_desc] }.each do |notification|
+        node.delayed_notifications.uniq { |n| [n.action, n.action_resource] }.each do |notification|
           ResourceExecutor.create(notification.action_resource, @runner).execute(notification.action)
         end
       end

@@ -22,3 +22,15 @@ execute "touch /tmp/subscribed_from_parent" do
   action :nothing
   subscribes :run, 'execute[subscribed from parent]'
 end
+
+execute 'echo hello'
+
+execute 'echo -n 1 >> /tmp/subscribes-multi' do
+  action :nothing
+  subscribes :run, 'execute[echo hello]'
+end
+
+execute 'echo -n 2 >> /tmp/subscribes-multi' do
+  action :nothing
+  subscribes :run, 'execute[echo hello]'
+end
