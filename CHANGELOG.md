@@ -1,3 +1,12 @@
+## v1.10.5
+
+- Fix notifications to multiple `subscribes` from a single resource
+  - When multiple resources subscribed the same resource, only one of them had been notified since v1.7.1
+- Fix a notification message in `subscribes` to have a notified resource instead of a notifying resource
+- Upgrade specinfra [from v2.82.7 to v2.82.8](https://github.com/mizzy/specinfra/compare/v2.82.7...v2.82.8)
+  ([mruby-specinfra@58981a4...d67d734](https://github.com/itamae-kitchen/mruby-specinfra/compare/58981a4...d67d734))
+  - This resurrects the Symbol reference in `node[:ec2][:xxx]`, which was introduced in v1.5.5 and dropped in v1.10.0
+
 ## v1.10.4
 
 - Pass a file name to `__FILE__` in a resource plugin instead of `(eval)`
