@@ -5,7 +5,7 @@
 - Fix a notification message in `subscribes` to have a notified resource instead of a notifying resource
 - Upgrade specinfra [from v2.82.7 to v2.82.8](https://github.com/mizzy/specinfra/compare/v2.82.7...v2.82.8)
   ([mruby-specinfra@58981a4...d67d734](https://github.com/itamae-kitchen/mruby-specinfra/compare/58981a4...d67d734))
-  - This resurrects the Symbol reference in `node[:ec2][:xxx]`, which was introduced in v1.5.5 and dropped in v1.10.0
+  - This resurrects the Symbol reference in `node[:ec2][:xxx]`, which was introduced in mitamae v1.5.5 and dropped in mitamae v1.10.0
 
 ## v1.10.4
 
