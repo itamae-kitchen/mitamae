@@ -1,5 +1,7 @@
 # https://hub.docker.com/r/k0kubun/mruby-cli/builds/
-# Changing https://github.com/hone/mruby-cli-docker to support cross compile for raspberry pi
+# Changing https://github.com/hone/mruby-cli-docker to support:
+#   * cross compile for raspberry pi
+#   * static link of musl-libc
 FROM hone/mruby-cli
 
 # Not using since it's too slow
@@ -13,3 +15,7 @@ RUN git clone --depth=1 https://github.com/raspberrypi/tools /opt/raspberrypi-to
   rm -rf /opt/raspberrypi-tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf && \
   rm -rf /opt/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian
 ENV PATH /opt/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/:$PATH
+
+# Install musl-libc
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  musl musl-dev musl-tools
