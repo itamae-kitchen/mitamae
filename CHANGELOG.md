@@ -1,9 +1,3 @@
-## v1.11.0
-
-- Use musl-libc for x86 Linux binaries to remove libc dependency
-- Upgrade specinfra [from v2.82.8 to v2.82.9](https://github.com/mizzy/specinfra/compare/v2.82.8...v2.82.9)
-  ([mruby-specinfra@d67d734...95994e4](https://github.com/itamae-kitchen/mruby-specinfra/compare/d67d734...95994e4))
-
 ## v1.10.5
 
 - Fix notifications to multiple `subscribes` from a single resource
