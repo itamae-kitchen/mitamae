@@ -50,7 +50,7 @@ if build_targets.include?('linux-x86_64')
 
     [conf.cc, conf.linker].each do |cc|
       cc.command = 'musl-gcc'
-      cc.flags = '-static -Os'
+      cc.flags += %w[-static -Os]
     end
 
     debug_config(conf)
@@ -64,7 +64,7 @@ if build_targets.include?('linux-i686')
 
     [conf.cc, conf.linker].each do |cc|
       cc.command = 'musl-gcc'
-      cc.flags = '-static -Os -m32'
+      cc.flags += %w[-static -Os -m32]
     end
     conf.cxx.flags << "-m32"
 
