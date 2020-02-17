@@ -48,11 +48,6 @@ if build_targets.include?('linux-x86_64')
   MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
     toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'musl-gcc'
-      cc.flags += %w[-static -Os]
-    end
-
     debug_config(conf)
     gem_config(conf)
   end
@@ -62,11 +57,9 @@ if build_targets.include?('linux-i686')
   MRuby::CrossBuild.new('i686-pc-linux-gnu') do |conf|
     toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'musl-gcc'
-      cc.flags += %w[-static -Os -m32]
+    [conf.cc, conf.cxx, conf.linker].each do |cc|
+      cc.flags << "-m32"
     end
-    conf.cxx.flags << "-m32"
 
     debug_config(conf)
     gem_config(conf)
