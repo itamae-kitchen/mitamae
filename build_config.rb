@@ -33,6 +33,19 @@ if build_targets == ['all']
   ]
 end
 
+if build_targets.empty?
+  MRuby::Build.new do |conf|
+    toolchain :gcc
+
+    #conf.enable_bintest
+    #conf.enable_debug
+    #conf.enable_test
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
+
 if build_targets.include?('linux-x86_64')
   MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
     toolchain :gcc
