@@ -29,7 +29,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
-      system('docker-compose', 'run', 'compile') || raise
+      system('docker-compose', 'run', '-e', 'BUILD_TARGET=linux-x86_64', 'compile') || raise
     end
     system('docker', 'rm', '-f', MItamaeSpec.container)
 
@@ -37,7 +37,7 @@ RSpec.configure do |config|
     # https://hub.docker.com/r/k0kubun/mitamae-spec/builds/
     system(
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
-      '-v', "#{File.expand_path('mruby/build/host')}:/mitamae",
+      '-v', "#{File.expand_path('mruby/build/x86_64-pc-linux-gnu')}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
       '-v', "#{File.expand_path('spec/plugins')}:/plugins",
       'k0kubun/mitamae-spec', 'bash', '-c', 'while true; do sleep 3600; done',
