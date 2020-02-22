@@ -4,7 +4,8 @@ require 'shellwords'
 MRUBY_VERSION = '2.0.1'
 
 file :mruby do
-  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
+  tar_zxf = (RUBY_PLATFORM.match(/solaris/) ? 'gzip -d | tar xf -' : 'tar zxf -')
+  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | #{tar_zxf}"
   FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
 end
 
