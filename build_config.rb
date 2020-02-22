@@ -11,7 +11,7 @@ def gem_config(conf)
   conf.gem mgem: 'mruby-specinfra',          checksum_hash: '95994e41b5d40f50dbf0e10ff20a38bd124fd30c'
   conf.gem github: 'k0kubun/mruby-erb',      checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
   conf.gem github: 'k0kubun/mruby-tempfile', checksum_hash: 'e628c8fcb4bca3f3456640a8b56d1ae98c594e24'
-  conf.gem github: 'mrbgems/mruby-yaml',     checksum_hash: '94f429717fd234767a15186beacdc50ae582463c'
+  conf.gem github: 'mrbgems/mruby-yaml',     checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
   conf.gem github: 'eagletmt/mruby-etc',     checksum_hash: 'v0.1.0'
 end
 
