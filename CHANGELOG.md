@@ -1,3 +1,9 @@
+## v1.11.1
+
+- Support `package` resource on OpenBSD
+  - Upgrade specinfra [from v2.82.9 to v2.82.10](https://github.com/mizzy/specinfra/compare/v2.82.9...v2.82.10)
+    ([mruby-specinfra@95994e4...6caf46e](https://github.com/itamae-kitchen/mruby-specinfra/compare/95994e4...6caf46e))
+
 ## v1.11.0
 
 - Use musl-libc for x86\_64 Linux binary to remove libc dependency
