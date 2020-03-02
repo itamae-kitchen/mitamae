@@ -36,8 +36,8 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-if build_targets.include?('x86_64-linux')
-  MRuby::Build.new('x86_64-linux') do |conf|
+if build_targets.include?('linux-x86_64')
+  MRuby::Build.new('linux-x86_64') do |conf|
     toolchain :gcc
 
     [conf.cc, conf.linker].each do |cc|
@@ -50,8 +50,8 @@ if build_targets.include?('x86_64-linux')
   end
 end
 
-if build_targets.include?('i686-linux')
-  MRuby::CrossBuild.new('i686-linux') do |conf|
+if build_targets.include?('linux-i686')
+  MRuby::CrossBuild.new('linux-i686') do |conf|
     toolchain :gcc
 
     [conf.cc, conf.cxx, conf.linker].each do |cc|
@@ -63,8 +63,8 @@ if build_targets.include?('i686-linux')
   end
 end
 
-if build_targets.include?('armhf-linux')
-  MRuby::CrossBuild.new('armhf-linux') do |conf|
+if build_targets.include?('linux-armhf')
+  MRuby::CrossBuild.new('linux-armhf') do |conf|
     toolchain :gcc
 
     # See also: tools/mruby-cli/Dockerfile
@@ -82,8 +82,8 @@ if build_targets.include?('armhf-linux')
   end
 end
 
-if build_targets.include?('x86_64-darwin')
-  MRuby::CrossBuild.new('x86_64-darwin') do |conf|
+if build_targets.include?('darwin-x86_64')
+  MRuby::CrossBuild.new('darwin-x86_64') do |conf|
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|
@@ -100,8 +100,8 @@ if build_targets.include?('x86_64-darwin')
   end
 end
 
-if build_targets.include?('i386-darwin')
-  MRuby::CrossBuild.new('i386-darwin') do |conf|
+if build_targets.include?('darwin-i386')
+  MRuby::CrossBuild.new('darwin-i386') do |conf|
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|

@@ -81,11 +81,11 @@ task :clean do
 end
 
 targets = %w[
-  x86_64-linux
-  i686-linux
-  armhf-linux
-  x86_64-darwin
-  i386-darwin
+  linux-x86_64
+  linux-i686
+  linux-armhf
+  darwin-x86_64
+  darwin-i386
 ]
 
 desc "cross compile for release"
@@ -98,7 +98,8 @@ targets.each do |target|
 
     Dir.chdir(__dir__) do
       FileUtils.mkdir_p('mitamae-build')
-      sh "cp mruby/build/#{target.shellescape}/bin/mitamae mitamae-build/mitamae-#{target.shellescape}"
+      os, arch = target.split('-', 2)
+      sh "cp mruby/build/#{target.shellescape}/bin/mitamae mitamae-build/mitamae-#{arch.shellescape}-#{os.shellescape}"
     end
   end
 end
