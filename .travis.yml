@@ -6,14 +6,14 @@ script:
   - rake test:integration
 jobs:
   include:
-    - env: TARGET=linux-x86_64
-    - env: TARGET=linux-i686
+    - env: TARGET=x86_64-linux
+    - env: TARGET=i686-linux
       if: tag IS present
-    - env: TARGET=linux-armhf
+    - env: TARGET=armhf-linux
       if: tag IS present
-    - env: TARGET=darwin-x86_64
+    - env: TARGET=x86_64-linux
       if: tag IS present
-    - env: TARGET=darwin-i386
+    - env: TARGET=i386-linux
       if: tag IS present
 branches:
   only:
