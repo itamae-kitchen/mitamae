@@ -80,35 +80,26 @@ task :clean do
   sh "rake deep_clean"
 end
 
+targets = %w[
+  x86_64-linux
+  i686-linux
+  armhf-linux
+  x86_64-darwin
+  i386-darwin
+]
+
 desc "cross compile for release"
-task 'release:build' do
-  sh 'docker-compose run -e BUILD_TARGET=all compile'
+task 'release:build' => targets.map { |target| "release:build:#{target}" }
 
-  Dir.chdir(__dir__) do
-    FileUtils.mkdir_p('mitamae-build')
-
-    {
-      'i386-apple-darwin14'   => 'mitamae-i386-darwin',
-      'i686-pc-linux-gnu'     => 'mitamae-i686-linux',
-      'x86_64-apple-darwin14' => 'mitamae-x86_64-darwin',
-      'x86_64-pc-linux-gnu'   => 'mitamae-x86_64-linux',
-      'arm-linux-gnueabihf'   => 'mitamae-armhf-linux',
-    }.each do |build, bin|
-      sh "cp mruby/build/#{build.shellescape}/bin/mitamae mitamae-build/#{bin.shellescape}"
-    end
-  end
-end
-
-%w[
-  linux-x86_64
-  linux-i686
-  linux-armhf
-  darwin-x86_64
-  darwin-i386
-].each do |target|
+targets.each do |target|
   desc "Build for #{target}"
   task "release:build:#{target}" do
     sh "docker-compose run -e BUILD_TARGET=#{target} compile"
+
+    Dir.chdir(__dir__) do
+      FileUtils.mkdir_p('mitamae-build')
+      sh "cp mruby/build/#{target.shellescape}/bin/mitamae mitamae-build/mitamae-#{target.shellescape}"
+    end
   end
 end
 

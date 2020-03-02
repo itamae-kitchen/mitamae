@@ -3,16 +3,25 @@ language: ruby
 services:
   - docker
 script:
-  - rake $TASK
-env:
-  - TASK=test:integration
+  - rake test:integration
+jobs:
+  include:
+    - env: TARGET=linux-x86_64
+    - env: TARGET=linux-i686
+      if: tag IS present
+    - env: TARGET=linux-armhf
+      if: tag IS present
+    - env: TARGET=darwin-x86_64
+      if: tag IS present
+    - env: TARGET=darwin-i386
+      if: tag IS present
 branches:
   only:
     - master
     - /v\d+\.\d+\.\d+/
 
 before_deploy:
-  - rake release:build
+  - rake "release:build:${TARGET}"
   - rake release:compress
   - sudo chown "$USER" mitamae-build/*
 deploy:

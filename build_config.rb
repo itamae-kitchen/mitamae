@@ -24,15 +24,6 @@ def debug_config(conf)
 end
 
 build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
-if build_targets == ['all']
-  build_targets = %w[
-    linux-x86_64
-    linux-i686
-    linux-armhf
-    darwin-x86_64
-    darwin-i386
-  ]
-end
 
 MRuby::Build.new do |conf|
   toolchain :gcc
@@ -45,8 +36,8 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-if build_targets.include?('linux-x86_64')
-  MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
+if build_targets.include?('x86_64-linux')
+  MRuby::Build.new('x86_64-linux') do |conf|
     toolchain :gcc
 
     [conf.cc, conf.linker].each do |cc|
@@ -59,8 +50,8 @@ if build_targets.include?('linux-x86_64')
   end
 end
 
-if build_targets.include?('linux-i686')
-  MRuby::CrossBuild.new('i686-pc-linux-gnu') do |conf|
+if build_targets.include?('i686-linux')
+  MRuby::CrossBuild.new('i686-linux') do |conf|
     toolchain :gcc
 
     [conf.cc, conf.cxx, conf.linker].each do |cc|
@@ -72,8 +63,8 @@ if build_targets.include?('linux-i686')
   end
 end
 
-if build_targets.include?('linux-armhf')
-  MRuby::CrossBuild.new('arm-linux-gnueabihf') do |conf|
+if build_targets.include?('armhf-linux')
+  MRuby::CrossBuild.new('armhf-linux') do |conf|
     toolchain :gcc
 
     # See also: tools/mruby-cli/Dockerfile
@@ -91,8 +82,8 @@ if build_targets.include?('linux-armhf')
   end
 end
 
-if build_targets.include?('darwin-x86_64')
-  MRuby::CrossBuild.new('x86_64-apple-darwin14') do |conf|
+if build_targets.include?('x86_64-darwin')
+  MRuby::CrossBuild.new('x86_64-darwin') do |conf|
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|
@@ -109,8 +100,8 @@ if build_targets.include?('darwin-x86_64')
   end
 end
 
-if build_targets.include?('darwin-i386')
-  MRuby::CrossBuild.new('i386-apple-darwin14') do |conf|
+if build_targets.include?('i386-darwin')
+  MRuby::CrossBuild.new('i386-darwin') do |conf|
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|
