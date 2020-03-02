@@ -12,13 +12,17 @@ file :mruby do
   end
 end
 
-BUILD_TARGETS = %w[
+MRUBY_CLI_TARGETS = %w[
   linux-x86_64
   linux-i686
   linux-armhf
   darwin-x86_64
   darwin-i386
 ]
+DOCKCROSS_TARGETS = %w[
+  linux-arm64
+]
+
 STRIP_TARGETS = %w[
   linux-x86_64
   linux-i686
@@ -94,12 +98,21 @@ task :clean do
 end
 
 desc 'cross compile for release'
-task 'release:build' => BUILD_TARGETS.map { |target| "release:build:#{target}" }
+task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "release:build:#{target}" }
 
-BUILD_TARGETS.each do |target|
+(MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).each do |target|
   desc "Build for #{target}"
   task "release:build:#{target}" do
-    sh "docker-compose run -e BUILD_TARGET=#{target} compile"
+    if DOCKCROSS_TARGETS.include?(target)
+      sh 'docker-compose run compile' # build host/bin/mrbc
+      sh [
+        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}", '-e', 'BUILD_HOST=0',
+        '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
+        "k0kubun/mitamae-dockcross:#{target}", 'rake', 'compile',
+      ].shelljoin
+    else
+      sh "docker-compose run -e BUILD_TARGET=#{target} compile"
+    end
 
     Dir.chdir(__dir__) do
       FileUtils.mkdir_p('mitamae-build')
