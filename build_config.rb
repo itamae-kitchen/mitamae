@@ -97,11 +97,11 @@ if build_targets.include?('linux-armhf')
   end
 end
 
-if build_targets.include?('linux-arm64')
-  MRuby::CrossBuild.new('linux-arm64') do |conf|
+if build_targets.include?('linux-aarch64')
+  MRuby::CrossBuild.new('linux-aarch64') do |conf|
     toolchain :gcc
 
-    # dockcross/linux-arm64
+    # dockcross/linux-aarch64
     conf.cc.command       = ENV.fetch('CC')
     conf.cxx.command      = ENV.fetch('CXX')
     conf.linker.command   = ENV.fetch('CXX')

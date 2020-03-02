@@ -11,7 +11,7 @@ jobs:
       if: tag IS present
     - env: TARGET=linux-armhf
       if: tag IS present
-    - env: TARGET=linux-arm64
+    - env: TARGET=linux-aarch64
       if: tag IS present
     - env: TARGET=darwin-x86_64
       if: tag IS present

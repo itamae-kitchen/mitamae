@@ -19,9 +19,13 @@ MRUBY_CLI_TARGETS = %w[
   darwin-x86_64
   darwin-i386
 ]
+
 DOCKCROSS_TARGETS = %w[
-  linux-arm64
+  linux-aarch64
 ]
+DOCKCROSS_ALIASES = {
+  'linux-aarch64' => 'linux-arm64',
+}
 
 STRIP_TARGETS = %w[
   linux-x86_64
@@ -108,7 +112,7 @@ task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "
       sh [
         'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}", '-e', 'BUILD_HOST=0',
         '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
-        "k0kubun/mitamae-dockcross:#{target}", 'rake', 'compile',
+        "k0kubun/mitamae-dockcross:#{DOCKCROSS_ALIASES.fetch(target, target)}", 'rake', 'compile',
       ].shelljoin
     else
       sh "docker-compose run -e BUILD_TARGET=#{target} compile"
