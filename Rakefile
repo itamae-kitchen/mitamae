@@ -12,6 +12,18 @@ file :mruby do
   end
 end
 
+BUILD_TARGETS = %w[
+  linux-x86_64
+  linux-i686
+  linux-armhf
+  darwin-x86_64
+  darwin-i386
+]
+STRIP_TARGETS = %w[
+  linux-x86_64
+  linux-i686
+]
+
 APP_NAME=ENV['APP_NAME'] || 'mitamae'
 APP_ROOT=ENV['APP_ROOT'] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
@@ -25,7 +37,8 @@ load "#{mruby_root}/Rakefile"
 
 desc 'compile binary'
 task :compile => [:all] do
-  %W(#{mruby_root}/build/x86_64-pc-linux-gnu/bin/#{APP_NAME} #{mruby_root}/build/i686-pc-linux-gnu/#{APP_NAME}").each do |bin|
+  STRIP_TARGETS.each do |target|
+    bin = "#{mruby_root}/build/#{target}/bin/#{APP_NAME}"
     sh "strip --strip-unneeded #{bin}" if File.exist?(bin)
   end
 end
@@ -80,18 +93,10 @@ task :clean do
   sh 'rake deep_clean'
 end
 
-targets = %w[
-  linux-x86_64
-  linux-i686
-  linux-armhf
-  darwin-x86_64
-  darwin-i386
-]
-
 desc 'cross compile for release'
-task 'release:build' => targets.map { |target| "release:build:#{target}" }
+task 'release:build' => BUILD_TARGETS.map { |target| "release:build:#{target}" }
 
-targets.each do |target|
+BUILD_TARGETS.each do |target|
   desc "Build for #{target}"
   task "release:build:#{target}" do
     sh "docker-compose run -e BUILD_TARGET=#{target} compile"
