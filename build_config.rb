@@ -4,15 +4,16 @@ def gem_config(conf)
   # be sure to include this gem (the cli app)
   conf.gem File.expand_path(File.dirname(__FILE__))
 
-  conf.gem mgem: 'mruby-file-stat',          checksum_hash: '2d3ea9b5d59d2b41133228a71c110b75cb30a31e'
-  conf.gem mgem: 'mruby-hashie',             checksum_hash: 'c69255a94debcd641f2087b569f5625509bde698'
-  conf.gem mgem: 'mruby-open3',              checksum_hash: 'b7480b6300a81d0e5fac469a36a383518e3dfc78'
-  conf.gem mgem: 'mruby-shellwords',         checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
-  conf.gem mgem: 'mruby-specinfra',          checksum_hash: '6caf46e69238b50054bed78cb86ead49c3b7730c'
-  conf.gem github: 'k0kubun/mruby-erb',      checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
-  conf.gem github: 'k0kubun/mruby-tempfile', checksum_hash: 'e628c8fcb4bca3f3456640a8b56d1ae98c594e24'
-  conf.gem github: 'mrbgems/mruby-yaml',     checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
-  conf.gem github: 'eagletmt/mruby-etc',     checksum_hash: 'v0.1.0'
+  conf.gem mgem: 'mruby-file-stat',             checksum_hash: '2d3ea9b5d59d2b41133228a71c110b75cb30a31e'
+  conf.gem mgem: 'mruby-hashie',                checksum_hash: 'c69255a94debcd641f2087b569f5625509bde698'
+  conf.gem mgem: 'mruby-open3',                 checksum_hash: 'b7480b6300a81d0e5fac469a36a383518e3dfc78'
+  conf.gem mgem: 'mruby-shellwords',            checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
+  conf.gem mgem: 'mruby-specinfra',             checksum_hash: '6caf46e69238b50054bed78cb86ead49c3b7730c'
+  conf.gem github: 'k0kubun/mruby-erb',         checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
+  conf.gem github: 'k0kubun/mruby-onig-regexp', checksum_hash: '7c50a88dab20e60d2917fa1970664d007fee1744'
+  conf.gem github: 'k0kubun/mruby-tempfile',    checksum_hash: 'e628c8fcb4bca3f3456640a8b56d1ae98c594e24'
+  conf.gem github: 'mrbgems/mruby-yaml',        checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
+  conf.gem github: 'eagletmt/mruby-etc',        checksum_hash: 'v0.1.0'
 end
 
 def debug_config(conf)
@@ -34,6 +35,17 @@ MRuby::Build.new do |conf|
 
   debug_config(conf)
   gem_config(conf)
+end
+
+if ENV['BUILD_HOST'] == 'false'
+  # Workaround to disable host build on a cross-compile container
+  def MRuby.each_target(&block)
+    return to_enum(:each_target) if block.nil?
+    @targets.each do |key, target|
+      next if key == 'host'
+      target.instance_eval(&block)
+    end
+  end
 end
 
 if build_targets.include?('linux-x86_64')
@@ -76,6 +88,25 @@ if build_targets.include?('linux-armhf')
     # For mrbgems/mruby-yaml configure
     conf.build_target = 'x86_64-pc-linux-gnu'
     conf.host_target  = 'arm-linux-gnueabihf'
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
+
+if build_targets.include?('linux-arm64')
+  MRuby::CrossBuild.new('linux-arm64') do |conf|
+    toolchain :gcc
+
+    # dockcross/linux-arm64
+    conf.cc.command       = ENV.fetch('CC')
+    conf.cxx.command      = ENV.fetch('CXX')
+    conf.linker.command   = ENV.fetch('CXX')
+    conf.archiver.command = ENV.fetch('AR')
+
+    # For mrbgems/mruby-yaml configure
+    conf.build_target = 'x86_64-pc-linux-gnu'
+    conf.host_target  = 'aarch64-linux-gnu'
 
     debug_config(conf)
     gem_config(conf)
