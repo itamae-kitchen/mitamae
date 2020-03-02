@@ -73,7 +73,7 @@ if build_targets.include?('linux-armhf')
     conf.linker.command   = 'arm-linux-gnueabihf-g++'
     conf.archiver.command = 'arm-linux-gnueabihf-ar'
 
-    # For hone/mruby-yaml configure
+    # For mrbgems/mruby-yaml configure
     conf.build_target = 'x86_64-pc-linux-gnu'
     conf.host_target  = 'arm-linux-gnueabihf'
 
@@ -92,6 +92,7 @@ if build_targets.include?('darwin-x86_64')
     conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
     conf.archiver.command = 'x86_64-apple-darwin14-ar'
 
+    # For mrbgems/mruby-yaml configure
     conf.build_target     = 'x86_64-pc-linux-gnu'
     conf.host_target      = 'x86_64-apple-darwin14'
 
@@ -110,6 +111,7 @@ if build_targets.include?('darwin-i386')
     conf.cxx.command      = 'i386-apple-darwin14-clang++'
     conf.archiver.command = 'i386-apple-darwin14-ar'
 
+    # For mrbgems/mruby-yaml configure
     conf.build_target     = 'i386-pc-linux-gnu'
     conf.host_target      = 'i386-apple-darwin14'
 
