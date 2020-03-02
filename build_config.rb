@@ -70,6 +70,9 @@ if build_targets.include?('linux-i686')
       cc.flags << "-m32"
     end
 
+    # To configure: k0kubun/mruby-onig-regexp
+    conf.host_target = 'i686-pc-linux-gnu'
+
     debug_config(conf)
     gem_config(conf)
   end
@@ -85,7 +88,7 @@ if build_targets.include?('linux-armhf')
     conf.linker.command   = 'arm-linux-gnueabihf-g++'
     conf.archiver.command = 'arm-linux-gnueabihf-ar'
 
-    # For mrbgems/mruby-yaml configure
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target = 'x86_64-pc-linux-gnu'
     conf.host_target  = 'arm-linux-gnueabihf'
 
@@ -104,7 +107,7 @@ if build_targets.include?('linux-arm64')
     conf.linker.command   = ENV.fetch('CXX')
     conf.archiver.command = ENV.fetch('AR')
 
-    # For mrbgems/mruby-yaml configure
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target = 'x86_64-pc-linux-gnu'
     conf.host_target  = 'aarch64-linux-gnu'
 
@@ -123,7 +126,7 @@ if build_targets.include?('darwin-x86_64')
     conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
     conf.archiver.command = 'x86_64-apple-darwin14-ar'
 
-    # For mrbgems/mruby-yaml configure
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target     = 'x86_64-pc-linux-gnu'
     conf.host_target      = 'x86_64-apple-darwin14'
 
@@ -142,7 +145,7 @@ if build_targets.include?('darwin-i386')
     conf.cxx.command      = 'i386-apple-darwin14-clang++'
     conf.archiver.command = 'i386-apple-darwin14-ar'
 
-    # For mrbgems/mruby-yaml configure
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target     = 'i386-pc-linux-gnu'
     conf.host_target      = 'i386-apple-darwin14'
 
