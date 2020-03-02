@@ -1,3 +1,7 @@
+## v1.11.2
+
+- Support arm64 in binary releases
+
 ## v1.11.1
 
 - Support `package` resource on OpenBSD
