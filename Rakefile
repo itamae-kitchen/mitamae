@@ -49,6 +49,9 @@ task 'test:integration' do
   end
 end
 
+desc 'compile binary'
+task compile: :all
+
 desc 'cleanup'
 task :clean do
   sh 'rake deep_clean'
