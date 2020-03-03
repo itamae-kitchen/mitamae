@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
       - '*'
+  schedule:
+    - cron: "30 15 * * *" # 7:30 PST (-8), 8:30 PDT (-7)
 jobs:
   test:
     runs-on: ubuntu-latest
