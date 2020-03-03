@@ -88,7 +88,7 @@ jobs:
           export VERSION=$(echo "$GITHUB_REF" | sed -e 's!refs/tags/!!')
           curl -L "https://github.com/tcnksm/ghr/releases/download/${GHR_VERSION}/ghr_${GHR_VERSION}_linux_amd64.tar.gz" | tar xvz
           "ghr_${GHR_VERSION}_linux_amd64/ghr" -u itamae-kitchen -r mitamae \
-            -n "$VERSION" -recreate -replace "$VERSION" mitamae-build/
+            -n "$VERSION" -replace "$VERSION" mitamae-build/
         env:
           GHR_VERSION: v0.13.0
           GITHUB_TOKEN: ${{ secrets.githubtoken }}
