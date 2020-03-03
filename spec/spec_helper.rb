@@ -16,7 +16,7 @@ module MItamaeSpec
   end
 
   def run_command(*cmd, cwd: '/', redirect: {})
-    system('docker', 'exec', '-it', '-w', cwd, MItamaeSpec.container, *cmd, redirect) || raise("Failed to execute: #{cmd.inspect}")
+    system('docker', 'exec', '-w', cwd, MItamaeSpec.container, *cmd, redirect) || raise("Failed to execute: #{cmd.inspect}")
   end
 end
 
