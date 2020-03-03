@@ -1,6 +1,8 @@
 require 'serverspec'
 
 module MItamaeSpec
+  TARGET = 'linux-x86'
+
   def self.container
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
   end
@@ -29,7 +31,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
-      system('docker-compose', 'run', '-e', 'BUILD_TARGET=linux-x86_64', 'compile') || raise
+      system('docker-compose', 'run', '-e', "BUILD_TARGET=#{MItamaeSpec::TARGET}", 'compile') || raise
     end
     system('docker', 'rm', '-f', MItamaeSpec.container)
 
@@ -37,7 +39,7 @@ RSpec.configure do |config|
     # https://hub.docker.com/r/k0kubun/mitamae-spec/builds/
     system(
       'docker', 'run', '-d', '--name', MItamaeSpec.container,
-      '-v', "#{File.expand_path('mruby/build/linux-x86_64')}:/mitamae",
+      '-v', "#{File.expand_path("mruby/build/#{MItamaeSpec::TARGET}")}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
       '-v', "#{File.expand_path('spec/plugins')}:/plugins",
       'k0kubun/mitamae-spec', 'bash', '-c', 'while true; do sleep 3600; done',
