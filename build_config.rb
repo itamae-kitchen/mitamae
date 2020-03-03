@@ -25,7 +25,17 @@ def debug_config(conf)
 end
 
 build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
+if ENV.key?('DEFAULT_DOCKCROSS_IMAGE')
+  # Unset dockcross env to make mrbgem's configure work for host build
+  dockcross_ar  = ENV.delete('AR')
+  dockcross_cc  = ENV.delete('CC')
+  dockcross_cxx = ENV.delete('CXX')
+  %w[AS CPP LD FD].each do |env|
+    ENV.delete(env)
+  end
+end
 
+# mruby's build system always requires to run host build for mrbc
 MRuby::Build.new do |conf|
   toolchain :gcc
 
@@ -35,17 +45,6 @@ MRuby::Build.new do |conf|
 
   debug_config(conf)
   gem_config(conf)
-end
-
-if ENV['BUILD_HOST'] == 'false'
-  # Workaround to disable host build on a cross-compile container
-  def MRuby.each_target(&block)
-    return to_enum(:each_target) if block.nil?
-    @targets.each do |key, target|
-      next if key == 'host'
-      target.instance_eval(&block)
-    end
-  end
 end
 
 if build_targets.include?('linux-x86_64')
@@ -102,10 +101,10 @@ if build_targets.include?('linux-aarch64')
     toolchain :gcc
 
     # dockcross/linux-aarch64
-    conf.cc.command       = ENV.fetch('CC')
-    conf.cxx.command      = ENV.fetch('CXX')
-    conf.linker.command   = ENV.fetch('CXX')
-    conf.archiver.command = ENV.fetch('AR')
+    conf.cc.command       = dockcross_cc
+    conf.cxx.command      = dockcross_cxx
+    conf.linker.command   = dockcross_cxx
+    conf.archiver.command = dockcross_ar
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target = 'x86_64-pc-linux-gnu'

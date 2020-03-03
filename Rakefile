@@ -108,9 +108,8 @@ task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "
   desc "Build for #{target}"
   task "release:build:#{target}" do
     if DOCKCROSS_TARGETS.include?(target)
-      sh 'docker-compose run compile' # build host/bin/mrbc
       sh [
-        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}", '-e', 'BUILD_HOST=0',
+        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}",
         '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
         "k0kubun/mitamae-dockcross:#{DOCKCROSS_ALIASES.fetch(target, target)}", 'rake', 'compile',
       ].shelljoin
