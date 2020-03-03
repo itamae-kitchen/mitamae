@@ -74,14 +74,14 @@ task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "
     end
 
     Dir.chdir(__dir__) do
-      bin = "mruby/build/#{target}/bin/mitamae"
+      FileUtils.mkdir_p('mitamae-build')
+      os, arch = target.split('-', 2)
+      bin = "mitamae-build/mitamae-#{arch}-#{os}"
+      sh "cp mruby/build/#{target.shellescape}/bin/mitamae #{bin.shellescape}"
+
       if STRIP_TARGETS.include?(target)
         sh "strip --strip-unneeded #{bin.shellescape}"
       end
-
-      FileUtils.mkdir_p('mitamae-build')
-      os, arch = target.split('-', 2)
-      sh "cp #{bin.shellescape} mitamae-build/mitamae-#{arch.shellescape}-#{os.shellescape}"
     end
   end
 end
