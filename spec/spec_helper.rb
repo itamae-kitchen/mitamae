@@ -1,7 +1,7 @@
 require 'serverspec'
 
 module MItamaeSpec
-  TARGET = 'linux-x86'
+  TARGET = 'linux-x86_64'
 
   def self.container
     @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
