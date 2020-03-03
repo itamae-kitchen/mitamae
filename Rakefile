@@ -32,10 +32,8 @@ STRIP_TARGETS = %w[
   linux-i686
 ]
 
-APP_NAME=ENV['APP_NAME'] || 'mitamae'
-APP_ROOT=ENV['APP_ROOT'] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
-mruby_root=File.expand_path(ENV['MRUBY_ROOT'] || "#{APP_ROOT}/mruby")
+mruby_root=File.expand_path(ENV['MRUBY_ROOT'] || "#{Dir.pwd}/mruby")
 mruby_config=File.expand_path(ENV['MRUBY_CONFIG'] || 'build_config.rb')
 ENV['MRUBY_ROOT'] = mruby_root
 ENV['MRUBY_CONFIG'] = mruby_config
@@ -43,58 +41,13 @@ Rake::Task[:mruby].invoke unless Dir.exist?(mruby_root)
 Dir.chdir(mruby_root)
 load "#{mruby_root}/Rakefile"
 
-desc 'compile binary'
-task :compile => [:all] do
-  STRIP_TARGETS.each do |target|
-    bin = "#{mruby_root}/build/#{target}/bin/#{APP_NAME}"
-    sh "strip --strip-unneeded #{bin}" if File.exist?(bin)
-  end
-end
-
-desc 'run mruby & unit tests'
-# only build mtest for host
-task 'test:mtest' => 'test:compile' do
-  # in order to get mruby/test/t/synatx.rb __FILE__ to pass,
-  # we need to make sure the tests are built relative from mruby_root
-  MRuby.each_target do |target|
-    # only run unit tests here
-    target.enable_bintest = false
-    run_test if target.test_enabled?
-  end
-end
-
-ENV['DOCKER_CONTAINER'] ||= 'mitamae-spec'
-desc 'run spec container'
-task 'test:compile' do
-  Dir.chdir(__dir__) do
-    sh 'docker-compose run -e BUILD_TARGET=linux-x86_64 compile'
-  end
-end
-
-desc 'run bundle install'
-task 'test:bundle_install' do
+desc 'run serverspec'
+task 'test:integration' do
   Dir.chdir(__dir__) do
     sh 'bundle check || bundle install -j4'
-  end
-end
-
-desc 'run serverspec'
-task 'test:serverspec' => 'test:bundle_install' do
-  Dir.chdir(__dir__) do
     sh 'bundle exec rspec'
   end
 end
-
-desc 'run integration tests'
-task 'test:integration' => 'test:serverspec'
-
-desc 'run all tests'
-if Object.const_defined?(:MiniRake)
-  MiniRake::Task::TASKS.delete('test')
-else
-  Rake::Task['test'].clear
-end
-task :test => ['test:mtest', 'test:bintest']
 
 desc 'cleanup'
 task :clean do
@@ -118,9 +71,14 @@ task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "
     end
 
     Dir.chdir(__dir__) do
+      bin = "mruby/build/#{target}/bin/mitamae"
+      if STRIP_TARGETS.include?(target)
+        sh "strip --strip-unneeded #{bin.shellescape}"
+      end
+
       FileUtils.mkdir_p('mitamae-build')
       os, arch = target.split('-', 2)
-      sh "cp mruby/build/#{target.shellescape}/bin/mitamae mitamae-build/mitamae-#{arch.shellescape}-#{os.shellescape}"
+      sh "cp #{bin.shellescape} mitamae-build/mitamae-#{arch.shellescape}-#{os.shellescape}"
     end
   end
 end

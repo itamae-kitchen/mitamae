@@ -4,7 +4,7 @@ module MItamaeSpec
   TARGET = 'linux-x86_64'
 
   def self.container
-    @container ||= ENV['DOCKER_CONTAINER'] || 'mitamae-serverspec'
+    @container ||= ENV.fetch('DOCKER_CONTAINER', 'mitamae-serverspec')
   end
 
   def apply_recipe(*recipes, cwd: '/', options: [], redirect: {})
