@@ -1,0 +1,19 @@
+name: docker
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - '*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libraries
+        run: sudo apt-get install ruby-bundler bison git libonig-dev
+      - uses: actions/checkout@v2
+      - run: bundle install -j$(nproc)
+      - run: bundle exec rake test:integration
