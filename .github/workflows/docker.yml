@@ -13,13 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target:
-          - linux-x86_64
-          - linux-i686
-          - linux-armhf
-          - linux-aarch64
-          - darwin-x86_64
-          - darwin-i386
+        os: [linux, darwin]
+        arch: [x86_64, i686, i386, armhf, aarch64]
+        exclude:
+          - os: linux
+            arch: i386
+          - os: darwin
+            arch: i686
+          - os: darwin
+            arch: armhf
+          - os: darwin
+            arch: aarch64
       fail-fast: false
     steps:
       - name: Install libraries
@@ -29,12 +33,10 @@ jobs:
 
       - name: Integration test
         run: bundle exec rake test:integration
-        if: matrix.target == 'linux-x86_64' || startsWith(github.ref, 'refs/tags/')
+        if: (matrix.os == 'linux' && matrix.arch == 'x86_64') || startsWith(github.ref, 'refs/tags/')
 
-      - name: Build ${{ matrix.target }} binary
-        run: bundle exec rake release:build:${{ matrix.target }} release:compress
-      - name: Debug
-        run: ls -la mitamae-build
+      - name: Build ${{ matrix.os }}-${{ matrix.arch }} binary
+        run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
 
       - name: Create Release
         id: create_release
@@ -51,8 +53,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: mitamae-build/mitamae-${{ matrix.target }}.tar.gz
-          asset_name: mitamae-${{ matrix.target }}.tar.gz
+          asset_path: mitamae-build/mitamae-${{ matrix.arch }}-${{ matrix.os }}.tar.gz
+          asset_name: mitamae-${{ matrix.arch }}-${{ matrix.os }}.tar.gz
           asset_content_type: application/gzip
         if: startsWith(github.ref, 'refs/tags/')
       - name: Upload Release Binary
@@ -61,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: mitamae-build/mitamae-${{ matrix.target }}
-          asset_name: mitamae-${{ matrix.target }}
+          asset_path: mitamae-build/mitamae-${{ matrix.arch }}-${{ matrix.os }}
+          asset_name: mitamae-${{ matrix.arch }}-${{ matrix.os }}
           asset_content_type: application/octet-stream
         if: startsWith(github.ref, 'refs/tags/')
