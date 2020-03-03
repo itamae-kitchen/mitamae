@@ -14,12 +14,12 @@ end
 
 MRUBY_CLI_TARGETS = %w[
   linux-x86_64
-  linux-i686
   darwin-x86_64
   darwin-i386
 ]
 
 DOCKCROSS_TARGETS = %w[
+  linux-i686
   linux-armhf
   linux-aarch64
 ]

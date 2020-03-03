@@ -66,7 +66,7 @@ if build_targets.include?('linux-i686')
     toolchain :gcc
 
     [conf.cc, conf.cxx, conf.linker].each do |cc|
-      cc.flags << "-m32"
+      cc.flags << '-m32'
     end
 
     # To configure: k0kubun/mruby-onig-regexp
