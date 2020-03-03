@@ -33,8 +33,8 @@ STRIP_TARGETS = %w[
 ]
 
 # avoid redefining constants in mruby Rakefile
-mruby_root=File.expand_path(ENV['MRUBY_ROOT'] || "#{Dir.pwd}/mruby")
-mruby_config=File.expand_path(ENV['MRUBY_CONFIG'] || 'build_config.rb')
+mruby_root = File.expand_path(ENV['MRUBY_ROOT'] || "#{Dir.pwd}/mruby")
+mruby_config = File.expand_path(ENV['MRUBY_CONFIG'] || 'build_config.rb')
 ENV['MRUBY_ROOT'] = mruby_root
 ENV['MRUBY_CONFIG'] = mruby_config
 Rake::Task[:mruby].invoke unless Dir.exist?(mruby_root)
