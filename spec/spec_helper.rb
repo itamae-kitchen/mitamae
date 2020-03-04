@@ -31,7 +31,12 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
-      system('docker-compose', 'run', '-e', "BUILD_TARGET=#{MItamaeSpec::TARGET}", 'compile') || raise
+      system(
+        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{MItamaeSpec::TARGET}",
+        '-v', "#{File.expand_path('..', __dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
+        "k0kubun/mitamae-dockcross:#{MItamaeSpec::TARGET}", 'rake', 'compile',
+        'compile'
+      ) || raise
     end
     system('docker', 'rm', '-f', MItamaeSpec.container)
 

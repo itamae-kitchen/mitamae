@@ -12,16 +12,13 @@ file :mruby do
   end
 end
 
-MRUBY_CLI_TARGETS = %w[
-  darwin-i386
-]
-
 DOCKCROSS_TARGETS = %w[
   linux-x86_64
   linux-i686
   linux-armhf
   linux-aarch64
   darwin-x86_64
+  darwin-i386
 ]
 DOCKCROSS_ALIASES = {
   'linux-aarch64' => 'linux-arm64',
@@ -58,20 +55,16 @@ task :clean do
 end
 
 desc 'cross compile for release'
-task 'release:build' => (MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).map { |target| "release:build:#{target}" }
+task 'release:build' => DOCKCROSS_TARGETS.map { |target| "release:build:#{target}" }
 
-(MRUBY_CLI_TARGETS + DOCKCROSS_TARGETS).each do |target|
+DOCKCROSS_TARGETS.each do |target|
   desc "Build for #{target}"
   task "release:build:#{target}" do
-    if DOCKCROSS_TARGETS.include?(target)
-      sh [
-        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}",
-        '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
-        "k0kubun/mitamae-dockcross:#{DOCKCROSS_ALIASES.fetch(target, target)}", 'rake', 'compile',
-      ].shelljoin
-    else
-      sh "docker-compose run -e BUILD_TARGET=#{target} compile"
-    end
+    sh [
+      'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}",
+      '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
+      "k0kubun/mitamae-dockcross:#{DOCKCROSS_ALIASES.fetch(target, target)}", 'rake', 'compile',
+    ].shelljoin
 
     Dir.chdir(__dir__) do
       FileUtils.mkdir_p('mitamae-build')
