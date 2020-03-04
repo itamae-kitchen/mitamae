@@ -19,6 +19,8 @@ DOCKCROSS_TARGETS = %w[
   linux-aarch64
   darwin-x86_64
   darwin-i386
+  windows-x86_64
+  windows-i686
 ]
 
 STRIP_TARGETS = %w[

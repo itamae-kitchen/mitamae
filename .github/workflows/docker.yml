@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [linux, darwin]
+        os: [linux, darwin, windows]
         arch: [x86_64, i686, i386, armhf, aarch64]
         exclude:
           - os: linux
@@ -36,6 +36,12 @@ jobs:
           - os: darwin
             arch: armhf
           - os: darwin
+            arch: aarch64
+          - os: windows
+            arch: i386
+          - os: windows
+            arch: armhf
+          - os: windows
             arch: aarch64
       fail-fast: false
     steps:
@@ -83,6 +89,14 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: mitamae-i386-darwin
+          path: mitamae-build/
+      - uses: actions/download-artifact@v1
+        with:
+          name: mitamae-x86_64-windows
+          path: mitamae-build/
+      - uses: actions/download-artifact@v1
+        with:
+          name: mitamae-i686-windows
           path: mitamae-build/
 
       - name: Release
