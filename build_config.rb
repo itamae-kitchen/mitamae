@@ -25,7 +25,7 @@ def debug_config(conf)
 end
 
 build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
-if ENV.key?('DEFAULT_DOCKCROSS_IMAGE')
+if ENV.key?('CROSS_ROOT') && ENV.key?('CROSS_TRIPLE') # dockcross
   # Unset dockcross env to make mrbgem's configure work for host build
   dockcross_ar  = ENV.delete('AR')
   dockcross_cc  = ENV.delete('CC')
@@ -66,7 +66,7 @@ if build_targets.include?('linux-i686')
     toolchain :gcc
 
     [conf.cc, conf.cxx, conf.linker].each do |cc|
-      cc.flags << "-m32"
+      cc.flags << '-m32'
     end
 
     # To configure: k0kubun/mruby-onig-regexp
@@ -81,11 +81,11 @@ if build_targets.include?('linux-armhf')
   MRuby::CrossBuild.new('linux-armhf') do |conf|
     toolchain :gcc
 
-    # See also: tools/mruby-cli/Dockerfile
-    conf.cc.command       = 'arm-linux-gnueabihf-gcc'
-    conf.cxx.command      = 'arm-linux-gnueabihf-g++'
-    conf.linker.command   = 'arm-linux-gnueabihf-g++'
-    conf.archiver.command = 'arm-linux-gnueabihf-ar'
+    # dockcross/linux-armhf
+    conf.cc.command       = dockcross_cc
+    conf.cxx.command      = dockcross_cxx
+    conf.linker.command   = dockcross_cxx
+    conf.archiver.command = dockcross_ar
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target = 'x86_64-pc-linux-gnu'

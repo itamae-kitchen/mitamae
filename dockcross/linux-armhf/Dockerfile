@@ -1,8 +1,10 @@
-# https://hub.docker.com/r/k0kubun/mruby-cli/builds/
-# Changing https://github.com/hone/mruby-cli-docker to support:
-#   * cross compile for raspberry pi
-#   * static link of musl-libc
-FROM hone/mruby-cli
+# k0kubun/mitamae-dockcross:linux-arm64
+# mitamae's original platform for backward compatibility
+# TODO: replace this with dockcross/linux-armv*
+FROM dockcross/linux-x64:20200119-1c10fb2
+
+# Install ruby and rake
+RUN apt-get update && apt-get install -y --no-install-recommends ruby
 
 # Not using since it's too slow
 # RUN git clone https://github.com/raspberrypi/tools /opt/raspberrypi-tools && \
@@ -16,6 +18,8 @@ RUN git clone --depth=1 https://github.com/raspberrypi/tools /opt/raspberrypi-to
   rm -rf /opt/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian
 ENV PATH /opt/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/:$PATH
 
-# Install musl-libc
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  musl musl-dev musl-tools
+ENV CROSS_TRIPLE=arm-linux-gnueabihf
+ENV CROSS_ROOT=/opt/raspberrypi-tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64
+ENV AR=${CROSS_ROOT}/bin/${CROSS_TRIPLE}-ar \
+    CC=${CROSS_ROOT}/bin/${CROSS_TRIPLE}-gcc \
+    CXX=${CROSS_ROOT}/bin/${CROSS_TRIPLE}-g++
