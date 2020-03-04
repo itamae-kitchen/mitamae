@@ -20,9 +20,6 @@ DOCKCROSS_TARGETS = %w[
   darwin-x86_64
   darwin-i386
 ]
-DOCKCROSS_ALIASES = {
-  'linux-aarch64' => 'linux-arm64',
-}
 
 STRIP_TARGETS = %w[
   linux-x86_64
@@ -63,7 +60,7 @@ DOCKCROSS_TARGETS.each do |target|
     sh [
       'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}",
       '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
-      "k0kubun/mitamae-dockcross:#{DOCKCROSS_ALIASES.fetch(target, target)}", 'rake', 'compile',
+      "k0kubun/mitamae-dockcross:#{target}", 'rake', 'compile',
     ].shelljoin
 
     Dir.chdir(__dir__) do
