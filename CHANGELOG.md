@@ -1,3 +1,7 @@
+## v1.11.3
+
+- Update Docker image for building released binaries
+
 ## v1.11.2
 
 - Support aarch64 in binary releases
