@@ -156,9 +156,8 @@ if build_targets.include?('windows-x86_64')
   MRuby::CrossBuild.new('windows-x86_64') do |conf|
     toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'x86_64-w64-mingw32-gcc'
-    end
+    conf.cc.command       = 'x86_64-w64-mingw32-gcc'
+    conf.linker.command   = 'x86_64-w64-mingw32-ld'
     conf.cxx.command      = 'x86_64-w64-mingw32-g++'
     conf.archiver.command = 'x86_64-w64-mingw32-gcc-ar'
 
@@ -179,9 +178,8 @@ if build_targets.include?('windows-i686')
   MRuby::CrossBuild.new('windows-i686') do |conf|
     toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'i686-w64-mingw32-gcc'
-    end
+    conf.cc.command       = 'i686-w64-mingw32-gcc'
+    conf.linker.command   = 'i686-w64-mingw32-ld'
     conf.cxx.command      = 'i686-w64-mingw32-g++'
     conf.archiver.command = 'i686-w64-mingw32-gcc-ar'
 
