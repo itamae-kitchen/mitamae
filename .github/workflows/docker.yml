@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - build-* # to build without PR
     tags:
       - v*
   pull_request:
