@@ -8,7 +8,7 @@ def gem_config(conf)
   conf.gem mgem: 'mruby-hashie',                checksum_hash: 'c69255a94debcd641f2087b569f5625509bde698'
   conf.gem mgem: 'mruby-open3',                 checksum_hash: 'b7480b6300a81d0e5fac469a36a383518e3dfc78'
   conf.gem mgem: 'mruby-shellwords',            checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
-  conf.gem mgem: 'mruby-specinfra',             checksum_hash: 'feb32dac747fc8a14839d11a1a1ada171648e6e9'
+  conf.gem mgem: 'mruby-specinfra',             checksum_hash: '07a76577802d20ea1a32feb98ff197227ba497cb'
   conf.gem github: 'k0kubun/mruby-erb',         checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
   conf.gem github: 'k0kubun/mruby-tempfile',    checksum_hash: 'e628c8fcb4bca3f3456640a8b56d1ae98c594e24'
   conf.gem github: 'mrbgems/mruby-yaml',        checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
