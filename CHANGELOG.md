@@ -1,3 +1,9 @@
+## unreleased
+
+- Make `node[:platform]` more robust on openSUSE
+  - Upgrade specinfra [from v2.82.10 to v2.82.11](https://github.com/mizzy/specinfra/compare/v2.82.10...v2.82.11)
+    ([mruby-specinfra@6caf46e...feb32da](https://github.com/itamae-kitchen/mruby-specinfra/compare/6caf46e...feb32da))
+
 ## v1.11.3
 
 - Update Docker image for building released binaries
