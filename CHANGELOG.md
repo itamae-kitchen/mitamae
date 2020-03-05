@@ -1,4 +1,4 @@
-## unreleased
+## v1.11.4
 
 - Make `node[:platform]` more robust on openSUSE
   - Upgrade specinfra [from v2.82.10 to v2.82.11](https://github.com/mizzy/specinfra/compare/v2.82.10...v2.82.11)
