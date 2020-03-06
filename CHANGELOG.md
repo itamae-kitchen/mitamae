@@ -1,3 +1,9 @@
+## unreleased
+
+- Support `service` resource on Gentoo
+  - Upgrade specinfra [from v2.82.11 to v2.82.12](https://github.com/mizzy/specinfra/compare/v2.82.11...v2.82.12)
+    ([mruby-specinfra@feb32da...69fe430](https://github.com/itamae-kitchen/mruby-specinfra/compare/feb32da...69fe430))
+
 ## v1.11.4
 
 - Make `node[:platform]` more robust on openSUSE
