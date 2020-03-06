@@ -13,7 +13,7 @@ def gem_config(conf)
   conf.gem github: 'k0kubun/mruby-process',     checksum_hash: 'd908a208ce6e4b89b9405f63c3580664008fbb0f'
   conf.gem github: 'k0kubun/mruby-tempfile',    checksum_hash: '26273b9f884bb4c9e58ba83010ccd5b4258fb82e'
   conf.gem github: 'mrbgems/mruby-yaml',        checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
-  conf.gem github: 'eagletmt/mruby-etc',        checksum_hash: 'v0.1.0'
+  conf.gem github: 'k0kubun/mruby-etc',         checksum_hash: '67da23cf58d1010832e41141280e6cba5a926f77'
 end
 
 def debug_config(conf)
