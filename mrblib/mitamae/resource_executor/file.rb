@@ -18,7 +18,12 @@ module MItamae
           end
 
           if @modified
-            run_specinfra(:copy_file, @temppath, attributes.path) # NOTE: currently cleaned in run_action
+            if attributes.atomic_update
+              run_specinfra(:move_file, @temppath, attributes.path)
+              @temppath = nil
+            else
+              run_specinfra(:copy_file, @temppath, attributes.path) # @temppath is cleaned in run_action
+            end
             updated!
           end
         else

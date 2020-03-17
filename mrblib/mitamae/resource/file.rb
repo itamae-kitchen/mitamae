@@ -8,6 +8,7 @@ module MItamae
       define_attribute :owner, type: String
       define_attribute :group, type: String
       define_attribute :block, type: Proc, default: proc {}
+      define_attribute :atomic_update, type: [TrueClass, FalseClass], default: false
 
       self.available_actions = [:create, :delete, :edit]
     end
