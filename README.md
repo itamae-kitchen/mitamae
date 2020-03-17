@@ -90,7 +90,7 @@ Please refer to [Itamae wiki](https://github.com/itamae-kitchen/itamae/wiki):
 They should be ported to Itamae at some point.
 
 * `not_if` / `only_if` can take a block instead of a command
-* `file`, `template`, and `remote_file` have `atomic_update` attribute
+* `file`, `remote_file`, and `template` resources have `atomic_update` attribute
 
 ### Plugins
 

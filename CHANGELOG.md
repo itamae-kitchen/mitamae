@@ -1,3 +1,7 @@
+## v1.11.6
+
+- Support `atomic_update` attribute in `file`, `remote_file`, and `template` resources
+
 ## v1.11.5
 
 - Support `service` resource on Gentoo
