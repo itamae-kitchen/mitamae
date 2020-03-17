@@ -85,6 +85,13 @@ Please refer to [Itamae wiki](https://github.com/itamae-kitchen/itamae/wiki):
 * [run\_command](https://github.com/itamae-kitchen/itamae/wiki/run_command)
 * [Host Inventory](https://serverspec.org/host_inventory.html)
 
+#### mitamae's original features
+
+They should be ported to Itamae at some point.
+
+* `not_if` / `only_if` can take a block instead of a command
+* `file`, `template`, and `remote_file` have `atomic_update` attribute
+
 ### Plugins
 
 Please see [PLUGINS.md](./PLUGINS.md) for how to install or create plugins for mitamae.
