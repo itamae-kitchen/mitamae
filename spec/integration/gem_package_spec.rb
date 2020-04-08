@@ -24,4 +24,8 @@ describe 'gem_package resource' do
   describe file('/tmp/bundler_is_installed') do
     it { should_not be_file }
   end
+
+  it 'exits abnormally when inexistent gem command is specified' do
+    expect { apply_recipe('gem_package_error') }.to raise_error(RuntimeError)
+  end
 end
