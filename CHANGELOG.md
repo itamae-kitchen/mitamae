@@ -1,3 +1,7 @@
+## v1.11.7
+
+- Avoid a hang on `gem_package` resource when nonexistent `gem_binary` is specified
+
 ## v1.11.6
 
 - Support `atomic_update` attribute in `file`, `remote_file`, and `template` resources
