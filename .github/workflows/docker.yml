@@ -16,9 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install libraries
-        run: sudo apt-get install ruby-bundler bison git libonig-dev
+        run: sudo apt-get install bison git libonig-dev
       - uses: actions/checkout@v2
-      - run: bundle install -j$(nproc)
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
 
       - name: Integration test
         run: bundle exec rake test:integration
@@ -41,9 +44,12 @@ jobs:
       fail-fast: false
     steps:
       - name: Install libraries
-        run: sudo apt-get install ruby-bundler bison git libonig-dev
+        run: sudo apt-get install bison git libonig-dev
       - uses: actions/checkout@v2
-      - run: bundle install -j$(nproc)
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
 
       - name: Build ${{ matrix.os }}-${{ matrix.arch }} binary
         run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
