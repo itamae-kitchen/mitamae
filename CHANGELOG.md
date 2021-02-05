@@ -1,3 +1,7 @@
+## v1.11.8
+
+- Support aarch64-darwin in binary releases
+
 ## v1.11.7
 
 - Avoid a hang on `gem_package` resource when nonexistent `gem_binary` is specified
