@@ -12,7 +12,7 @@ describe 'host_inventory' do
     #domain: //,
     fqdn: /\A\w{12}\z/,
     platform: /\Aubuntu\z/,
-    platform_version: /\A14.04\z/,
+    platform_version: /\A20.04\z/,
     filesystem: /"kb_size"/,
     cpu: /"cpu_family"/,
     virtualization: /\A{("system"=>"docker")?}\z/,
