@@ -11,6 +11,11 @@ on:
       - '*'
   schedule:
     - cron: "30 15 * * *" # 7:30 PST (-8), 8:30 PDT (-7)
+
+env:
+  OSXCROSS_REVISION: 4287300a5c96397a2ee9ab3942e66578a1982031
+  XCODE_VERSION: '12.4'
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -60,11 +65,90 @@ jobs:
           name: mitamae-${{ matrix.arch }}-${{ matrix.os }}
           path: mitamae-build/
 
+  macos-sdk:
+    name: Package MacOSX SDK
+    runs-on: macos-latest
+    steps:
+      - uses: actions/cache@v2
+        id: macos-sdk-cache
+        with:
+          key: macos-sdk-${{ env.OSXCROSS_REVISION }}-${{ env.XCODE_VERSION }}
+          path: osxcross/tarballs
+      - name: Package MacOSX SDK
+        if: steps.macos-sdk-cache.outputs.cache-hit != 'true'
+        run: |
+          curl -sSLf https://github.com/tpoechtrager/osxcross/archive/${OSXCROSS_REVISION}.tar.gz | tar zxf -
+          mv osxcross-${OSXCROSS_REVISION} osxcross
+          pushd osxcross
+          XCODEDIR=/Applications/Xcode_${XCODE_VERSION}.app tools/gen_sdk_package.sh
+          mv MacOSX*.sdk.tar.xz tarballs/
+          popd
+
+  osxcross:
+    name: Build osxcross
+    runs-on: ubuntu-latest
+    needs:
+      - macos-sdk
+    steps:
+      - name: Download osxcross
+        run: |
+          curl -sSLf https://github.com/tpoechtrager/osxcross/archive/${OSXCROSS_REVISION}.tar.gz | tar zxf -
+          mv osxcross-${OSXCROSS_REVISION} osxcross
+      - uses: actions/cache@v2
+        with:
+          key: macos-sdk-${{ env.OSXCROSS_REVISION }}-${{ env.XCODE_VERSION }}
+          path: osxcross/tarballs
+      - uses: actions/cache@v2
+        id: osxcross-cache
+        with:
+          key: osxcross-${{ runner.os }}-${{ env.OSXCROSS_REVISION }}-${{ env.XCODE_VERSION }}
+          path: osxcross/target
+      - name: Build osxcross
+        if: steps.osxcross-cache.outputs.cache-hit != 'true'
+        run: |
+          pushd osxcross
+          UNATTENDED=1 ./build.sh
+          popd
+
+  build-aarch64-darwin:
+    name: Build mitamae-aarch64-darwin with osxcross
+    runs-on: ubuntu-latest
+    needs:
+      - osxcross
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Ruby >= 3.0 isn't usable now because Rakefile in mruby v2.0.1 has kwargs problem.
+          # https://github.com/mruby/mruby/blob/2.0.1/Rakefile#L37
+          ruby-version: '2.7'
+          bundler-cache: true
+      - uses: actions/cache@v2
+        id: osxcross-cache
+        with:
+          key: osxcross-${{ runner.os }}-${{ env.OSXCROSS_REVISION }}-${{ env.XCODE_VERSION }}
+          path: osxcross/target
+      - name: Build mitamae
+        run: |
+          export PATH="$PWD/osxcross/target/bin:$PATH"
+          bundle exec rake compile BUILD_TARGET=darwin-aarch64
+          mkdir -p mitamae-build
+          cp mruby/build/darwin-aarch64/bin/mitamae mitamae-build/mitamae-aarch64-darwin
+          pushd mitamae-build
+          tar zcvf mitamae-aarch64-darwin.tar.gz mitamae-aarch64-darwin
+          popd
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: mitamae-aarch64-darwin
+          path: mitamae-build/
+
   release:
     runs-on: ubuntu-latest
     needs:
       - test
       - build
+      - build-aarch64-darwin
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - uses: actions/download-artifact@v1
@@ -90,6 +174,10 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: mitamae-i386-darwin
+          path: mitamae-build/
+      - uses: actions/download-artifact@v1
+        with:
+          name: mitamae-aarch64-darwin
           path: mitamae-build/
 
       - name: Release

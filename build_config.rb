@@ -151,3 +151,22 @@ if build_targets.include?('darwin-i386')
     gem_config(conf)
   end
 end
+
+if build_targets.include?('darwin-aarch64')
+  MRuby::CrossBuild.new('darwin-aarch64') do |conf|
+    toolchain :clang
+
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'aarch64-apple-darwin20.2-clang'
+    end
+    conf.cxx.command      = 'aarch64-apple-darwin20.2-clang++'
+    conf.archiver.command = 'aarch64-apple-darwin20.2-ar'
+
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
+    conf.build_target     = 'aarch64-pc-linux-gnu'
+    conf.host_target      = 'aarch64-apple-darwin20.2'
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
