@@ -23,7 +23,7 @@ end
 
 # default gem
 gem_package 'bundler' do
-  version '1.16.0'
+  version '2.1.2'
   notifies :create, 'file[/tmp/bundler_is_installed]'
 end
 
