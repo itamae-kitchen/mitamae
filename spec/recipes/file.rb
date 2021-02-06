@@ -82,6 +82,7 @@ file '/tmp/file_edit_keeping_mode_owner' do
 end
 
 # This should use `owner`/`group` instead, but for keeping compatibility with itamae.
+execute 'chmod -t /tmp' # send_tempfile may fail without this
 file '/tmp/root_owned_tempfile_operated_by_normal_user' do
   user 'itamae'
   content 'operated_by_itamae'
