@@ -15,7 +15,7 @@ describe 'host_inventory' do
     platform_version: /\A20.04\z/,
     filesystem: /"kb_size"/,
     cpu: /"cpu_family"/,
-    virtualization: /\A{("system"=>"docker")?}\z/,
+    virtualization: /\A{("system"=>(nil|"docker"))?}\z/,
     kernel: /"name"=>"Linux"/,
     block_device: /\A{}\z/,
     user: /"root"=>{[^{}]*"uid"=>"0", /,
