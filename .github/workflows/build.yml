@@ -35,17 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [linux, darwin]
-        arch: [x86_64, i686, i386, armhf, aarch64]
-        exclude:
-          - os: linux
-            arch: i386
-          - os: darwin
-            arch: i686
-          - os: darwin
-            arch: armhf
-          - os: darwin
-            arch: aarch64
+        os: [linux]
+        arch: [x86_64, i686, armhf, aarch64]
       fail-fast: false
     steps:
       - name: Install libraries
@@ -110,7 +101,8 @@ jobs:
     strategy:
       matrix:
         os: [darwin]
-        arch: [aarch64]
+        arch: [x86_64, aarch64]
+      fail-fast: false
     needs:
       - osxcross
     steps:
