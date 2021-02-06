@@ -43,11 +43,11 @@ RSpec.configure do |config|
     # k0kubun/mitamae-spec is automatically built from `spec/Dockerfile`:
     # https://hub.docker.com/r/k0kubun/mitamae-spec/builds/
     system(
-      'docker', 'run', '-d', '--name', MItamaeSpec.container,
+      'docker', 'run', '-d', '--privileged', '--rm', '--name', MItamaeSpec.container,
       '-v', "#{File.expand_path("mruby/build/#{MItamaeSpec::TARGET}")}:/mitamae",
       '-v', "#{File.expand_path('spec/recipes')}:/recipes",
       '-v', "#{File.expand_path('spec/plugins')}:/plugins",
-      'k0kubun/mitamae-spec', 'bash', '-c', 'while true; do sleep 3600; done',
+      'k0kubun/mitamae-spec', 'systemd',
     ) || raise
   end
 end
