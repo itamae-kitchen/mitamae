@@ -102,6 +102,7 @@ jobs:
       matrix:
         os: [darwin]
         arch: [i386, x86_64, aarch64]
+      fail-fast: false
     needs:
       - osxcross
     steps:
