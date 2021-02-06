@@ -1,3 +1,7 @@
+## Unreleased
+
+- Upgrade specinfra [from v2.82.12 to v2.82.23](https://github.com/mizzy/specinfra/compare/v2.82.12...v2.82.23)
+
 ## v1.11.8
 
 - Support aarch64-darwin in binary releases
