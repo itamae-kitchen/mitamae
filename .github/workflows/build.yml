@@ -160,10 +160,6 @@ jobs:
           path: mitamae-build/
       - uses: actions/download-artifact@v1
         with:
-          name: mitamae-i386-darwin
-          path: mitamae-build/
-      - uses: actions/download-artifact@v1
-        with:
           name: mitamae-aarch64-darwin
           path: mitamae-build/
 
