@@ -119,14 +119,14 @@ if build_targets.include?('darwin-x86_64')
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|
-      cc.command = 'x86_64-apple-darwin14-clang'
+      cc.command = 'x86_64-apple-darwin20.2-clang'
     end
-    conf.cxx.command      = 'x86_64-apple-darwin14-clang++'
-    conf.archiver.command = 'x86_64-apple-darwin14-ar'
+    conf.cxx.command      = 'x86_64-apple-darwin20.2-clang++'
+    conf.archiver.command = 'x86_64-apple-darwin20.2-ar'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target     = 'x86_64-pc-linux-gnu'
-    conf.host_target      = 'x86_64-apple-darwin14'
+    conf.host_target      = 'x86_64-apple-darwin20.2'
 
     debug_config(conf)
     gem_config(conf)
@@ -138,14 +138,14 @@ if build_targets.include?('darwin-i386')
     toolchain :clang
 
     [conf.cc, conf.linker].each do |cc|
-      cc.command = 'i386-apple-darwin14-clang'
+      cc.command = 'i386-apple-darwin20.2-clang'
     end
-    conf.cxx.command      = 'i386-apple-darwin14-clang++'
-    conf.archiver.command = 'i386-apple-darwin14-ar'
+    conf.cxx.command      = 'i386-apple-darwin20.2-clang++'
+    conf.archiver.command = 'i386-apple-darwin20.2-ar'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
     conf.build_target     = 'i386-pc-linux-gnu'
-    conf.host_target      = 'i386-apple-darwin14'
+    conf.host_target      = 'i386-apple-darwin20.2'
 
     debug_config(conf)
     gem_config(conf)
