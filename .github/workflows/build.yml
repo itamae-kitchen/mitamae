@@ -103,10 +103,8 @@ jobs:
           path: osxcross/target
       - name: Build osxcross
         if: steps.osxcross-cache.outputs.cache-hit != 'true'
-        run: |
-          pushd osxcross
-          UNATTENDED=1 ./build.sh
-          popd
+        run: UNATTENDED=1 ./build.sh
+        working-directory: osxcross
 
   osxcross-build:
     runs-on: ubuntu-latest
