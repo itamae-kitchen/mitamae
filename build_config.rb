@@ -4,7 +4,7 @@ def gem_config(conf)
   # be sure to include this gem (the cli app)
   conf.gem File.expand_path(File.dirname(__FILE__))
 
-  conf.gem mgem: 'mruby-file-stat',             checksum_hash: '2d3ea9b5d59d2b41133228a71c110b75cb30a31e'
+  conf.gem mgem: 'mruby-file-stat',             checksum_hash: '66cf135ff9642d96a6127a79b307f6314e606deb'
   conf.gem mgem: 'mruby-hashie',                checksum_hash: 'c69255a94debcd641f2087b569f5625509bde698'
   conf.gem mgem: 'mruby-open3',                 checksum_hash: 'b2dba93fdbd60dcff8aa20b6c56014ac89d267ad'
   conf.gem mgem: 'mruby-shellwords',            checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
