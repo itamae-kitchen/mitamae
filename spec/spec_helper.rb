@@ -49,5 +49,7 @@ RSpec.configure do |config|
       '-v', "#{File.expand_path('spec/plugins')}:/plugins",
       'k0kubun/mitamae-spec', 'systemd',
     ) || raise
+    # Workaround to avoid letting systemd clean up /tmp after `mitamae local`
+    system('docker', 'exec', MItamaeSpec.container, 'systemctl', 'start', 'systemd-tmpfiles-clean', out: File::NULL)
   end
 end
