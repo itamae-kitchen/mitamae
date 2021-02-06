@@ -78,10 +78,9 @@ jobs:
         run: |
           curl -sSLf https://github.com/tpoechtrager/osxcross/archive/${OSXCROSS_REVISION}.tar.gz | tar zxf -
           mv osxcross-${OSXCROSS_REVISION} osxcross
-          pushd osxcross
+          cd osxcross
           XCODEDIR=/Applications/Xcode_${XCODE_VERSION}.app tools/gen_sdk_package.sh
           mv MacOSX*.sdk.tar.xz tarballs/
-          popd
 
   osxcross:
     runs-on: ubuntu-latest
@@ -108,6 +107,10 @@ jobs:
 
   osxcross-build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [darwin]
+        arch: [aarch64]
     needs:
       - osxcross
     steps:
@@ -126,16 +129,15 @@ jobs:
       - name: Build mitamae
         run: |
           export PATH="$PWD/osxcross/target/bin:$PATH"
-          bundle exec rake compile BUILD_TARGET=darwin-aarch64
+          bundle exec rake compile BUILD_TARGET="${{ matrix.os }}-${{ matrix.arch }}"
           mkdir -p mitamae-build
-          cp mruby/build/darwin-aarch64/bin/mitamae mitamae-build/mitamae-aarch64-darwin
-          pushd mitamae-build
-          tar zcvf mitamae-aarch64-darwin.tar.gz mitamae-aarch64-darwin
-          popd
+          cp "mruby/build/${{ matrix.os }}-${{ matrix.arch }}/bin/mitamae" "mitamae-build/mitamae-${{ matrix.arch }}-${{ matrix.os }}"
+          cd mitamae-build
+          tar zcvf "mitamae-${{ matrix.arch }}-${{ matrix.os }}.tar.gz" "mitamae-${{ matrix.arch }}-${{ matrix.os }}"
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: mitamae-aarch64-darwin
+          name: mitamae-${{ matrix.arch }}-${{ matrix.os }}
           path: mitamae-build/
 
   release:
