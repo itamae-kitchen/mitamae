@@ -1,4 +1,4 @@
-# :sushi: mitamae [![Latest Version](https://img.shields.io/github/v/release/itamae-kitchen/mitamae)](https://github.com/itamae-kitchen/mitamae/releases) [![Build Status](https://travis-ci.org/itamae-kitchen/mitamae.svg?branch=master)](https://travis-ci.org/itamae-kitchen/mitamae)
+# :sushi: mitamae [![Latest Version](https://img.shields.io/github/v/release/itamae-kitchen/mitamae)](https://github.com/itamae-kitchen/mitamae/releases) [![Build Status](https://github.com/itamae-kitchen/mitamae/workflows/build/badge.svg?branch=master)](https://github.com/itamae-kitchen/mitamae/actions?query=workflow%3Abuild)
 
 mitamae is a tool to automate configuration management using a Chef-like DSL powered by mruby.
 
