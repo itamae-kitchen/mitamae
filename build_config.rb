@@ -1,18 +1,5 @@
 def gem_config(conf)
-  #conf.gembox 'default'
-
-  # be sure to include this gem (the cli app)
   conf.gem File.expand_path(File.dirname(__FILE__))
-
-  conf.gem mgem: 'mruby-file-stat',             checksum_hash: '66cf135ff9642d96a6127a79b307f6314e606deb'
-  conf.gem mgem: 'mruby-hashie',                checksum_hash: 'c69255a94debcd641f2087b569f5625509bde698'
-  conf.gem mgem: 'mruby-open3',                 checksum_hash: 'b2dba93fdbd60dcff8aa20b6c56014ac89d267ad'
-  conf.gem mgem: 'mruby-shellwords',            checksum_hash: '2a284d99b2121615e43d6accdb0e4cde1868a0d8'
-  conf.gem mgem: 'mruby-specinfra',             checksum_hash: '69fe4306e2b004baa9dd54d4fbf9262988ce7d03'
-  conf.gem github: 'k0kubun/mruby-erb',         checksum_hash: '978257e478633542c440c9248e8cdf33c5ad2074'
-  conf.gem github: 'k0kubun/mruby-tempfile',    checksum_hash: 'e628c8fcb4bca3f3456640a8b56d1ae98c594e24'
-  conf.gem github: 'mrbgems/mruby-yaml',        checksum_hash: '0606652a6e99d902cd3101cf2d757a7c0c37a7fd'
-  conf.gem github: 'eagletmt/mruby-etc',        checksum_hash: 'v0.1.0'
 end
 
 def debug_config(conf)
