@@ -27,7 +27,7 @@ builds:
     https://github.com/ksss/mruby-file-stat.git:
       url: https://github.com/ksss/mruby-file-stat.git
       branch: master
-      commit: 66cf135ff9642d96a6127a79b307f6314e606deb
+      commit: b81bc71a6f2ddd424fd5e544d2cccd289d4d7545
       version: 0.0.0
     https://github.com/k0kubun/mruby-hashie.git:
       url: https://github.com/k0kubun/mruby-hashie.git
