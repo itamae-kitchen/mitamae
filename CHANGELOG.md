@@ -1,3 +1,7 @@
+## v1.12.1
+
+- Allow defining top-level modules without `::` in recipes
+
 ## v1.12.0
 
 - Upgrade mruby from v2.0.1 to v2.1.2
