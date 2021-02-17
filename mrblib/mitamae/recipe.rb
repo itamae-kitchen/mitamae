@@ -37,20 +37,24 @@ module MItamae
     def eval_file(path, variables)
       src = File.read(path)
       context = RecipeContext.new(self, variables)
-      InstanceEval.new(src, path, 1, receiver: context).call
+      InstanceEval.new(src, path, 1, context: context).call
     end
 
-    # For #instance_eval with TOPLEVEL_BINDING
     class InstanceEval
-      def initialize(*args, receiver:)
-        @args = args
-        @receiver = receiver
+      def initialize(src, path, lineno, context:)
+        # Using instance_eval + eval to allow top-level class/module definition without `::`.
+        # To pass args without introducing any local/instance variables, this code is also eval-ed.
+        @code = <<-RUBY
+          @context.instance_eval do
+            eval(#{src.dump}, nil, #{path.dump}, #{lineno})
+          end
+        RUBY
+        @context = context
       end
 
+      # This method has no local variables to avoid spilling them to recipes.
       def call
-        # When we call #instance_eval, we should not have local variables.
-        # Otherwise a recipe may see the local variables by default.
-        @receiver.instance_eval(*@args)
+        eval(@code)
       end
     end
   end
