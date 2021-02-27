@@ -62,7 +62,7 @@ builds:
     https://github.com/k0kubun/mruby-tempfile.git:
       url: https://github.com/k0kubun/mruby-tempfile.git
       branch: master
-      commit: 26273b9f884bb4c9e58ba83010ccd5b4258fb82e
+      commit: 77736581bf971717aa2259144cf17bbb88b8d6b6
       version: 0.0.0
     https://github.com/mrbgems/mruby-yaml.git:
       url: https://github.com/mrbgems/mruby-yaml.git
