@@ -1,15 +1,8 @@
 require 'fileutils'
 require 'shellwords'
 
-MRUBY_VERSION = '2.1.2'
-
 file :mruby do
-  if RUBY_PLATFORM.match(/solaris/)
-    sh "git clone --branch=#{MRUBY_VERSION} https://github.com/mruby/mruby"
-  else
-    sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
-    FileUtils.mv("mruby-#{MRUBY_VERSION}", 'mruby')
-  end
+  sh "git clone https://github.com/mruby/mruby"
 end
 
 DOCKCROSS_TARGETS = %w[
