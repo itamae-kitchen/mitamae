@@ -2,7 +2,7 @@ require 'fileutils'
 require 'shellwords'
 
 file :mruby do
-  sh "git clone https://github.com/mruby/mruby"
+  sh "git clone --branch=stable https://github.com/mruby/mruby"
 end
 
 DOCKCROSS_TARGETS = %w[
