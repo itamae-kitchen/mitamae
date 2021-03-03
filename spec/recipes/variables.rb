@@ -2,7 +2,7 @@ node.reverse_merge!(
   variables: {
     # #binding is not supported in mruby
     # lvars: binding.local_variables,
-    ivars: instance_variables,
+    ivars: instance_variables.sort,
   }
 )
 
