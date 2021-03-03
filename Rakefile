@@ -28,6 +28,25 @@ Rake::Task[:mruby].invoke unless Dir.exist?(mruby_root)
 Dir.chdir(mruby_root)
 load "#{mruby_root}/Rakefile"
 
+# https://github.com/mruby/mruby/commit/f92c1f1b7
+MRuby::Build.prepend(Module.new {
+  def mrbcfile
+    return @mrbcfile if @mrbcfile
+
+    gem_name = "mruby-bin-mrbc"
+    if (gem = @gems[gem_name])
+      @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
+    elsif !host? && (host = MRuby.targets["host"])
+      if (gem = host.gems[gem_name])
+        @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
+      elsif host.mrbcfile_external?
+        @mrbcfile = host.mrbcfile
+      end
+    end
+    @mrbcfile || fail("external mrbc or mruby-bin-mrbc gem in current('#{@name}') or 'host' build is required")
+  end
+})
+
 desc 'run serverspec'
 task 'test:integration' do
   Dir.chdir(__dir__) do
