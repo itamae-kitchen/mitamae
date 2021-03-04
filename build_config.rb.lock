@@ -42,7 +42,7 @@ builds:
     https://github.com/k0kubun/mruby-open3.git:
       url: https://github.com/k0kubun/mruby-open3.git
       branch: master
-      commit: b2dba93fdbd60dcff8aa20b6c56014ac89d267ad
+      commit: d6ab1bcd13446661c2e134ad8343caba9d15e59a
       version: 0.0.0
     https://github.com/fastly/mruby-optparse.git:
       url: https://github.com/fastly/mruby-optparse.git
