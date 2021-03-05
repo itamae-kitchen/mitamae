@@ -12,16 +12,14 @@ file :mruby do
   end
 
   # Patch: https://github.com/mruby/mruby/pull/5318
-  if MRUBY_VERSION = '3.0.0'
-    Dir.chdir('mruby') do
-      IO.popen(['patch', '-p1'], 'w') do |io|
-        io.write(<<-'EOS')
-diff --git a/lib/mruby/build.rb b/lib/mruby/build.rb
-index d6eabd79..a7973280 100644
---- a/lib/mruby/build.rb
-+++ b/lib/mruby/build.rb
-@@ -320,12 +320,16 @@ EOS
+  if MRUBY_VERSION == '3.0.0'
+    IO.popen(['patch', '-p0'], 'w') do |io|
+      io.write(<<-'EOS')
+--- mruby/lib/mruby/build.rb  2021-03-05 00:07:35.000000000 -0800
++++ mruby/lib/mruby/build.rb  2021-03-05 12:25:15.159190950 -0800
+@@ -320,12 +320,16 @@
        return @mrbcfile if @mrbcfile
+
        gem_name = "mruby-bin-mrbc"
 -      gem = @gems[gem_name]
 -      gem ||= (host = MRuby.targets["host"]) && host.gems[gem_name]
@@ -39,9 +37,9 @@ index d6eabd79..a7973280 100644
 -      @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
 +      @mrbcfile || fail("external mrbc or mruby-bin-mrbc gem in current('#{@name}') or 'host' build is required")
      end
+
      def mrbcfile=(path)
-        EOS
-      end
+      EOS
     end
   end
 end
