@@ -88,7 +88,7 @@ module MItamae
       def show_differences
         super
 
-        if @temppath && desired.exist
+        if @temppath && current.exist && desired.exist
           show_content_diff
         end
       end
