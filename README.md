@@ -176,6 +176,8 @@ bundle install
 bundle exec rake test:integration
 ```
 
+This requires Docker on your local environment.
+
 ## License
 
 [MIT License](./LICENSE)
