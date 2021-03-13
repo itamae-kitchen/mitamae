@@ -8,6 +8,7 @@ module MItamae
         shell:     '/bin/sh',
         log_level: 'info',
         plugins:   './plugins',
+        color:     true,
       }
 
       def initialize(args)
@@ -21,7 +22,7 @@ module MItamae
           exit 1
         end
 
-        MItamae.logger = Logger.new(@options[:log_level])
+        MItamae.logger = Logger.new(@options[:log_level], @options[:color])
         MItamae.logger.info 'Starting mitamae...'
 
         Plugin.plugins_path = File.expand_path(@options[:plugins])
@@ -49,6 +50,8 @@ module MItamae
         opt.on('--shell=VAL')     { |v| @options[:shell] = v }
         opt.on('--log-level=VAL') { |v| @options[:log_level] = v }
         opt.on('--plugins=VAL')   { |v| @options[:plugins] = v }
+        opt.on('--color')         { |v| @options[:color] = true }
+        opt.on('--no-color')      { |v| @options[:color] = false }
         opt.parse!(args.dup)
       end
     end

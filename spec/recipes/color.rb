@@ -1,0 +1,1 @@
+execute("echo -n Hello")

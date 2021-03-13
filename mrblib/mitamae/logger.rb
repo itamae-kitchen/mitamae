@@ -19,9 +19,9 @@ module MItamae
       clear: nil,
     }
 
-    attr_reader :level
+    attr_reader :level, :enable_color
 
-    def initialize(severity)
+    def initialize(severity, enable_color)
       case severity.to_s.downcase
       when 'debug'
         @level = DEBUG
@@ -40,6 +40,7 @@ module MItamae
       end
       @indent_level = 0
       @color = :clear
+      @enable_color = enable_color
     end
 
     def debug?
@@ -127,6 +128,7 @@ module MItamae
     end
 
     def colorize(severity, str)
+      return str unless @enable_color
       color =
         case severity
         when :error
