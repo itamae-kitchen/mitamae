@@ -22,7 +22,7 @@ module MItamae
           exit 1
         end
 
-        MItamae.logger = Logger.new(@options[:log_level], @options[:color])
+        MItamae.logger = Logger.new(@options[:log_level], colored: @options[:color])
         MItamae.logger.info 'Starting mitamae...'
 
         Plugin.plugins_path = File.expand_path(@options[:plugins])
