@@ -1,3 +1,7 @@
+## v1.12.6
+
+- Fix a build issue for Solaris
+
 ## v1.12.5
 
 - Upgrade mruby-yaml
