@@ -1,3 +1,8 @@
+## v1.12.5
+
+- Upgrade mruby-yaml
+  - No impact for behaviors. You can build this mitamae without curl to fetch libyaml.
+
 ## v1.12.4
 
 - Upgrade specinfra [from v2.82.23 to v2.82.25](https://github.com/mizzy/specinfra/compare/v2.82.23...v2.82.25)
