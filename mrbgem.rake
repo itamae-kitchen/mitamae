@@ -7,6 +7,7 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.summary = 'mitamae'
   spec.bins    = ['mitamae']
 
+  spec.add_dependency 'mruby-enum-ext',    core: 'mruby-enum-ext'
   spec.add_dependency 'mruby-enumerator',  core: 'mruby-enumerator'
   spec.add_dependency 'mruby-eval',        core: 'mruby-eval'
   spec.add_dependency 'mruby-exit',        core: 'mruby-exit'
