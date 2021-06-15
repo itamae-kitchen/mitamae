@@ -1,3 +1,7 @@
+## v1.12.7
+
+- Add mruby-enum-ext
+
 ## v1.12.6
 
 - Fix a build issue for Solaris
