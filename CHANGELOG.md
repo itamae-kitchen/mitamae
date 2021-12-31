@@ -1,3 +1,7 @@
+## v1.12.8
+
+- Support Itamae v1.11.0's `sensitive` attribute in file resources
+
 ## v1.12.7
 
 - Add mruby-enum-ext
