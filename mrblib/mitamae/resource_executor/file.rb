@@ -125,6 +125,11 @@ module MItamae
       end
 
       def show_content_diff
+        if attributes.sensitive
+          MItamae.logger.info "diff exists, but not displaying sensitive content"
+          return
+        end
+
         if @modified
           MItamae.logger.info "diff:"
           diff = run_command(["diff", "-u", compare_to, @temppath], error: false)
