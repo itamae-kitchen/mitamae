@@ -31,6 +31,7 @@ end
 
 file "/tmp/file1" do
   content "Hello, World"
+  sensitive true
 end
 
 file "/tmp/file1" do

@@ -6,6 +6,7 @@ end
 template "/tmp/template_auto" do
   source :auto
   variables goodbye: "Good bye"
+  sensitive true
 end
 
 template "/tmp/template_content" do
