@@ -1,3 +1,7 @@
+## v1.12.9
+
+- Get encrypted passwords from `/etc/shadow` for some platforms
+
 ## v1.12.8
 
 - Support Itamae v1.11.0's `sensitive` attribute in file resources
