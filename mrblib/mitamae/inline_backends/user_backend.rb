@@ -40,10 +40,6 @@ module MItamae
       def get_user_login_shell(user_name)
         get_passwd_entry(user_name) { |pw| pw.shell }
       end
-
-      def get_user_encrypted_password(user_name)
-        get_passwd_entry(user_name) { |pw| pw.passwd }
-      end
     end
   end
 end

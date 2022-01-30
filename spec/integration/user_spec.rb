@@ -17,4 +17,12 @@ describe 'user resource' do
     it { should be_owned_by 'itamae2' }
     it { should be_grouped_into 'itamae2' }
   end
+
+  describe file('/tmp/itamae3-password-should-not-be-updated') do
+    it { should_not exist }
+  end
+
+  describe file('/tmp/itamae3-password-should-be-updated') do
+    it { should exist }
+  end
 end
