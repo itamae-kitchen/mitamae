@@ -10,42 +10,30 @@ module MItamae
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L46-L86
     def run_command(command, error: true, user: nil, cwd: nil, log_output: false)
-      log_output_severity = if log_output
-        :info
-      elsif MItamae.logger.level == Logger::DEBUG
-        :debug
-      else
-        nil
-      end
-
       command_for_display = build_command(command, user: user, cwd: cwd)
       MItamae.logger.debug "Executing `#{command_for_display}`..."
 
-      stdout, stderr, status = run_with_open3(
+      stdout, stderr, status = run_command_with_log_output(
         command,
         user: user,
         cwd: cwd,
-        log_output_severity: log_output_severity
+        log_output: log_output,
       )
 
       MItamae.logger.with_indent do
         if status.exitstatus == 0 || !error
-          method = :debug
-          message = "exited with #{status.exitstatus}"
+          MItamae.logger.debug("exited with #{status.exitstatus}")
         else
-          method = :error
-          message = "Command `#{command_for_display}` failed. (exit status: #{status.exitstatus})"
-
           unless log_output
-            stdout.each_line do |l|
-              log_output_line(:error, "stdout", l)
+            stdout.each_line do |line|
+              log_output_line(:error, 'stdout', line)
             end
-            stderr.each_line do |l|
-              log_output_line(:error, "stderr", l)
+            stderr.each_line do |line|
+              log_output_line(:error, 'stderr', line)
             end
           end
+          MItamae.logger.error("Command `#{command_for_display}` failed. (exit status: #{status.exitstatus})")
         end
-        MItamae.logger.send(method, message)
       end
 
       if error && status.exitstatus != 0
@@ -88,7 +76,7 @@ module MItamae
       command
     end
 
-    def run_with_open3(command, user: nil, cwd: nil, log_output_severity: nil)
+    def run_command_with_log_output(command, user:, cwd:, log_output:)
       spawn_opts = {}
       if user
         # Cannot emulate `:user` option without the shell. Fallback to the slow version.
@@ -102,6 +90,7 @@ module MItamae
           spawn_opts[:chdir] = cwd
         end
       end
+      log_level = (log_output ? :info : :debug)
 
       out_r, out_w = IO.pipe
       err_r, err_w = IO.pipe
@@ -123,10 +112,10 @@ module MItamae
           begin
             line = io.readline
             if io == out_r
-              log_output_line(log_output_severity, "stdout", line) if log_output_severity
+              log_output_line(log_level, 'stdout', line)
               stdout << line
             else
-              log_output_line(log_output_severity, "stderr", line) if log_output_severity
+              log_output_line(log_level, 'stderr', line)
               stderr << line
             end
           rescue EOFError
