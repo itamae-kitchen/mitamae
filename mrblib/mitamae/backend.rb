@@ -9,15 +9,26 @@ module MItamae
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L46-L86
-    def run_command(commands, error: true, user: nil, cwd: nil)
+    def run_command(commands, error: true, user: nil, cwd: nil, log_output: false)
+      log_output_severity = if log_output
+        :info
+      elsif MItamae.logger.level == Logger::DEBUG
+        :debug
+      else
+        nil
+      end
+
       command_for_display = build_command(commands, user: user, cwd: cwd)
       MItamae.logger.debug "Executing `#{command_for_display}`..."
 
-      stdout, stderr, status = run_with_open3(commands, user: user, cwd: cwd)
+      stdout, stderr, status = run_with_open3(
+        commands,
+        user: user,
+        cwd: cwd,
+        log_output_severity: log_output_severity
+      )
 
       MItamae.logger.with_indent do
-        flush_buffers(stdout, stderr)
-
         if status.exitstatus == 0 || !error
           method = :debug
           message = "exited with #{status.exitstatus}"
@@ -25,12 +36,12 @@ module MItamae
           method = :error
           message = "Command `#{command_for_display}` failed. (exit status: #{status.exitstatus})"
 
-          unless MItamae.logger.level == Logger::DEBUG
+          unless log_output
             stdout.each_line do |l|
-              log_output_line("stdout", l)
+              log_output_line(:error, "stdout", l)
             end
             stderr.each_line do |l|
-              log_output_line("stderr", l)
+              log_output_line(:error, "stderr", l)
             end
           end
         end
@@ -54,18 +65,9 @@ module MItamae
 
     private
 
-    def flush_buffers(stdout, stderr)
-      unless stdout.empty?
-        MItamae.logger.debug("stdout | #{stdout}")
-      end
-      unless stderr.empty?
-        MItamae.logger.debug("stderr | #{stderr}")
-      end
-    end
-
-    def log_output_line(output_name, line)
+    def log_output_line(level, output_name, line)
       line = line.gsub(/[[:cntrl:]]/, '')
-      MItamae.logger.error("#{output_name} | #{line}")
+      MItamae.logger.send(level, "#{output_name} | #{line}")
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
@@ -88,22 +90,56 @@ module MItamae
       command
     end
 
-    def run_with_open3(commands, user: nil, cwd: nil)
+    def run_with_open3(commands, user: nil, cwd: nil, log_output_severity: nil)
+      spawn_opts = {}
       if user
         # Cannot emulate `:user` option without the shell. Fallback to the slow version.
-        Open3.capture3(@shell, '-c', build_command(commands, cwd: cwd, user: user))
+        commands = [@shell, '-c', build_command(commands, cwd: cwd, user: user)]
       else
         if commands.is_a?(String)
           commands = [@shell, '-c', commands]
         end
 
-        spawn_opts = {}
         if cwd
           spawn_opts[:chdir] = cwd
         end
-
-        Open3.capture3(*commands, spawn_opts)
       end
+
+      out_r, out_w = IO.pipe
+      err_r, err_w = IO.pipe
+      spawn_opts[:out] = out_w.to_i
+      spawn_opts[:err] = err_w.to_i
+
+      pid = Open3.spawn(*commands, spawn_opts)
+
+      out_w.close
+      err_w.close
+
+      stdout = ''
+      stderr = ''
+
+      remaining_ios = [out_r, err_r]
+      until remaining_ios.empty?
+        readable_ios, = IO.select(remaining_ios)
+        readable_ios.each do |io|
+          begin
+            line = io.readline
+            if io == out_r
+              log_output_line(log_output_severity, "stdout", line) if log_output_severity
+              stdout << line
+            else
+              log_output_line(log_output_severity, "stderr", line) if log_output_severity
+              stderr << line
+            end
+          rescue EOFError
+            io.close unless io.closed?
+            remaining_ios.delete(io)
+          end
+        end
+      end
+
+      _, status = Process.waitpid2(pid)
+      [stdout, stderr, status]
     end
   end
 end

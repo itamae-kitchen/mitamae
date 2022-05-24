@@ -91,6 +91,8 @@ They should be ported to Itamae at some point.
 
 * `not_if` / `only_if` can take a block instead of a command
 * `file`, `remote_file`, and `template` resources have `atomic_update` attribute
+* `run_command` can take `log_output: true`, which will stream the command's
+  output to to the console
 
 ### Plugins
 
