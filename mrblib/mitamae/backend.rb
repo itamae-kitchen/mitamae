@@ -9,7 +9,7 @@ module MItamae
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L46-L86
-    def run_command(commands, error: true, user: nil, cwd: nil, log_output: false)
+    def run_command(command, error: true, user: nil, cwd: nil, log_output: false)
       log_output_severity = if log_output
         :info
       elsif MItamae.logger.level == Logger::DEBUG
@@ -18,11 +18,11 @@ module MItamae
         nil
       end
 
-      command_for_display = build_command(commands, user: user, cwd: cwd)
+      command_for_display = build_command(command, user: user, cwd: cwd)
       MItamae.logger.debug "Executing `#{command_for_display}`..."
 
       stdout, stderr, status = run_with_open3(
-        commands,
+        command,
         user: user,
         cwd: cwd,
         log_output_severity: log_output_severity
@@ -71,11 +71,9 @@ module MItamae
     end
 
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
-    def build_command(commands, user: nil, cwd: nil)
-      if commands.is_a?(Array)
-        command = Shellwords.shelljoin(commands)
-      else
-        command = commands
+    def build_command(command, user: nil, cwd: nil)
+      if command.is_a?(Array)
+        command = Shellwords.shelljoin(command)
       end
 
       if cwd
@@ -90,14 +88,14 @@ module MItamae
       command
     end
 
-    def run_with_open3(commands, user: nil, cwd: nil, log_output_severity: nil)
+    def run_with_open3(command, user: nil, cwd: nil, log_output_severity: nil)
       spawn_opts = {}
       if user
         # Cannot emulate `:user` option without the shell. Fallback to the slow version.
-        commands = [@shell, '-c', build_command(commands, cwd: cwd, user: user)]
+        command = [@shell, '-c', build_command(command, cwd: cwd, user: user)]
       else
-        if commands.is_a?(String)
-          commands = [@shell, '-c', commands]
+        if command.is_a?(String)
+          command = [@shell, '-c', command]
         end
 
         if cwd
@@ -110,7 +108,7 @@ module MItamae
       spawn_opts[:out] = out_w.to_i
       spawn_opts[:err] = err_w.to_i
 
-      pid = Open3.spawn(*commands, spawn_opts)
+      pid = Open3.spawn(*command, spawn_opts)
 
       out_w.close
       err_w.close
