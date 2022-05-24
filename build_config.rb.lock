@@ -67,7 +67,7 @@ builds:
     https://github.com/mrbgems/mruby-yaml.git:
       url: https://github.com/mrbgems/mruby-yaml.git
       branch: master
-      commit: 9f4408d4d46ffc8668ea07cc9c6249f33114d3a9
+      commit: a7345b3124bac6084e58c236882f3e27918f5126
       version: 0.1.0
     https://github.com/k0kubun/mruby-erb.git:
       url: https://github.com/k0kubun/mruby-erb.git
