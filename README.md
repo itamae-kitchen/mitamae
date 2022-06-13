@@ -40,7 +40,7 @@ service 'nginx' do
 end
 ```
 
-And then excute `mitamae local` command to apply a recipe to a local machine.
+And then execute `mitamae local` command to apply a recipe to a local machine.
 
 ```diff
 $ mv mitamae-x86_64-linux mitamae
