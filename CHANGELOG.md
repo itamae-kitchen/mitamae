@@ -1,7 +1,3 @@
-## v1.12.10
-
-- Stream output of `run_command` with `--log-level debug` or `log_output: true` option
-
 ## v1.12.9
 
 - Get encrypted passwords from `/etc/shadow` for some platforms
