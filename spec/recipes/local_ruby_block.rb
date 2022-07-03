@@ -35,3 +35,12 @@ local_ruby_block 'create /tmp/local_ruby_block_nothing' do
     File.open('/tmp/local_ruby_block_nothing', 'w') {}
   end
 end
+
+local_ruby_block 'test' do
+  cwd "/tmp"
+  block do
+    unless `pwd`.chomp == "/tmp"
+      raise "working directory mismatched"
+    end
+  end
+end
