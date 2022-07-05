@@ -1,3 +1,7 @@
+## v1.13.0
+
+- `local_ruby_block` executes `code` under `cwd` if it's present
+
 ## v1.12.10
 
 - Stream output of `run_command` with `--log-level debug` or `log_output: true` option
