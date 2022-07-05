@@ -3,7 +3,13 @@ module MItamae
     class LocalRubyBlock < Base
       def apply
         if desired.executed
-          desired.block.call
+          if desired.cwd
+            Dir.chdir(desired.cwd) do
+              desired.block.call
+            end
+          else
+            desired.block.call
+          end
         end
       end
 
