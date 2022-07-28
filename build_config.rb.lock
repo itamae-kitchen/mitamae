@@ -57,7 +57,7 @@ builds:
     https://github.com/k0kubun/mruby-specinfra.git:
       url: https://github.com/k0kubun/mruby-specinfra.git
       branch: master
-      commit: 6581261797b38bc7698f27c22733f74fcc102b30
+      commit: 2a66b88cf87143b7d0ee8ab28ca3cbd69ad367cf
       version: 0.0.0
     https://github.com/k0kubun/mruby-tempfile.git:
       url: https://github.com/k0kubun/mruby-tempfile.git
