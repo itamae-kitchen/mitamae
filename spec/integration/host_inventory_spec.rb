@@ -17,7 +17,7 @@ describe 'host_inventory' do
     cpu: /"cpu_family"/,
     virtualization: /\A{("system"=>(nil|"docker"))?}\z/,
     kernel: /"name"=>"Linux"/,
-    block_device: /\A{}\z/,
+    block_device: /\A{.*}\z/,
     user: /"root"=>{[^{}]*"uid"=>"0", /,
   }.each do |key, expected|
     describe file("/tmp/host_inventory_#{key}") do
