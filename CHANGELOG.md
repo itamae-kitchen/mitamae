@@ -1,3 +1,7 @@
+## v1.13.1
+
+- Upgrade specinfra [from v2.82.25 to v2.83.3](https://github.com/mizzy/specinfra/compare/v2.82.25...v2.83.3)
+
 ## v1.13.0
 
 - `local_ruby_block` executes `code` under `cwd` if it's present
