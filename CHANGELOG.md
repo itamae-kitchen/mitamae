@@ -1,3 +1,11 @@
+## v1.14.0
+
+- Migrate the cross-compilation toolchain to Zig
+  - All Linux targets use musl, so no libc dependency.
+  - Now linux-i386 is distributed instead of linux-i686
+- Upgrade mruby-yaml
+  - `123_456` is parsed as `123456` instead of `"123_456"`
+
 ## v1.13.1
 
 - Upgrade specinfra [from v2.82.25 to v2.83.3](https://github.com/mizzy/specinfra/compare/v2.82.25...v2.83.3)
