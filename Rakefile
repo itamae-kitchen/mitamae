@@ -46,18 +46,18 @@ file :mruby do
   end
 end
 
-DOCKCROSS_TARGETS = %w[
+CROSS_TARGETS = %w[
   linux-x86_64
-  linux-i686
+  linux-i386
   linux-armhf
   linux-aarch64
   darwin-x86_64
-  darwin-i386
+  darwin-aarch64
 ]
 
 STRIP_TARGETS = %w[
   linux-x86_64
-  linux-i686
+  linux-i386
 ]
 
 # avoid redefining constants in mruby Rakefile
@@ -86,18 +86,17 @@ task :clean do
 end
 
 desc 'cross compile for release'
-task 'release:build' => DOCKCROSS_TARGETS.map { |target| "release:build:#{target}" }
+task 'release:build' => CROSS_TARGETS.map { |target| "release:build:#{target}" }
 
-DOCKCROSS_TARGETS.each do |target|
+CROSS_TARGETS.each do |target|
   desc "Build for #{target}"
   task "release:build:#{target}" do
-    sh [
-      'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{target}",
-      '-v', "#{File.expand_path(__dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
-      "k0kubun/mitamae-dockcross:#{target}", 'rake', 'compile',
-    ].shelljoin
-
     Dir.chdir(__dir__) do
+      # Workaround: Running `rake compile` twice breaks mattn/mruby-onig-regexp
+      FileUtils.rm_rf('mruby/build')
+
+      sh "rake compile BUILD_TARGET=#{target.shellescape}"
+
       FileUtils.mkdir_p('mitamae-build')
       os, arch = target.split('-', 2)
       bin = "mitamae-build/mitamae-#{arch}-#{os}"

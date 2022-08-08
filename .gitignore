@@ -2,3 +2,4 @@ mitamae-build/
 ghr
 *.zip
 /mruby
+/MacOSX.sdk

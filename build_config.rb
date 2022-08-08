@@ -10,16 +10,16 @@ def debug_config(conf)
   end
 end
 
-build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
-if ENV.key?('CROSS_ROOT') && ENV.key?('CROSS_TRIPLE') # dockcross
-  # Unset dockcross env to make mrbgem's configure work for host build
-  dockcross_ar  = ENV.delete('AR')
-  dockcross_cc  = ENV.delete('CC')
-  dockcross_cxx = ENV.delete('CXX')
-  %w[AS CPP LD FD].each do |env|
-    ENV.delete(env)
-  end
+def download_macos_sdk(path)
+  version = '11.3'
+  system('wget', "https://github.com/phracker/MacOSX-SDKs/releases/download/#{version}/MacOSX#{version}.sdk.tar.xz", exception: true)
+  system('tar', 'xf', "MacOSX#{version}.sdk.tar.xz", exception: true)
+  system('rm', "MacOSX#{version}.sdk.tar.xz", exception: true)
+  system('mv', "MacOSX#{version}.sdk", path, exception: true)
 end
+
+macos_sdk = File.expand_path('./MacOSX.sdk', __dir__)
+build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
 
 # mruby's build system always requires to run host build for mrbc
 MRuby::Build.new do |conf|
@@ -38,25 +38,26 @@ if build_targets.include?('linux-x86_64')
     toolchain :gcc
 
     [conf.cc, conf.linker].each do |cc|
-      cc.command = 'musl-gcc'
-      cc.flags += %w[-static -Os]
+      cc.command = 'zig cc -target x86_64-linux-musl'
     end
+    conf.archiver.command = 'zig ar'
 
     debug_config(conf)
     gem_config(conf)
   end
 end
 
-if build_targets.include?('linux-i686')
-  MRuby::CrossBuild.new('linux-i686') do |conf|
+if build_targets.include?('linux-i386')
+  MRuby::CrossBuild.new('linux-i386') do |conf|
     toolchain :gcc
 
-    [conf.cc, conf.cxx, conf.linker].each do |cc|
-      cc.flags << '-m32'
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'zig cc -target i386-linux-musl'
     end
+    conf.archiver.command = 'zig ar'
 
-    # To configure: k0kubun/mruby-onig-regexp
-    conf.host_target = 'i686-pc-linux-gnu'
+    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
+    conf.host_target = 'i386-pc-linux-gnu'
 
     debug_config(conf)
     gem_config(conf)
@@ -67,15 +68,13 @@ if build_targets.include?('linux-armhf')
   MRuby::CrossBuild.new('linux-armhf') do |conf|
     toolchain :gcc
 
-    # dockcross/linux-armhf
-    conf.cc.command       = dockcross_cc
-    conf.cxx.command      = dockcross_cxx
-    conf.linker.command   = dockcross_cxx
-    conf.archiver.command = dockcross_ar
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'zig cc -target arm-linux-musleabihf'
+    end
+    conf.archiver.command = 'zig ar'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.build_target = 'x86_64-pc-linux-gnu'
-    conf.host_target  = 'arm-linux-gnueabihf'
+    conf.host_target = 'arm-linux-musleabihf'
 
     debug_config(conf)
     gem_config(conf)
@@ -86,15 +85,13 @@ if build_targets.include?('linux-aarch64')
   MRuby::CrossBuild.new('linux-aarch64') do |conf|
     toolchain :gcc
 
-    # dockcross/linux-aarch64
-    conf.cc.command       = dockcross_cc
-    conf.cxx.command      = dockcross_cxx
-    conf.linker.command   = dockcross_cxx
-    conf.archiver.command = dockcross_ar
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'zig cc -target aarch64-linux-musl'
+    end
+    conf.archiver.command = 'zig ar'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.build_target = 'x86_64-pc-linux-gnu'
-    conf.host_target  = 'aarch64-linux-gnu'
+    conf.host_target = 'aarch64-linux-musl'
 
     debug_config(conf)
     gem_config(conf)
@@ -103,36 +100,19 @@ end
 
 if build_targets.include?('darwin-x86_64')
   MRuby::CrossBuild.new('darwin-x86_64') do |conf|
-    toolchain :clang
+    toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'x86_64-apple-darwin20.2-clang'
+    unless Dir.exist?(macos_sdk)
+      download_macos_sdk(macos_sdk)
     end
-    conf.cxx.command      = 'x86_64-apple-darwin20.2-clang++'
-    conf.archiver.command = 'x86_64-apple-darwin20.2-ar'
+
+    conf.cc.command = "zig cc -target x86_64-macos -mmacosx-version-min=10.14 -isysroot #{macos_sdk.shellescape} -iwithsysroot /usr/include -iframeworkwithsysroot /System/Library/Frameworks"
+    conf.linker.command = "zig cc -target x86_64-macos -mmacosx-version-min=10.4 --sysroot #{macos_sdk.shellescape} -F/System/Library/Frameworks -L/usr/lib"
+    conf.archiver.command = 'zig ar'
+    ENV['RANLIB'] ||= 'zig ranlib'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.build_target     = 'x86_64-pc-linux-gnu'
-    conf.host_target      = 'x86_64-apple-darwin20.2'
-
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
-
-if build_targets.include?('darwin-i386')
-  MRuby::CrossBuild.new('darwin-i386') do |conf|
-    toolchain :clang
-
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'i386-apple-darwin20.2-clang'
-    end
-    conf.cxx.command      = 'i386-apple-darwin20.2-clang++'
-    conf.archiver.command = 'i386-apple-darwin20.2-ar'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.build_target     = 'i386-pc-linux-gnu'
-    conf.host_target      = 'i386-apple-darwin20.2'
+    conf.host_target = 'x86_64-darwin'
 
     debug_config(conf)
     gem_config(conf)
@@ -141,17 +121,19 @@ end
 
 if build_targets.include?('darwin-aarch64')
   MRuby::CrossBuild.new('darwin-aarch64') do |conf|
-    toolchain :clang
+    toolchain :gcc
 
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'aarch64-apple-darwin20.2-clang'
+    unless Dir.exist?(macos_sdk)
+      download_macos_sdk(macos_sdk)
     end
-    conf.cxx.command      = 'aarch64-apple-darwin20.2-clang++'
-    conf.archiver.command = 'aarch64-apple-darwin20.2-ar'
+
+    conf.cc.command = "zig cc -target aarch64-macos -mmacosx-version-min=11.1 -isysroot #{macos_sdk.shellescape} -iwithsysroot /usr/include -iframeworkwithsysroot /System/Library/Frameworks"
+    conf.linker.command = "zig cc -target aarch64-macos -mmacosx-version-min=11.1 --sysroot #{macos_sdk.shellescape} -F/System/Library/Frameworks -L/usr/lib"
+    conf.archiver.command = 'zig ar'
+    ENV['RANLIB'] ||= 'zig ranlib'
 
     # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.build_target     = 'aarch64-pc-linux-gnu'
-    conf.host_target      = 'aarch64-apple-darwin20.2'
+    conf.host_target = 'aarch64-darwin'
 
     debug_config(conf)
     gem_config(conf)

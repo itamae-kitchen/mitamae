@@ -31,17 +31,12 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['SKIP_MITAMAE_COMPILE'] != '1'
-      system(
-        'docker', 'run', '--rm', '-e', "BUILD_TARGET=#{MItamaeSpec::TARGET}",
-        '-v', "#{File.expand_path('..', __dir__)}:/home/mruby/code", '-w', '/home/mruby/code',
-        "k0kubun/mitamae-dockcross:#{MItamaeSpec::TARGET}", 'rake', 'compile',
-        'compile'
-      ) || raise
+      system('rake', 'compile', "BUILD_TARGET=#{MItamaeSpec::TARGET}", exception: true)
     end
-    system('docker', 'rm', '-f', MItamaeSpec.container)
 
     # k0kubun/mitamae-spec is automatically built from `spec/Dockerfile`:
     # https://hub.docker.com/r/k0kubun/mitamae-spec/builds/
+    system('docker', 'rm', '-f', MItamaeSpec.container)
     system(
       'docker', 'run', '-d', '--privileged', '--rm', '--name', MItamaeSpec.container,
       '-v', "#{File.expand_path("mruby/build/#{MItamaeSpec::TARGET}")}:/mitamae",

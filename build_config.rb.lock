@@ -1,7 +1,7 @@
 ---
-mruby_version:
-  version: 2.1.2
-  release_no: 20102
+mruby:
+  version: 3.0.0
+  release_no: 30000
 builds:
   host:
     https://github.com/ksss/mruby-at_exit.git:
@@ -27,22 +27,22 @@ builds:
     https://github.com/ksss/mruby-file-stat.git:
       url: https://github.com/ksss/mruby-file-stat.git
       branch: master
-      commit: b81bc71a6f2ddd424fd5e544d2cccd289d4d7545
+      commit: f3e858f01361b9b4a8e77ada52470068630c9530
       version: 0.0.0
     https://github.com/k0kubun/mruby-hashie.git:
       url: https://github.com/k0kubun/mruby-hashie.git
       branch: master
-      commit: c69255a94debcd641f2087b569f5625509bde698
+      commit: 381741184e3382ebfa9aa40e6f02645494874df3
       version: 0.0.0
     https://github.com/mattn/mruby-json.git:
       url: https://github.com/mattn/mruby-json.git
       branch: master
-      commit: '054699892b0d681110e7348440cddb70a3fd671e'
+      commit: f99d9428025469f2400f93c53b185f65f963e507
       version: 0.0.0
     https://github.com/k0kubun/mruby-open3.git:
       url: https://github.com/k0kubun/mruby-open3.git
       branch: master
-      commit: d6ab1bcd13446661c2e134ad8343caba9d15e59a
+      commit: c2c269b07d0bc819be3e8bddd621429e59134de0
       version: 0.0.0
     https://github.com/fastly/mruby-optparse.git:
       url: https://github.com/fastly/mruby-optparse.git
@@ -67,7 +67,7 @@ builds:
     https://github.com/mrbgems/mruby-yaml.git:
       url: https://github.com/mrbgems/mruby-yaml.git
       branch: master
-      commit: a7345b3124bac6084e58c236882f3e27918f5126
+      commit: 123010195bf621e784ee9d4ff9144a4b8e9cbb6a
       version: 0.1.0
     https://github.com/k0kubun/mruby-erb.git:
       url: https://github.com/k0kubun/mruby-erb.git
@@ -107,7 +107,7 @@ builds:
     https://github.com/mattn/mruby-onig-regexp.git:
       url: https://github.com/mattn/mruby-onig-regexp.git
       branch: master
-      commit: 76087d150d12f167e95ae10d326099b352cf3d18
+      commit: 20ba3325d6fa504cbbf193e1b2a90e20fdab544f
       version: 0.0.0
     https://github.com/ksss/mruby-singleton.git:
       url: https://github.com/ksss/mruby-singleton.git
