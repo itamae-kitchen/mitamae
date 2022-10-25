@@ -2,6 +2,10 @@
 
 mitamae is a tool to automate configuration management using a Chef-like DSL powered by mruby.
 
+It's been used for provisioning servers, e.g. [RubyCI servers](https://github.com/ruby/ruby-infra-recipe)
+and [Ruby's git server](https://github.com/ruby/git.ruby-lang.org), and setting up local environments
+with [dotfiles](https://github.com/search?q=dotfiles+mitamae&type=code).
+
 ### Key Features
 
 * **Fast** -
@@ -145,6 +149,14 @@ and recipes to the servers and run them remotely. There are at least the followi
   A more scalable way is to install an agent to each server and notify the agents to fetch mitamae
   and recipes from an object storage and run them.
   Deployment tools like [AWS CodeDeploy](https://aws.amazon.com/codedeploy/) are useful to achieve them.
+
+### Example recipes
+
+The following recipes are open-source usages of mitamae.
+
+* [ruby/ruby-infra-recipe](https://github.com/ruby/ruby-infra-recipe)
+* [ruby/git.ruby-lang.org](https://github.com/ruby/git.ruby-lang.org)
+* [k0kubun/dotfiles](https://github.com/k0kubun/dotfiles)
 
 ### Migrating from Chef
 
