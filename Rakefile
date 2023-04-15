@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'shellwords'
 
-MRUBY_VERSION = '3.0.0'
+MRUBY_VERSION = '3.2.0'
 
 file :mruby do
   if RUBY_PLATFORM.match(/solaris/)
@@ -11,38 +11,6 @@ file :mruby do
     sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
     FileUtils.mv("mruby-#{MRUBY_VERSION}", 'mruby')
     patch = 'patch'
-  end
-
-  # Patch: https://github.com/mruby/mruby/pull/5318
-  if MRUBY_VERSION == '3.0.0'
-    IO.popen([patch, '-p0'], 'w') do |io|
-      io.write(<<-'EOS')
---- mruby/lib/mruby/build.rb  2021-03-05 00:07:35.000000000 -0800
-+++ mruby/lib/mruby/build.rb  2021-03-05 12:25:15.159190950 -0800
-@@ -320,12 +320,16 @@
-       return @mrbcfile if @mrbcfile
-
-       gem_name = "mruby-bin-mrbc"
--      gem = @gems[gem_name]
--      gem ||= (host = MRuby.targets["host"]) && host.gems[gem_name]
--      unless gem
--        fail "external mrbc or mruby-bin-mrbc gem in current('#{@name}') or 'host' build is required"
-+      if (gem = @gems[gem_name])
-+        @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
-+      elsif !host? && (host = MRuby.targets["host"])
-+        if (gem = host.gems[gem_name])
-+          @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
-+        elsif host.mrbcfile_external?
-+          @mrbcfile = host.mrbcfile
-+        end
-       end
--      @mrbcfile = exefile("#{gem.build.build_dir}/bin/mrbc")
-+      @mrbcfile || fail("external mrbc or mruby-bin-mrbc gem in current('#{@name}') or 'host' build is required")
-     end
-
-     def mrbcfile=(path)
-      EOS
-    end
   end
 end
 
