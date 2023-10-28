@@ -53,7 +53,7 @@ describe 'http_request resource' do
 
   describe file('/tmp/http_request_redirect.html') do
     it { should be_file }
-    its(:content) { should match(/"from": ?"itamae"/) }
+    its(:content) { should match(/"from":\s*\[\s*"itamae"\s*\]/) }
   end
 
   describe file('/tmp/https_request.json') do
