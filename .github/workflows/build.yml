@@ -16,13 +16,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v1
+      - uses: goto-bus-stop/setup-zig@v2
         with:
           version: 0.9.1
       - name: Integration test
@@ -41,20 +41,20 @@ jobs:
           - { os: darwin, arch: aarch64 }
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v1
+      - uses: goto-bus-stop/setup-zig@v2
         with:
           version: 0.9.1
       - name: Build ${{ matrix.os }}-${{ matrix.arch }} binary
         run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: mitamae-${{ matrix.arch }}-${{ matrix.os }}
           path: mitamae-build/
@@ -66,27 +66,27 @@ jobs:
       - build
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-x86_64-linux
           path: mitamae-build/
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-i386-linux
           path: mitamae-build/
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-armhf-linux
           path: mitamae-build/
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-aarch64-linux
           path: mitamae-build/
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-x86_64-darwin
           path: mitamae-build/
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v3
         with:
           name: mitamae-aarch64-darwin
           path: mitamae-build/
