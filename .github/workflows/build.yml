@@ -98,4 +98,4 @@ jobs:
           "ghr_${GHR_VERSION}_linux_amd64/ghr" -u itamae-kitchen -r mitamae -replace -n "$VERSION" "$VERSION" mitamae-build/
         env:
           GHR_VERSION: v0.13.0
-          GITHUB_TOKEN: ${{ secrets.githubtoken }}
+          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
