@@ -1,7 +1,3 @@
-## v1.14.1
-
-- Upgrade specinfra [from v2.83.3 to v2.87.0](https://github.com/mizzy/specinfra/compare/v2.83.3...v2.87.0)
-
 ## v1.14.0
 
 - Migrate the cross-compilation toolchain to Zig
