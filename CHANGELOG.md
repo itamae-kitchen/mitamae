@@ -1,3 +1,7 @@
+## v1.14.2
+
+- Upgrade specinfra [from v2.87.0 to v2.91.0](https://github.com/mizzy/specinfra/compare/v2.87.0...v2.91.0)
+
 ## v1.14.1
 
 - Upgrade specinfra [from v2.83.3 to v2.87.0](https://github.com/mizzy/specinfra/compare/v2.83.3...v2.87.0)
