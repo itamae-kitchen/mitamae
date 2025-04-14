@@ -25,7 +25,7 @@ mitamae local --plugins=/path/to/plugins ...
 ### Resource
 
 1. Create a repository named `mitamae-plugin-resource-sample` or `itamae-plugin-resource-sample`.
-2. Implement `MItamae::Plugin::Resource::Sample` and `MItamae::Plugin::ResourceExecutor::Sample` like mitamae's internal classes like mitamae's internal classes. Put sources in `mitamae-plugin-resource-sample/mrblib/**/*.rb`.
+2. Implement `MItamae::Plugin::Resource::Sample` and `MItamae::Plugin::ResourceExecutor::Sample` like mitamae's internal classes. Put sources in `mitamae-plugin-resource-sample/mrblib/**/*.rb`.
 3. Put it as git submodule to `./plugins/mitamae-plugin-resource-sample` or `itamae-plugin-resource-sample`.
 
 See [itamae-plugin-resource-cask](https://github.com/k0kubun/itamae-plugin-resource-cask) for example.
