@@ -11,6 +11,7 @@ on:
       - '*'
   schedule:
     - cron: "30 15 * * *" # 7:30 PST (-8), 8:30 PDT (-7)
+  workflow_dispatch:
 
 jobs:
   test:
