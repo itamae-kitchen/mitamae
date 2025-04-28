@@ -87,6 +87,8 @@ jobs:
         run: tree --charset ASCII mitamae-build/
 
       - name: Verify artifacts
+        # Since the necessary permissions cannot be set in the pull_request event, it is limited to push events.
+        if: ${{ !startsWith(github.event_name, 'pull') }}
         run: |
           cd mitamae-build
           for f in $(find . -type f -name 'mitamae-*' -printf '%f\n' | sort); do
@@ -107,6 +109,8 @@ jobs:
         run: cd mitamae-build && sha256sum -c SHA256SUMS
 
       - name: Generate artifact attestation
+        # Since the necessary permissions cannot be set in the pull_request event, it is limited to push events.
+        if: ${{ !startsWith(github.event_name, 'pull') }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: mitamae-build/SHA256SUMS
