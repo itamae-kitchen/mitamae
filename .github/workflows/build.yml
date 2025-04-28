@@ -60,12 +60,7 @@ jobs:
 
       - name: Generate artifact attestation
         # Since the necessary permissions cannot be set in the pull_request event, it is limited to push events.
-        if: >-
-          ${{
-            github.ref == 'refs/heads/master' ||
-            startsWith(github.ref, 'refs/heads/build-') ||
-            startsWith(github.ref, 'refs/tags/')
-          }}
+        if: ${{ !startsWith(github.event_name, 'pull') }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: mitamae-build/mitamae-*
