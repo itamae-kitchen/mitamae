@@ -59,6 +59,8 @@ jobs:
         run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
 
       - name: Generate artifact attestation
+        # Since the necessary permissions cannot be set in the pull_request event, it is limited to push events.
+        if: ${{ !startsWith(github.event_name, 'pull') }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: mitamae-build/mitamae-*
