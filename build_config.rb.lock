@@ -34,10 +34,10 @@ builds:
       branch: master
       commit: 381741184e3382ebfa9aa40e6f02645494874df3
       version: 0.0.0
-    https://github.com/mattn/mruby-json.git:
-      url: https://github.com/mattn/mruby-json.git
+    https://github.com/k0kubun/mruby-json.git:
+      url: https://github.com/k0kubun/mruby-json.git
       branch: master
-      commit: f99d9428025469f2400f93c53b185f65f963e507
+      commit: 202499850ed4173cb188a5bae3ee3374e12a7149
       version: 0.0.0
     https://github.com/k0kubun/mruby-open3.git:
       url: https://github.com/k0kubun/mruby-open3.git
