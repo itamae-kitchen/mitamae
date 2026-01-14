@@ -23,9 +23,9 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         with:
-          version: 0.9.1
+          version: 0.16.0
       - name: Integration test
         run: bundle exec rake test:integration
 
@@ -38,12 +38,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - { os: linux,  arch: x86_64 }
-          - { os: linux,  arch: i386 }
-          - { os: linux,  arch: armhf }
-          - { os: linux,  arch: aarch64 }
-          - { os: darwin, arch: x86_64 }
-          - { os: darwin, arch: aarch64 }
+          - { os: linux,   arch: x86_64 }
+          - { os: linux,   arch: i386 }
+          - { os: linux,   arch: armhf }
+          - { os: linux,   arch: aarch64 }
+          - { os: linux,   arch: s390x }
+          - { os: linux,   arch: ppc64le }
+          - { os: darwin,  arch: x86_64 }
+          - { os: darwin,  arch: aarch64 }
+          - { os: freebsd, arch: x86_64 }
+          - { os: freebsd, arch: aarch64 }
+          - { os: openbsd, arch: x86_64 }
+          - { os: openbsd, arch: aarch64 }
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -52,9 +58,9 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         with:
-          version: 0.9.1
+          version: 0.16.0
       - name: Build ${{ matrix.os }}-${{ matrix.arch }} binary
         run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
 
@@ -149,11 +155,37 @@ jobs:
           path: mitamae-build/
       - uses: actions/download-artifact@v4
         with:
+          name: mitamae-s390x-linux
+          path: mitamae-build/
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-ppc64le-linux
+          path: mitamae-build/
+      - uses: actions/download-artifact@v4
+        with:
           name: mitamae-x86_64-darwin
           path: mitamae-build/
       - uses: actions/download-artifact@v4
         with:
           name: mitamae-aarch64-darwin
+          path: mitamae-build/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-aarch64-freebsd
+          path: mitamae-build/
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-x86_64-freebsd
+          path: mitamae-build/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-aarch64-openbsd
+          path: mitamae-build/
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-x86_64-openbsd
           path: mitamae-build/
 
       - uses: actions/download-artifact@v4

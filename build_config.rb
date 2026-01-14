@@ -1,3 +1,6 @@
+MACOS_SDK= File.expand_path('./MacOSX.sdk', __dir__)
+MACOS_SDK_VER = "11.3"
+
 def gem_config(conf)
   conf.gem File.expand_path(File.dirname(__FILE__))
 end
@@ -11,15 +14,27 @@ def debug_config(conf)
 end
 
 def download_macos_sdk(path)
-  version = '11.3'
-  system('wget', "https://github.com/phracker/MacOSX-SDKs/releases/download/#{version}/MacOSX#{version}.sdk.tar.xz", exception: true)
-  system('tar', 'xf', "MacOSX#{version}.sdk.tar.xz", exception: true)
-  system('rm', "MacOSX#{version}.sdk.tar.xz", exception: true)
-  system('mv', "MacOSX#{version}.sdk", path, exception: true)
+  system('wget', "https://github.com/phracker/MacOSX-SDKs/releases/download/#{MACOS_SDK_VER}/MacOSX#{MACOS_SDK_VER}.sdk.tar.xz", exception: true)
+  system('tar', 'xf', "MacOSX#{MACOS_SDK_VER}.sdk.tar.xz", exception: true)
+  system('rm', "MacOSX#{MACOS_SDK_VER}.sdk.tar.xz", exception: true)
+  system('mv', "MacOSX#{MACOS_SDK_VER}.sdk", path, exception: true)
 end
 
-macos_sdk = File.expand_path('./MacOSX.sdk', __dir__)
-build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
+TRIPLETS = {
+  'linux-x86_64' => 'x86_64-linux-musl',
+  'linux-i386' => 'x86-linux-musl',
+  'linux-armhf' => 'arm-linux-musleabihf',
+  'linux-aarch64' => 'aarch64-linux-musl',
+  'linux-ppc64le' => 'powerpc64le-linux-musl',
+  'linux-s390x' => 's390x-linux-musl',
+  'darwin-x86_64' => 'x86_64-macos-none',
+  'darwin-aarch64' => 'aarch64-macos-none',
+  'freebsd-x86_64' => 'x86_64-freebsd-none',
+  'freebsd-aarch64' => 'aarch64-freebsd-none',
+  'openbsd-x86_64' => 'x86_64-openbsd-none',
+  'openbsd-aarch64' => 'aarch64-openbsd-none'
+}.freeze
+
 
 # mruby's build system always requires to run host build for mrbc
 MRuby::Build.new do |conf|
@@ -33,107 +48,33 @@ MRuby::Build.new do |conf|
   gem_config(conf)
 end
 
-if build_targets.include?('linux-x86_64')
-  MRuby::Build.new('linux-x86_64') do |conf|
+build_targets = ENV.fetch('BUILD_TARGET', '').split(',')
+CROSS_TARGETS.each do |target|
+  next unless build_targets.include?(target)
+
+  MRuby::CrossBuild.new(target) do |conf|
     toolchain :gcc
+
+    conf.host_target = TRIPLETS[target]
 
     [conf.cc, conf.linker].each do |cc|
-      cc.command = 'zig cc -target x86_64-linux-musl'
+      cc.command = "zig cc -target #{TRIPLETS[target]}"
     end
     conf.archiver.command = 'zig ar'
+    ENV['RANLIB'] ||= 'zig ranlib' unless target.include?('linux')
 
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
+    if target.include?('darwin')
+      macosx_min_ver = target.include?('aarch64') ? '11.1' : '10.14'
+      unless Dir.exist?(MACOS_SDK)
+        download_macos_sdk(MACOS_SDK)
+      end
 
-if build_targets.include?('linux-i386')
-  MRuby::CrossBuild.new('linux-i386') do |conf|
-    toolchain :gcc
-
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'zig cc -target i386-linux-musl'
+      conf.cc.command += " -mmacosx-version-min=#{macosx_min_ver} -isysroot #{MACOS_SDK.shellescape}"
+      conf.cc.command += " -iwithsysroot /usr/include -iframeworkwithsysroot /System/Library/Frameworks"
+      conf.linker.command += " -mmacosx-version-min=#{macosx_min_ver} --sysroot #{MACOS_SDK.shellescape}"
+      conf.linker.command += " -F/System/Library/Frameworks -L/usr/lib"
+    else
     end
-    conf.archiver.command = 'zig ar'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.host_target = 'i386-pc-linux-gnu'
-
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
-
-if build_targets.include?('linux-armhf')
-  MRuby::CrossBuild.new('linux-armhf') do |conf|
-    toolchain :gcc
-
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'zig cc -target arm-linux-musleabihf'
-    end
-    conf.archiver.command = 'zig ar'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.host_target = 'arm-linux-musleabihf'
-
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
-
-if build_targets.include?('linux-aarch64')
-  MRuby::CrossBuild.new('linux-aarch64') do |conf|
-    toolchain :gcc
-
-    [conf.cc, conf.linker].each do |cc|
-      cc.command = 'zig cc -target aarch64-linux-musl'
-    end
-    conf.archiver.command = 'zig ar'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.host_target = 'aarch64-linux-musl'
-
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
-
-if build_targets.include?('darwin-x86_64')
-  MRuby::CrossBuild.new('darwin-x86_64') do |conf|
-    toolchain :gcc
-
-    unless Dir.exist?(macos_sdk)
-      download_macos_sdk(macos_sdk)
-    end
-
-    conf.cc.command = "zig cc -target x86_64-macos -mmacosx-version-min=10.14 -isysroot #{macos_sdk.shellescape} -iwithsysroot /usr/include -iframeworkwithsysroot /System/Library/Frameworks"
-    conf.linker.command = "zig cc -target x86_64-macos -mmacosx-version-min=10.4 --sysroot #{macos_sdk.shellescape} -F/System/Library/Frameworks -L/usr/lib"
-    conf.archiver.command = 'zig ar'
-    ENV['RANLIB'] ||= 'zig ranlib'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.host_target = 'x86_64-darwin'
-
-    debug_config(conf)
-    gem_config(conf)
-  end
-end
-
-if build_targets.include?('darwin-aarch64')
-  MRuby::CrossBuild.new('darwin-aarch64') do |conf|
-    toolchain :gcc
-
-    unless Dir.exist?(macos_sdk)
-      download_macos_sdk(macos_sdk)
-    end
-
-    conf.cc.command = "zig cc -target aarch64-macos -mmacosx-version-min=11.1 -isysroot #{macos_sdk.shellescape} -iwithsysroot /usr/include -iframeworkwithsysroot /System/Library/Frameworks"
-    conf.linker.command = "zig cc -target aarch64-macos -mmacosx-version-min=11.1 --sysroot #{macos_sdk.shellescape} -F/System/Library/Frameworks -L/usr/lib"
-    conf.archiver.command = 'zig ar'
-    ENV['RANLIB'] ||= 'zig ranlib'
-
-    # To configure: mrbgems/mruby-yaml, k0kubun/mruby-onig-regexp
-    conf.host_target = 'aarch64-darwin'
 
     debug_config(conf)
     gem_config(conf)
