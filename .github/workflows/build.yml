@@ -38,12 +38,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - { os: linux,  arch: x86_64 }
-          - { os: linux,  arch: i386 }
-          - { os: linux,  arch: armhf }
-          - { os: linux,  arch: aarch64 }
-          - { os: darwin, arch: x86_64 }
-          - { os: darwin, arch: aarch64 }
+          - { os: linux,   arch: x86_64 }
+          - { os: linux,   arch: i386 }
+          - { os: linux,   arch: armhf }
+          - { os: linux,   arch: aarch64 }
+          - { os: darwin,  arch: x86_64 }
+          - { os: darwin,  arch: aarch64 }
+          - { os: openbsd, arch: x86_64 }
+          - { os: openbsd, arch: aarch64 }
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -154,6 +156,15 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: mitamae-aarch64-darwin
+          path: mitamae-build/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-aarch64-openbsd
+          path: mitamae-build/
+      - uses: actions/download-artifact@v4
+        with:
+          name: mitamae-x86_64-openbsd
           path: mitamae-build/
 
       - uses: actions/download-artifact@v4

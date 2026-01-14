@@ -139,3 +139,37 @@ if build_targets.include?('darwin-aarch64')
     gem_config(conf)
   end
 end
+
+if build_targets.include?('openbsd-x86_64')
+  MRuby::CrossBuild.new('openbsd-x86_64') do |conf|
+    toolchain :gcc
+
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'zig cc -target x86_64-openbsd-none'
+    end
+    conf.archiver.command = 'zig ar'
+    ENV['RANLIB'] ||= 'zig ranlib'
+
+    conf.host_target = 'x86_64-linux'
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
+
+if build_targets.include?('openbsd-aarch64')
+  MRuby::CrossBuild.new('openbsd-aarch64') do |conf|
+    toolchain :gcc
+
+    [conf.cc, conf.linker].each do |cc|
+      cc.command = 'zig cc -target aarch64-openbsd-none'
+    end
+    conf.archiver.command = 'zig ar'
+    ENV['RANLIB'] ||= 'zig ranlib'
+
+    conf.host_target = 'aarch64-linux'
+
+    debug_config(conf)
+    gem_config(conf)
+  end
+end
