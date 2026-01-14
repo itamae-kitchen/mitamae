@@ -23,9 +23,9 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         with:
-          version: 0.9.1
+          version: 0.16.0-dev.2193+fc517bd01
       - name: Integration test
         run: bundle exec rake test:integration
 
@@ -52,9 +52,9 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         with:
-          version: 0.9.1
+          version: 0.16.0-dev.2193+fc517bd01
       - name: Build ${{ matrix.os }}-${{ matrix.arch }} binary
         run: bundle exec rake release:build:${{ matrix.os }}-${{ matrix.arch }} release:compress
 
