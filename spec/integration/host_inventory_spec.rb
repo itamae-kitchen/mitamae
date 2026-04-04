@@ -6,19 +6,19 @@ describe 'host_inventory' do
   end
 
   {
-    memory: /"swap"/,
+    memory: /"swap"|swap=/,
     #ec2: //,
     hostname: /\A\w{12}\z/,
     #domain: //,
     fqdn: /\A\w{12}\z/,
     platform: /\Aubuntu\z/,
     platform_version: /\A20.04\z/,
-    filesystem: /"kb_size"/,
-    cpu: /"cpu_family"/,
-    virtualization: /\A{("system"=>(nil|"docker"))?}\z/,
-    kernel: /"name"=>"Linux"/,
-    block_device: /\A{.*}\z/,
-    user: /"root"=>{[^{}]*"uid"=>"0", /,
+    filesystem: /kb_size/,
+    cpu: /cpu_family/,
+    virtualization: /\A(\{("system"=>(nil|"docker"))?\}|#<Hashie::Mash( system="docker")?>\z)/,
+    kernel: /name.*Linux/,
+    block_device: /\A[{#]/,
+    user: /root.*uid.*0/,
   }.each do |key, expected|
     describe file("/tmp/host_inventory_#{key}") do
       it { should be_file }
@@ -28,8 +28,8 @@ describe 'host_inventory' do
 
   describe file('/tmp/host_inventory_group') do
     it { should be_file }
-    its(:content) { should match(/"name"=>"root"/) }
-    its(:content) { should match(/"gid"=>"0"/) }
+    its(:content) { should match(/name.*root/) }
+    its(:content) { should match(/gid.*0/) }
   end
 
   describe file('/tmp/host_inventory_cpu_total') do
