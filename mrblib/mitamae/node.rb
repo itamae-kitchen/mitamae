@@ -17,6 +17,10 @@ module MItamae
       @mash.replace(_reverse_merge(other_hash))
     end
 
+    def merge!(other_hash)
+      @mash.merge!(other_hash)
+    end
+
     def [](key)
       if @mash.has_key?(key)
         @mash[key]

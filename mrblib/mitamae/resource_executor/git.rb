@@ -68,12 +68,9 @@ module MItamae
         run_command("test -z \"$(ls -A #{Shellwords.shellescape(attributes.destination)})\"", error: false).success?
       end
 
-      def run_command_in_repo(*args)
-        unless args.last.is_a?(Hash)
-          args << {}
-        end
-        args.last[:cwd] = attributes.destination
-        run_command(*args)
+      def run_command_in_repo(*args, **opts)
+        opts[:cwd] = attributes.destination
+        run_command(*args, **opts)
       end
 
       def current_branch
