@@ -171,7 +171,7 @@ module MItamae
         if content_file
           copy_file(content_file, @temppath)
         else
-          File.open(@temppath, 'w') do |f|
+          ::File.open(@temppath, 'w') do |f|
             f.write(desired.content)
           end
         end
@@ -181,8 +181,8 @@ module MItamae
       # one manages large files by file resource. Most files are small plain
       # text files (e.g. configuration files).
       def copy_file(src, dst)
-        File.open(src) do |fin|
-          File.open(dst, 'w') do |fout|
+        ::File.open(src) do |fin|
+          ::File.open(dst, 'w') do |fout|
             fout.write(fin.read)
           end
         end
