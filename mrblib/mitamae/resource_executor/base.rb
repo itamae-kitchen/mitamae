@@ -13,7 +13,7 @@ module MItamae
         MItamae.logger.with_indent_if(MItamae.logger.debug?) do
           return if skip_condition?
 
-          [specific_action || @resource.attributes[:action]].flatten.each do |action|
+          [specific_action || @resource.attributes['action']].flatten.each do |action|
             run_action(action)
           end
 
