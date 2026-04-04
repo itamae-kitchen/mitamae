@@ -40,6 +40,13 @@ class Array
   end
 end
 
+# In mruby 3.4.0, Kernel#` is private. Make it accessible via public method.
+module Kernel
+  def `(cmd)
+    IO.popen(cmd) { |io| io.read }
+  end
+end
+
 # Redefine Open3 module methods as public class methods.
 # The original module_function definitions in mruby-open3 become private
 # singleton methods in mruby 3.4.0.

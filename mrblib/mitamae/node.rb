@@ -22,8 +22,9 @@ module MItamae
     end
 
     def [](key)
-      if @mash.has_key?(key)
-        @mash[key]
+      skey = key.to_s
+      if @mash.has_key?(skey)
+        @mash[skey]
       else
         fetch_inventory_value(key)
       end
