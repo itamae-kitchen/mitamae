@@ -1,8 +1,8 @@
 module MItamae
   class RecipeLoader
-    def initialize(options)
-      @backend = options[:backend]
-      @node = build_node(options[:node_jsons], options[:node_yamls], @backend)
+    def initialize(node_jsons: [], node_yamls: [], backend:)
+      @backend = backend
+      @node = build_node(node_jsons, node_yamls, @backend)
     end
 
     # @return [Array<MItamae::Recipe>]

@@ -4,9 +4,9 @@
 # of public. This affects Shellwords and Open3 modules. Work around by
 # redefining affected methods as explicit public singleton methods.
 
-class String
-  def shellescape
-    str = self.to_s
+module Shellwords
+  def self.shellescape(str)
+    str = str.to_s
     return "''".dup if str.empty?
 
     str = str.dup
@@ -14,11 +14,29 @@ class String
     str.gsub!(/\n/, "'\n'")
     str
   end
+
+  def self.escape(str)
+    shellescape(str)
+  end
+
+  def self.shelljoin(array)
+    array.map { |arg| shellescape(arg) }.join(' ')
+  end
+
+  def self.join(array)
+    shelljoin(array)
+  end
+end
+
+class String
+  def shellescape
+    Shellwords.shellescape(self)
+  end
 end
 
 class Array
   def shelljoin
-    self.map { |arg| arg.to_s.shellescape }.join(' ')
+    Shellwords.shelljoin(self)
   end
 end
 
