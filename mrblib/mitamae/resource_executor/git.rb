@@ -65,7 +65,7 @@ module MItamae
       end
 
       def check_empty_dir
-        run_command("test -z \"$(ls -A #{Shellwords.shellescape(attributes.destination)})\"", error: false).success?
+        run_command("test -z \"$(ls -A #{attributes.destination.shellescape})\"", error: false).success?
       end
 
       def run_command_in_repo(*args, **opts)

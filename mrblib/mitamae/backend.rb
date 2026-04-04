@@ -61,7 +61,7 @@ module MItamae
     # https://github.com/itamae-kitchen/itamae/blob/v1.9.9/lib/itamae/backend.rb#L168-L189
     def build_command(command, user: nil, cwd: nil)
       if command.is_a?(Array)
-        command = Shellwords.shelljoin(command)
+        command = command.shelljoin
       end
 
       if cwd
