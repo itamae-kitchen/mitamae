@@ -18,8 +18,9 @@ MRuby::Gem::Specification.new('mitamae') do |spec|
   spec.add_dependency 'mruby-struct',      core: 'mruby-struct'
   spec.add_dependency 'mruby-symbol-ext',  core: 'mruby-symbol-ext'
 
+  spec.add_dependency 'mruby-dir',          core: 'mruby-dir'
+
   spec.add_dependency 'mruby-at_exit',     mgem: 'mruby-at_exit'
-  spec.add_dependency 'mruby-dir',         mgem: 'mruby-dir'
   spec.add_dependency 'mruby-dir-glob',    mgem: 'mruby-dir-glob'
   spec.add_dependency 'mruby-env',         mgem: 'mruby-env'
   spec.add_dependency 'mruby-file-stat',   mgem: 'mruby-file-stat'
