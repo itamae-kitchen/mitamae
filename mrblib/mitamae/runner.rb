@@ -11,8 +11,8 @@ module MItamae
       @dry_run
     end
 
-    def run_command(*args)
-      @backend.run_command(*args)
+    def run_command(*args, **opts)
+      @backend.run_command(*args, **opts)
     end
 
     def get_command(*args)

@@ -154,19 +154,15 @@ module MItamae
         # Override this if necessary.
       end
 
-      def run_command(*args)
-        args << {} unless args.last.is_a?(Hash)
-
-        args.last[:user] ||= attributes.user
-        args.last[:cwd]  ||= attributes.cwd
-        @runner.run_command(*args)
+      def run_command(*args, **opts)
+        opts[:user] ||= attributes.user
+        opts[:cwd]  ||= attributes.cwd
+        @runner.run_command(*args, **opts)
       end
 
-      def check_command(*args)
-        args << {} unless args.last.is_a?(Hash)
-
-        args.last[:error] = false
-        run_command(*args).exit_status == 0
+      def check_command(*args, **opts)
+        opts[:error] = false
+        run_command(*args, **opts).exit_status == 0
       end
 
       def run_specinfra(type, *args)
