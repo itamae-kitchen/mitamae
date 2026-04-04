@@ -51,12 +51,13 @@ module MItamae
 
     def method_missing(method, *args, &block)
       if @resource.class.defined_attributes[method]
+        smethod = method.to_s
         if args.size == 1
-          return @resource.attributes[method] = args.first
+          return @resource.attributes[smethod] = args.first
         elsif args.size == 0 && block_given?
-          return @resource.attributes[method] = block
+          return @resource.attributes[smethod] = block
         elsif args.size == 0
-          return @resource.attributes[method]
+          return @resource.attributes[smethod]
         end
       end
 

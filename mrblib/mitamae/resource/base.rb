@@ -58,16 +58,17 @@ module MItamae
 
       def process_attributes
         self.class.defined_attributes.each_pair do |key, details|
-          @attributes[key] ||= @resource_name if details[:default_name]
-          @attributes[key] = details[:default] if details.has_key?(:default) && !@attributes.has_key?(key)
+          skey = key.to_s
+          @attributes[skey] ||= @resource_name if details[:default_name]
+          @attributes[skey] = details[:default] if details.has_key?(:default) && !@attributes.has_key?(skey)
 
-          if details[:required] && !@attributes.has_key?(key)
+          if details[:required] && !@attributes.has_key?(skey)
             raise AttributeMissingError, "'#{key}' attribute is required but it is not set."
           end
 
-          if @attributes[key] && details[:type]
+          if @attributes[skey] && details[:type]
             valid_type = [details[:type]].flatten.any? do |type|
-              @attributes[key].is_a?(type)
+              @attributes[skey].is_a?(type)
             end
             unless valid_type
               raise Resource::InvalidTypeError, "#{key} attribute should be #{details[:type]}."
