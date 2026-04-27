@@ -62,6 +62,10 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
+      - uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "14"
+
       - uses: mlugg/setup-zig@v2
         with:
           version: 0.16.0

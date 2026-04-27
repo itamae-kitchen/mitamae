@@ -27,11 +27,6 @@ CROSS_TARGETS = %w[
   darwin-aarch64
 ].freeze
 
-STRIP_TARGETS = %w[
-  linux-x86_64
-  linux-i386
-]
-
 # avoid redefining constants in mruby Rakefile
 mruby_root = File.expand_path(ENV['MRUBY_ROOT'] || "#{Dir.pwd}/mruby")
 mruby_config = File.expand_path(ENV['MRUBY_CONFIG'] || 'build_config.rb')
@@ -72,20 +67,18 @@ CROSS_TARGETS.each do |target|
       FileUtils.mkdir_p('mitamae-build')
       os, arch = target.split('-', 2)
       bin = "mitamae-build/mitamae-#{arch}-#{os}"
-      sh "cp mruby/build/#{target.shellescape}/bin/mitamae #{bin.shellescape}"
 
-      if STRIP_TARGETS.include?(target)
-        sh "strip --strip-unneeded #{bin.shellescape}"
-      end
+      sh "cp mruby/build/#{target.shellescape}/bin/mitamae #{bin.shellescape}.debug"
+      sh "llvm-strip #{bin.shellescape}.debug -o #{bin.shellescape}"
     end
   end
 end
 
-desc 'compress binaries in mitamae-build'
+desc 'compress debug binaries in mitamae-build'
 task 'release:compress' do
   Dir.chdir(File.expand_path('./mitamae-build', __dir__)) do
-    Dir.glob('mitamae-*').each do |path|
-      sh "tar zcvf #{path}.tar.gz #{path}"
+    Dir.glob('mitamae-*.debug').each do |path|
+      sh "gzip -9 #{path}"
     end
   end
 end
