@@ -1,4 +1,4 @@
-## v1.15.0
+## v2.0.0
 
 - Bump mruby version from 3.0.0 to 3.4.0
 
