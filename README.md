@@ -25,8 +25,8 @@ with [dotfiles](https://github.com/search?q=dotfiles+mitamae&type=code).
 Download a binary for your platform from [GitHub Releases](https://github.com/itamae-kitchen/mitamae/releases).
 
 ```bash
-curl -L https://github.com/itamae-kitchen/mitamae/releases/latest/download/mitamae-x86_64-linux.tar.gz \
-  | tar xvz
+curl -O -L https://github.com/itamae-kitchen/mitamae/releases/latest/download/mitamae-x86_64-linux
+chmod +x ./mitamae-x86_64-linux
 ./mitamae-x86_64-linux help
 ```
 
