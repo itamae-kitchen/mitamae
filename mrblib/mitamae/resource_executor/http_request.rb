@@ -46,7 +46,7 @@ module MItamae
           MItamae.logger.error("#{result.stderr}")
           case result.exit_status
           when 22
-            case result.stderr.gsub(/\Acurl:.*:\s(\d{3}.*)\z/, '\1')
+            case result.stderr.chomp.gsub(/\Acurl:.*:\s(\d{3}.*)\z/, '\1')
             when /\A4\d{2}/
               raise HTTPClientError
             when /\A5\d{2}/
