@@ -22,33 +22,33 @@ describe 'http_request resource' do
 
   describe file('/tmp/http_request.html') do
     it { should be_file }
-    its(:content) { should match(/"from": ?"itamae"/) }
+    its(:content) { should match(/"from":\s*\[\s*"itamae"\s*\]/) }
   end
 
   describe file('/tmp/http_request_delete.html') do
     it { should be_file }
-    its(:content) { should match(/"from": ?"itamae"/) }
+    its(:content) { should match(/"from":\s*\[\s*"itamae"\s*\]/) }
   end
 
   describe file('/tmp/http_request_post.html') do
     it { should be_file }
     its(:content) do
-      should match(/"from": ?"itamae"/)
-      should match(/"love": ?"sushi"/)
+      should match(/"from":\s*\[\s*"itamae"\s*\]/)
+      should match(/"love":\s*\[\s*"sushi"\s*\]/)
     end
   end
 
   describe file('/tmp/http_request_put.html') do
     it { should be_file }
     its(:content) do
-      should match(/"from": ?"itamae"/)
-      should match(/"love": ?"sushi"/)
+      should match(/"from":\s*\[\s*"itamae"\s*\]/)
+      should match(/"love":\s*\[\s*"sushi"\s*\]/)
     end
   end
 
   describe file('/tmp/http_request_headers.html') do
     it { should be_file }
-    its(:content) { should match(/"User-Agent": ?"Itamae"/) }
+    its(:content) { should match(/"User-Agent":\s*\[\s*"Itamae"\s*\]/) }
   end
 
   describe file('/tmp/http_request_redirect.html') do
@@ -58,6 +58,6 @@ describe 'http_request resource' do
 
   describe file('/tmp/https_request.json') do
     it { should be_file }
-    its(:content) { should match(/"from": ?"itamae"/) }
+    its(:content) { should match(/"from":\s*\[\s*"itamae"\s*\]/) }
   end
 end
