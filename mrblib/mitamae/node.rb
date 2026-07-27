@@ -40,12 +40,15 @@ module MItamae
       end
     end
 
-    private
-
-    def _reverse_merge(other_hash)
-      Hashie::Mash.new(other_hash).merge(@mash)
-    end
-
+    # NOTE: Do not move `method_missing` and `respond_to?` below `private`.
+    #
+    # Since mruby 3.4.0, when a method is not found, the VM falls back to
+    # `method_missing` but then checks the visibility of `method_missing`
+    # itself, reporting the *originally called* name. A private
+    # `method_missing` therefore turns every `node.VAR_NAME`, `node.fetch(...)`
+    # and `node.to_h` into `NoMethodError: private method '<name>' called`.
+    # This differs from CRuby, which delegates to a private `method_missing`
+    # as usual, and still applies as of mruby 4.0.0.
     def method_missing(method, *args)
       if @mash.respond_to?(method)
         return @mash.send(method, *args)
@@ -58,6 +61,12 @@ module MItamae
 
     def respond_to?(method, priv = false)
       @mash.respond_to?(method, priv) || super
+    end
+
+    private
+
+    def _reverse_merge(other_hash)
+      Hashie::Mash.new(other_hash).merge(@mash)
     end
 
     def fetch_inventory_value(key)

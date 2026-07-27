@@ -1,3 +1,8 @@
+## Unreleased
+
+- Fix `node.VAR_NAME`, `node.fetch`, `node.to_h` and `node.respond_to?` raising
+  `NoMethodError: private method ... called`, broken since v2.0.0
+
 ## v2.0.1
 
 - Fix HTTP status classification in `http_request`
