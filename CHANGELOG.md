@@ -1,3 +1,7 @@
+## v2.0.1
+
+- Fix HTTP status classification in `http_request`
+
 ## v2.0.0
 
 - Bump mruby version from 3.0.0 to 3.4.0
