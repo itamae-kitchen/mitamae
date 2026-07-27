@@ -3,3 +3,4 @@ ghr
 *.zip
 /mruby
 /MacOSX.sdk
+/spec/tmp/
