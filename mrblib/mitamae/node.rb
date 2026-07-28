@@ -48,7 +48,9 @@ module MItamae
     # `method_missing` therefore turns every `node.VAR_NAME`, `node.fetch(...)`
     # and `node.to_h` into `NoMethodError: private method '<name>' called`.
     # This differs from CRuby, which delegates to a private `method_missing`
-    # as usual, and still applies as of mruby 4.0.0.
+    # as usual. It has been fixed upstream in mruby/mruby@9aaa7ce, but the fix
+    # is not in any released version yet, so it still affects every release up
+    # to and including mruby 4.0.0.
     def method_missing(method, *args)
       if @mash.respond_to?(method)
         return @mash.send(method, *args)
