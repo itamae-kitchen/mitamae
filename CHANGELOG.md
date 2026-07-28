@@ -1,4 +1,4 @@
-## Unreleased
+## v2.0.2
 
 - Fix `node.VAR_NAME`, `node.fetch`, `node.to_h` and `node.respond_to?` raising
   `NoMethodError: private method ... called`, broken since v2.0.0
