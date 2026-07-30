@@ -10,7 +10,7 @@ module MItamae
       backend = @backend
       variables = {
         node: @node,
-        run_command: -> (*args) { backend.run_command(*args) },
+        run_command: -> (*args, **opts) { backend.run_command(*args, **opts) },
       }
 
       root = RecipeRoot.new

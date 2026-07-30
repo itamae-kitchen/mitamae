@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `run_command` keyword arguments in recipes, broken since v2.0.0
+
 ## v2.0.2
 
 - Fix `node.VAR_NAME`, `node.fetch`, `node.to_h` and `node.respond_to?` raising
