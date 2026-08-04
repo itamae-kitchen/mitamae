@@ -1,4 +1,4 @@
-## Unreleased
+## v2.0.3
 
 - Fix `run_command` keyword arguments in recipes, broken since v2.0.0
 
