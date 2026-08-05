@@ -155,6 +155,9 @@ module MItamae
       end
 
       def run_command(*args, **opts)
+        # Fold a positional Hash in before the defaults below, so that a `user`
+        # or `cwd` passed that way still takes precedence over the attributes.
+        args, opts = MItamae.merge_trailing_options(args, opts)
         opts[:user] ||= attributes.user
         opts[:cwd]  ||= attributes.cwd
         @runner.run_command(*args, **opts)

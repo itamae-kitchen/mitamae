@@ -5,6 +5,10 @@ module ::MItamae
         def apply
           if desired.created
             run_command("echo #{desired.message}")
+            options = { error: false }
+            unless run_command('false', options).exit_status == 1
+              raise 'run_command with a positional Hash option failed'
+            end
             File.open('/tmp/mitamae-plugin-resource-test-file', 'w') do |io|
               io.write(__FILE__)
             end

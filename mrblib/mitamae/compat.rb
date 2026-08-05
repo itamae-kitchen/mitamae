@@ -130,3 +130,22 @@ module Open3
     [stdout_and_stderr_str, status]
   end
 end
+
+module MItamae
+  # mruby 3.4.0 implements Ruby 3 style keyword argument separation, so a
+  # trailing Hash is no longer folded into keyword arguments. Recipes and
+  # plugins written against v1.x pass options as a positional Hash, e.g.
+  # `run_command(cmd, opts)` or `run_command(cmd, { error: false })`, which
+  # reaches `Backend#run_command` as a second positional argument and raises
+  # `ArgumentError`. Fold it back into the keywords ourselves.
+  #
+  # Explicit keywords win over the Hash, so that a caller which builds options
+  # from both sources (`run_command(cmd, opts, cwd: dir)`) behaves as written.
+  def self.merge_trailing_options(args, opts)
+    if args.size > 1 && args.last.is_a?(Hash)
+      args = args.dup
+      opts = args.pop.merge(opts)
+    end
+    [args, opts]
+  end
+end

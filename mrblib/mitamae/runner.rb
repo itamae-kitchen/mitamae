@@ -12,6 +12,7 @@ module MItamae
     end
 
     def run_command(*args, **opts)
+      args, opts = MItamae.merge_trailing_options(args, opts)
       @backend.run_command(*args, **opts)
     end
 
