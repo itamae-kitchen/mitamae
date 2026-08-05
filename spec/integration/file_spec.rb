@@ -99,4 +99,20 @@ describe 'file resource' do
   describe file('/tmp/file_changed_notifies') do
     its(:content) { should eq('1') }
   end
+
+  describe file('/tmp/file_attributes_by_helper') do
+    it { should be_file }
+    its(:content) { should eq('Hello World') }
+    it { should be_mode 600 }
+  end
+
+  describe file('/tmp/file_attributes_read_by_helper') do
+    it { should be_file }
+    its(:content) { should eq('Hello WorldHello World') }
+  end
+
+  describe file('/tmp/file_undefined_attribute') do
+    it { should be_file }
+    its(:content) { should eq("undefined method `no_such_attribute' for MItamae::ResourceContext") }
+  end
 end
