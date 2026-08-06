@@ -10,7 +10,10 @@ module MItamae
       backend = @backend
       variables = {
         node: @node,
-        run_command: -> (*args, **opts) { backend.run_command(*args, **opts) },
+        run_command: -> (*args, **opts) {
+          args, opts = MItamae.merge_trailing_options(args, opts)
+          backend.run_command(*args, **opts)
+        },
       }
 
       root = RecipeRoot.new

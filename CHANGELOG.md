@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix `run_command` options passed as a positional Hash, broken since v2.0.0
+
 ## v2.0.3
 
 - Fix `run_command` keyword arguments in recipes, broken since v2.0.0
