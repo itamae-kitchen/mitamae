@@ -189,3 +189,38 @@ file '/tmp/file_changed_sample' do
   content 'Changed'
   notifies :run, 'execute[echo -n 1 > /tmp/file_changed_notifies]'
 end
+
+### Test attributes set through an explicit receiver, as a helper taking the resource does
+
+apply_defaults = lambda do |resource|
+  resource.content 'Hello World'
+  resource.mode '600'
+end
+
+repeat_content = lambda do |resource|
+  resource.content resource.content * 2
+end
+
+undefined_attribute = lambda do |resource|
+  resource.no_such_attribute
+end
+
+file '/tmp/file_attributes_by_helper' do
+  apply_defaults.call(self)
+end
+
+file '/tmp/file_attributes_read_by_helper' do
+  content 'Hello World'
+  repeat_content.call(self)
+end
+
+file '/tmp/file_undefined_attribute' do
+  content(
+    begin
+      undefined_attribute.call(self)
+      'no error'
+    rescue NoMethodError => e
+      e.message
+    end
+  )
+end
