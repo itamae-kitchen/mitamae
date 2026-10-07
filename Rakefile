@@ -19,6 +19,7 @@ CROSS_TARGETS = %w[
   linux-aarch64
   linux-ppc64le
   linux-s390x
+  linux-riscv64
   freebsd-x86_64
   freebsd-aarch64
   openbsd-x86_64

@@ -27,6 +27,7 @@ TRIPLETS = {
   'linux-aarch64' => 'aarch64-linux-musl',
   'linux-ppc64le' => 'powerpc64le-linux-musl',
   'linux-s390x' => 's390x-linux-musl',
+  'linux-riscv64' => 'riscv64-linux-musl',
   'darwin-x86_64' => 'x86_64-macos-none',
   'darwin-aarch64' => 'aarch64-macos-none',
   'freebsd-x86_64' => 'x86_64-freebsd-none',
