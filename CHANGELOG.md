@@ -1,3 +1,7 @@
+## v2.0.5
+
+- Add linux-riscv64 to release builds
+
 ## v2.0.4
 
 - Fix `run_command` options passed as a positional Hash, broken since v2.0.0
