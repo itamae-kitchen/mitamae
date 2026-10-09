@@ -44,6 +44,7 @@ jobs:
           - { os: linux,   arch: aarch64 }
           - { os: linux,   arch: s390x }
           - { os: linux,   arch: ppc64le }
+          - { os: linux,   arch: riscv64 }
           - { os: darwin,  arch: x86_64 }
           - { os: darwin,  arch: aarch64 }
           - { os: freebsd, arch: x86_64 }
