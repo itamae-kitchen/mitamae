@@ -1,3 +1,8 @@
+## v2.0.6
+
+- Fix `file` and `template` with `sensitive true` reporting a hidden diff on
+  every run even when the content is unchanged
+
 ## v2.0.5
 
 - Add linux-riscv64 to release builds
